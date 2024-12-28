@@ -129,10 +129,7 @@ export default {
 
 <style lang="sass" scoped>
 #register
-  overflow: hidden
-  margin: 0
-  padding: 0
-  box-sizing: border-box
+  overflow: scroll
   background: linear-gradient(to bottom, #0b004b, #b83aff)
   width: 100vw
   height: 100vh
@@ -140,6 +137,7 @@ export default {
   align-items: center
   flex-direction: column
   font-family: 'Roboto', sans-serif
+  padding-bottom: 150px
 
 .logo
   width: 17%
@@ -182,8 +180,11 @@ export default {
       border: 1px solid #ccc
       border-radius: 5px
       background-color: #D9D9D9
-      color: white
+      color: #0704a5
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1)
+
+      &::placeholder
+        color: #6a42ff
 
       &:focus
         outline: none

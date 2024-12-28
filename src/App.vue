@@ -9,7 +9,13 @@ export default {
   name: 'App',
 }
 </script>
-<style lang="sass" scoped>
+<style lang="sass" >
+// Remueve el margen blanco por defecto
+body
+  margin: 0
+  padding: 0
+  box-sizing: border-box
+
 // #app 
 //   font-family: Avenir, Helvetica, Arial, sans-serif
 //   -webkit-font-smoothing: antialiased
@@ -17,8 +23,5 @@ export default {
 //   text-align: center
 //   color: #2c3e50
 //   background-color: linear-gradient(to bottom, #0b004b, #b83aff) 
-
-
-
 
 </style>

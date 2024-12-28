@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Loginuser from '@/views/Loginuser.vue';
-import Registeruser from '@/views/Registeruser.vue';
+import Loginuser from '@/views/LoginUser.vue';
+import Registeruser from '@/views/RegisterUser.vue';
 import WelcomeUser from '../components/WelcomeUser.vue';
 
 // Asignacion de "RUTAS"

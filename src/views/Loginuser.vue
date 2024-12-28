@@ -1,48 +1,64 @@
 <template>
-    <div id="login">
-        <img src="../assets/logo-community.png" alt="logo" class="logo">
-        
-        <form @submit.prevent="submitLogin" class="container">
-          <h1 class="title">Iniciar Sesión</h1>
-            <div class="form-group">
-              <font-awesome-icon icon="user" class="icon_login"/>
-                <input type="text" class="emailUser" v-model="emailUser" placeholder= "Ingresa tu correo electrónica" required>
-            </div>
-            <div class="form-group">
-                <font-awesome-icon icon="key" class="icon_login"/>
-                <input type="password" class="passwordUser" v-model="passwordUser" placeholder="Ingresa tu contraseña" required>
-            </div>
-            <div class="registerLogin">
-                <p> No tienes cuenta? <router-link to="/register">Registrate</router-link></p>
-                <p>Olvidaste tu contraseña? <router-link to="/">Recuperar Contraseña</router-link></p>
-            </div>
-            <button class="loginButton" type="submit">Iniciar Sesión</button>
-        </form>
+  <div id="login">
+    <img src="../assets/logo-community.png" alt="logo" class="logo" />
 
-        <div v-if="loginFailed">
-          <p style="color:red;">Usuario o contraseña incorrectos</p>
-        </div>
+    <form @submit.prevent="submitLogin" class="container">
+      <h1 class="title">Iniciar Sesión</h1>
+      <div class="form-group">
+        <font-awesome-icon icon="user" class="icon_login" />
+        <input
+          type="text"
+          class="emailUser"
+          v-model="emailUser"
+          placeholder="Ingresa tu correo electrónico"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <font-awesome-icon icon="key" class="icon_login" />
+        <input
+          type="password"
+          class="passwordUser"
+          v-model="passwordUser"
+          placeholder="Ingresa tu contraseña"
+          required
+        />
+      </div>
+      <div class="registerLogin">
+        <p>
+          No tienes cuenta? <router-link to="/register">Registrate</router-link>
+        </p>
+        <p>
+          Olvidaste tu contraseña?
+          <router-link to="/">Recuperar Contraseña</router-link>
+        </p>
+      </div>
+      <button class="loginButton" type="submit">Iniciar Sesión</button>
+    </form>
+
+    <div v-if="loginFailed">
+      <p style="color: red">Usuario o contraseña incorrectos</p>
     </div>
-</template> 
+  </div>
+</template>
 
 <script>
-import { useToast } from 'vue-toastification';
+import { useToast } from "vue-toastification";
 export default {
-  name: 'UserLogin',
+  name: "UserLogin",
   data() {
     return {
-      emailUser: '',
-      passwordUser: '',
+      emailUser: "",
+      passwordUser: "",
       loginFailed: false,
     };
   },
   methods: {
     submitLogin() {
-
       //Mensaje de notificacion Toast
       const toast = useToast();
       // Recupera los usuarios registrados
-      const storedUsers = JSON.parse(localStorage.getItem('users')) || [];
+      const storedUsers = JSON.parse(localStorage.getItem("users")) || [];
 
       // Busca un usuario con el correo y contraseña ingresados
       const user = storedUsers.find(
@@ -51,22 +67,25 @@ export default {
 
       if (user) {
         // Redirige a la página de bienvenida
-        toast.success('Inicio de Sesión Exitosa');
-        this.$router.push({ name: 'Welcome', params: { user: user.name } });
+        toast.success("Inicio de Sesión Exitosa");
+        this.$router.push({ name: "Welcome", params: { user: user.name } });
         this.loginFailed = false;
       } else {
         // Muestra mensaje de error
-        toast.error('Usuario o contraseña incorrectos. Por favor verifica tus datos');
+        toast.error(
+          "Usuario o contraseña incorrectos. Por favor verifica tus datos"
+        );
         this.loginFailed = true;
       }
     },
   },
 };
-
-</script> 
+</script>
 <style lang="sass" scoped>
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap')
+
+
 
 #login
     overflow: hidden
@@ -114,8 +133,8 @@ export default {
       top: 50%
       left: 10px
       transform: translateY(-50%)
-      color: #0704A5 
-      
+      color: #0704A5
+
     input
       width: 85%
       padding: 10px
@@ -123,8 +142,11 @@ export default {
       border: 1px solid #ccc
       border-radius: 5px
       background-color: #D9D9D9
-      color: white
+      color: #0704a5
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1)
+
+      &::placeholder
+        color: #6a42ff
 
       &:focus
         outline: none
@@ -141,7 +163,7 @@ export default {
     font-weight: bold
     cursor: pointer
     transition: background-color 0.3s ease
-    
+
     &:hover
       background-color: #b83aff
 
@@ -188,7 +210,4 @@ export default {
 
   .loginButton
     width: 60% // Botón más ancho para facilitar interacción en móviles
-
 </style>
-
-
