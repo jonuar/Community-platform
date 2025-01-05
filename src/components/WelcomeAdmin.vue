@@ -1,54 +1,32 @@
 <template>
-  <section id="container">
-    <div id="dashboard">
-      <div id="left-side">
-        <img
-          id="logo"
-          src="../assets/logo-community-nospace.png"
-          alt="Logo Comunidad Global One More"
-        />
-        <h1>Bienvenido, {{ user }}.</h1>
-        <div id="cont-buttons">
-            <button>
-            <font-awesome-icon icon= "layer-group" class="icon_dashboard" />
-            Dashboard
-          </button>
-          <button>
-            <font-awesome-icon icon="book" class="icon_dashboard" />
-            Información
-          </button>
-          <button>
-            <font-awesome-icon icon="gears" class="icon_dashboard" />
-            Configuración
-          </button>
-        <button class="logoutButton">
-            <font-awesome-icon icon="arrow-right-from-bracket" class="icon_dashboard" />
-            Cerrar Sesión
-        </button>
+    <section id="container">
+        <div id="dashboard">
+            <div id="left-side">
+                <img src="../assets/logo-community-nospace.png" alt="Logo Comunidad Global One More" id="logo">
+                <h1>Bienvenido, {{ user }}.</h1>
+                <div id="cont-buttons">
+                    <button>Gestion</button>
+                    <button>Datos</button>
+                    <button>Configuracion</button>
+                </div>
+            </div>
+            <div id="right-side">
+                <div id="cont-list"></div>
+                <div id="cont-squares">
+                    <div id="cont-up"></div>
+                    <div id="cont-down"></div>
+                </div>
+            </div>
         </div>
-        
-      </div>
-      <div id="right-side">
-        <div id="cont-list"></div>
-        <div id="cont-squares">
-          <div id="cont-up"></div>
-          <div id="cont-down"></div>
-        </div>
-      </div>
-    </div>
-    <!-- Botón de WhatsApp -->
-  <a href="https://wa.me/1234567890" class="whatsapp-button" target="_blank" aria-label="Chatea con nosotros en WhatsApp">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/512px-WhatsApp.svg.png" alt="WhatsApp Logo">
-  </a>
-  </section>
-</template>
+    </section>
+</template> 
 
 <script>
 export default {
-  name: "WelcomeUser",
-  props: ["user"],
+    name:"WelcomeAdmin",
+    props:["user"],
 };
-</script>
+</script> 
 
 <style lang="sass" scoped>
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap')
@@ -101,19 +79,9 @@ export default {
                     outline: none
                     cursor: pointer
                     border: none
-                    transition: all 0.3s ease-in-out
                     &:hover
                         background: #6a42ff
                         color: white
-                        transform: scale(1.05)
-                        font-size: 1.1rem
-                    .icon_dashboard
-                        font-size: 1.7rem
-                        position: relative
-                        right: 16%
-                .logoutButton
-                    background: #fb573b
-                    color: white
         #right-side
             display: flex
             justify-content: center
@@ -146,29 +114,4 @@ export default {
                     height: 100%
                     background: #e1e1ef
                     border-radius: 10px
-
-.whatsapp-button
-  position: fixed
-  bottom: 20px 
-  right: 20px 
-  width: 60px 
-  height: 60px 
-  background-color: #25d366 
-  border-radius: 50% 
-  display: flex
-  align-items: center
-  justify-content: center
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2)
-  cursor: pointer
-  transition: transform 0.2s ease, box-shadow 0.2s ease
-  z-index: 1000 
-
-  &:hover
-    transform: scale(1.1) 
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3)
-
-  img
-    width: 40px 
-    height: 40px
-
 </style>
