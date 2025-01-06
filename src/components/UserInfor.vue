@@ -1,71 +1,53 @@
 <template>
-  <section id="container">
+    <section id="container">
     <div id="dashboard">
-      <div id="left-side">
-        <img
-          id="logo"
-          src="../assets/logo-community-nospace.png"
-          alt="Logo Comunidad Global One More"
-        />
-        <h1>Bienvenido, {{ user }}.</h1>
-        <div id="cont-buttons">
-            <router-link to="/WelcomeUser" class="button">
-              <button>
-              <font-awesome-icon icon= "layer-group" class="icon_dashboard" />Dashboard
-              </button>
-            </router-link>
-
-            <router-link to="/UserInfor" class="button"> 
-              <button>
-              <font-awesome-icon icon="book" class="icon_dashboard" />Información
-              </button>
-            </router-link>
-            
-            <router-link to="/UserConfig" class="button"> 
-              <button>
-              <font-awesome-icon icon="gears" class="icon_dashboard" />Configuración
-              </button>
-            </router-link>
-
-        <button class="logoutButton" @click="cerrarSesion">
-            <font-awesome-icon icon="arrow-right-from-bracket" class="icon_dashboard" /> Cerrar Sesión
-        </button>
+        <div id="left-side">
+            <img
+            id="logo"
+            src="../assets/logo-community-nospace.png"
+            alt="Logo Comunidad Global One More"
+          />
+            <h1>Bienvenido, {{ user }}.</h1>
+            <div id="cont-buttons">
+                <button>
+                <font-awesome-icon icon= "layer-group" class="icon_dashboard" />
+              Dashboard
+            </button>
+            <button>
+            <font-awesome-icon icon="book" class="icon_dashboard" />
+            Información
+            </button>
+            <button>
+            <font-awesome-icon icon="gears" class="icon_dashboard" />
+            Configuración
+            </button>
+            <button class="logoutButton">
+                <font-awesome-icon icon="arrow-right-from-bracket" class="icon_dashboard" />
+                Cerrar Sesión
+            </button>
+            </div>
+        <!-- Seccion de la derecha -->
         </div>
-        
-      </div>
-      <div id="right-side">
+        <div id="right-side">
         <div id="cont-list"></div>
         <div id="cont-squares">
-          <div id="cont-up"></div>
-          <div id="cont-down"></div>
+            <div id="cont-up"></div>
+            <div id="cont-down"></div>
         </div>
-      </div>
+        </div>
     </div>
     <!-- Botón de WhatsApp -->
-  <a href="https://wa.me/1234567890" class="whatsapp-button" target="_blank" aria-label="Chatea con nosotros en WhatsApp">
+    <a href="https://wa.me/1234567890" class="whatsapp-button" target="_blank" aria-label="Chatea con nosotros en WhatsApp">
     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/512px-WhatsApp.svg.png" alt="WhatsApp Logo">
-  </a>
-  </section>
+    </a>
+    </section>
 </template>
 
 <script>
 export default {
-  name: "WelcomeUser",
-  props: ["user"],
-    methods: {
-      cerrarSesion() {
-    // Elimina el token del localStorage
-        console.log("Token antes de eliminar:", localStorage.getItem("token"));
-        localStorage.removeItem("token");
-
-    // Redirige al login
-        console.log("Redirigiendo a /UserLogin");
-        this.$router.replace("/UserLogin");  // Reemplaza la ruta actual en lugar de añadirla al historial
-      }
-    }
-
-}
-
+    name: "WelcomeUser",
+    props: ["user"],
+};
 </script>
 
 <style lang="sass" scoped>
