@@ -9,11 +9,11 @@
         />
         <h1>Bienvenido, {{ user }}.</h1>
         <div id="cont-buttons">
-            <router-link to="/WelcomeUser" class="button">
+            
               <button>
               <font-awesome-icon icon= "layer-group" class="icon_dashboard" />Dashboard
               </button>
-            </router-link>
+            
 
             <router-link to="/UserInfor" class="button"> 
               <button>
@@ -52,7 +52,7 @@
 export default {
   name: "WelcomeUser",
   props: ["user"],
-    methods: {
+  methods: {
       cerrarSesion() {
     // Elimina el token del localStorage
         console.log("Token antes de eliminar:", localStorage.getItem("token"));

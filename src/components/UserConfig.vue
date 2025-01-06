@@ -9,19 +9,26 @@
           />
             <h1>Bienvenido, {{ user }}.</h1>
             <div id="cont-buttons">
+                <RouterLink to="/WelcomeUser" clas="button">
+                    <button>
+                    <font-awesome-icon icon= "layer-group"                  class="icon_dashboard" />
+                    Dashboard
+                    </button>
+                </RouterLink>
+
+                <RouterLink to="/UserInfor" class="button">
+                    <button>
+                    <font-awesome-icon icon="book" class="icon_dashboard" />
+                    Información
+                    </button>
+                </RouterLink>
+
                 <button>
-                <font-awesome-icon icon= "layer-group" class="icon_dashboard" />
-              Dashboard
-            </button>
-            <button>
-            <font-awesome-icon icon="book" class="icon_dashboard" />
-            Información
-            </button>
-            <button>
-            <font-awesome-icon icon="gears" class="icon_dashboard" />
-            Configuración
-            </button>
-            <button class="logoutButton">
+                <font-awesome-icon icon="gears" class="icon_dashboard" />Configuración
+                </button>
+                
+
+            <button class="logoutButton" @click="cerrarSesion">
                 <font-awesome-icon icon="arrow-right-from-bracket" class="icon_dashboard" />
                 Cerrar Sesión
             </button>
@@ -29,11 +36,7 @@
         <!-- Seccion de la derecha -->
         </div>
         <div id="right-side">
-        <div id="cont-list"></div>
-        <div id="cont-squares">
-            <div id="cont-up"></div>
-            <div id="cont-down"></div>
-        </div>
+            <!-- Seccion de Configuración del usuario  -->
         </div>
     </div>
     <!-- Botón de WhatsApp -->
@@ -47,6 +50,17 @@
 export default {
     name: "WelcomeUser",
     props: ["user"],
+    methods: {
+      cerrarSesion() {
+    // Elimina el token del localStorage
+        console.log("Token antes de eliminar:", localStorage.getItem("token"));
+        localStorage.removeItem("token");
+
+    // Redirige al login
+        console.log("Redirigiendo a /UserLogin");
+        this.$router.replace("/UserLogin");  // Reemplaza la ruta actual en lugar de añadirla al historial
+      }
+    }
 };
 </script>
 
