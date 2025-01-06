@@ -1,5 +1,5 @@
 <!-- Importacion a la base de datos del Administrador -->
-import admin_user from "@/utils/admindb.js";
+
 
 <template>
   <div id="login">
