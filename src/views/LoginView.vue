@@ -1,3 +1,6 @@
+<!-- Importacion a la base de datos del Administrador -->
+import admin_user from "@/utils/admindb.js";
+
 <template>
   <div id="login">
     <img src="../assets/logo-community.png" alt="logo" class="logo" />
@@ -43,7 +46,9 @@
 </template>
 
 <script>
+import admin_user from "@/utils/admindb.js"; // Usa una ruta consistente
 import { useToast } from "vue-toastification";
+
 export default {
   name: "UserLogin",
   data() {
@@ -55,23 +60,32 @@ export default {
   },
   methods: {
     submitLogin() {
-      //Mensaje de notificacion Toast
       const toast = useToast();
-      // Recupera los usuarios registrados
       const storedUsers = JSON.parse(localStorage.getItem("users")) || [];
-
-      // Busca un usuario con el correo y contraseña ingresados
+      const isAdmin = admin_user.find(
+        (admin) =>
+          admin.email === this.emailUser &&
+          admin.password === this.passwordUser
+      );
       const user = storedUsers.find(
         (u) => u.email === this.emailUser && u.password === this.passwordUser
       );
 
-      if (user) {
-        // Redirige a la página de bienvenida
-        toast.success("Inicio de Sesión Exitosa");
-        this.$router.push({ name: "Welcome", params: { user: user.name } });
+      if (isAdmin) {
+        toast.success("Inicio de Sesión Administrador Exitoso");
+        this.$router.push({
+          name: "WelcomeAdmin",
+          params: { user: isAdmin.name },
+        });
+        this.loginFailed = false;
+      } else if (user) {
+        toast.success("Inicio de Sesión Usuario Exitoso");
+        this.$router.push({
+          name: "Welcome",
+          params: { user: user.name },
+        });
         this.loginFailed = false;
       } else {
-        // Muestra mensaje de error
         toast.error(
           "Usuario o contraseña incorrectos. Por favor verifica tus datos"
         );
@@ -81,6 +95,7 @@ export default {
   },
 };
 </script>
+
 <style lang="sass" scoped>
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap')

@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Loginview from '@/views/LoginView.vue';
 import Registerview from '@/views/RegisterView.vue';
 import WelcomeUser from '../components/WelcomeUser.vue';
+import WelcomeAdmin from '../components/WelcomeAdmin.vue';
 import UserInfor from '@/components/UserInfor.vue';
 import UserConfig from '@/components/UserConfig.vue';
 
@@ -10,6 +11,7 @@ const routes = [
   { path: '/login', name: 'UserLogin', component: Loginview },
   { path: '/register', name: 'UserRegister', component: Registerview },
   { path: '/welcome/:user', name: 'Welcome', component: WelcomeUser, props: true },
+  {path: '/welcomeadmin/:user', name: 'WelcomeAdmin', component: WelcomeAdmin, props: true},
   { path: '/userinfor', name: 'UserInfor', component: UserInfor },
   { path: '/userconfig', name: 'UserConfig', component: UserConfig },
   { path: '/:pathMatch(.*)*', redirect: '/login' }, // Ruta genérica al final
