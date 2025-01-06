@@ -152,6 +152,7 @@ export default {
                 background: #e1e1ef
                 border-radius: 10px
                 margin: 40px
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
             #cont-squares
                 display: flex
                 justify-content: center
@@ -160,16 +161,19 @@ export default {
                 flex-direction: column
                 width: 50%
                 height: 80%
+                
                 #cont-up
                     width: 80%
                     height: 100%
                     background: #e1e1ef
                     border-radius: 10px
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
                 #cont-down
                     width: 80%
                     height: 100%
                     background: #e1e1ef
                     border-radius: 10px
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
 
 .whatsapp-button
   position: fixed

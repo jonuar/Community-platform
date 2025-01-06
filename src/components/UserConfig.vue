@@ -37,8 +37,43 @@
         </div>
         <div id="right-side">
             <!-- Seccion de Configuración del usuario  -->
+            <h1 class="title_info">Configuración</h1>
+            <div id="cont-list">
+                <ul>
+                    <li>Correo</li>
+                    <li>Contraseña</li>
+                    <li>Número de móvil</li>
+                </ul>
+            </div>
+      
+
+    <!-- configuracion del usuario  -->
+    <!-- <div id="cont-squares">
+        <div id="cont-up">
+           
+        </div>
+    </div> -->
+        <div id="settings_form">
+                <form id="change-email-form">
+                    <div class="form-group">
+                    <label for="current-email">Escribe tu correo:</label>
+                    <input type="email" id="current-email" name="current-email" placeholder="Correo actual" required />
+            </div>
+                    <div class="form-group">
+                    <label for="new-email">Escribe el nuevo correo:</label>
+                    <input type="email" id="new-email" name="new-email" placeholder="Nuevo correo" required />
+                    </div>
+                    <div class="form-group">
+                    <label for="confirm-new-email">Confirma tu nuevo correo:</label>
+                    <input type="email" id="confirm-new-email" name="confirm-new-email" placeholder="Confirma el nuevo correo" required />
+                    </div>
+                <button type="submit" id="save-button">Guardar</button>
+                </form>
+            </div>
+
         </div>
     </div>
+
     <!-- Botón de WhatsApp -->
     <a href="https://wa.me/1234567890" class="whatsapp-button" target="_blank" aria-label="Chatea con nosotros en WhatsApp">
     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/512px-WhatsApp.svg.png" alt="WhatsApp Logo">
@@ -142,30 +177,89 @@ export default {
             background: white
             border-radius: 0 10px 10px 0
             #cont-list
-                width: 50%
-                height: 80%
+                width: 30%
+                height: 40%
                 background: #e1e1ef
                 border-radius: 10px
                 margin: 40px
-            #cont-squares
+                position: relative
+                left: -120px
+                top: 80px
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
+                ul
+                    list-style: none
+                    margin-top: 120px
+                    li
+                        font-size: 2rem
+                        margin-bottom: 30px
+                        cursor: pointer
+                        font-weight: bold
+                        color: #0704A5
+                        transition: all 0.3s ease-in-out
+                        &:hover
+                            color: #fff
+                            font-size: 2.3rem
+            #settings_form
                 display: flex
                 justify-content: center
                 align-items: center
-                gap: 40px
                 flex-direction: column
-                width: 50%
-                height: 80%
-                #cont-up
-                    width: 80%
-                    height: 100%
-                    background: #e1e1ef
-                    border-radius: 10px
-                #cont-down
-                    width: 80%
-                    height: 100%
-                    background: #e1e1ef
-                    border-radius: 10px
+                width: 30%
+                height: 60%
+                background: #e1e1ef
+                border-radius: 10px
+                margin: 40px
+                position: relative
+                left: -100px
+                top:80px
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
+                
+                .form-group
+                    margin-bottom: 15px
+                
+                label
+                    display: block
+                    margin-bottom: 5px
+                    font-weight: bold
 
+                input[type="email"]
+                    width: 100%
+                    padding: 10px
+                    border: 1px solid #ccc
+                    border-radius: 5px
+                    box-sizing: border-box
+
+                button#save-button
+
+                    display: inline-block
+                    position: relative
+                    left: 11%
+                    top: 20px
+                    width: 80%
+                    padding: 10px
+                    background-color: #0704A5
+                    color: #fff
+                    border: none
+                    border-radius: 5px
+                    font-size: 16px
+                    cursor: pointer
+                    transition: all 0.3s ease-in-out
+                    &:hover
+                        background-color: #6a42ff
+                // #cont-squares
+                //     display: flex
+                //     justify-content: center
+                //     align-items: center
+                //     gap: 40px
+                //     flex-direction: column
+                //     width: 50%
+                //     height: 80%
+                //     #cont-up
+                //         width: 80%
+                //         height: 100%
+                //         background: #e1e1ef
+                //         border-radius: 10px
+                
 .whatsapp-button
   position: fixed
   bottom: 20px 
@@ -189,6 +283,15 @@ export default {
   img
     width: 40px 
     height: 40px
+
+.title_info
+  text-align: center
+  font-size: 2.5rem
+  margin-top: 20px
+  color: #0704A5
+  position: relative
+  top: -350px
+  left: 230px
 
 </style>
   
