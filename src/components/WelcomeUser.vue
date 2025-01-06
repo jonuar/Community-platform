@@ -108,6 +108,10 @@ export default {
                 align-items: center
                 width: 100%
                 gap: 25px
+                
+                .button
+                    width: 100%
+                    margin-left: 105px
                 button
                     width: 80%
                     height: 50px
@@ -125,6 +129,8 @@ export default {
                         color: white
                         transform: scale(1.05)
                         font-size: 1.1rem
+            
+                        
                     .icon_dashboard
                         font-size: 1.7rem
                         position: relative

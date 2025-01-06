@@ -9,9 +9,9 @@
           />
             <h1>Bienvenido, {{ user }}.</h1>
             <div id="cont-buttons">
-                <RouterLink to="/WelcomeUser" clas="button">
+                <RouterLink to="/WelcomeUser" class="button">
                     <button>
-                    <font-awesome-icon icon= "layer-group"                  class="icon_dashboard" />
+                    <font-awesome-icon icon= "layer-group" class="icon_dashboard" />
                     Dashboard
                     </button>
                 </RouterLink>
@@ -27,7 +27,7 @@
                 <font-awesome-icon icon="gears" class="icon_dashboard" />Configuración
                 </button>
                 
-
+                
             <button class="logoutButton" @click="cerrarSesion">
                 <font-awesome-icon icon="arrow-right-from-bracket" class="icon_dashboard" />
                 Cerrar Sesión
@@ -104,6 +104,11 @@ export default {
                 align-items: center
                 width: 100%
                 gap: 25px
+                
+                .button
+                    width: 100%
+                    margin-left: 105px
+                
                 button
                     width: 80%
                     height: 50px

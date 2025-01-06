@@ -27,7 +27,7 @@
                     Configuración
                     </button>
                 </RouterLink>
-                    
+
             <button class="logoutButton" @click="cerrarSesion">
                 <font-awesome-icon icon="arrow-right-from-bracket" class="icon_dashboard" />
                 Cerrar Sesión
@@ -37,6 +37,87 @@
         </div>
         <div id="right-side">
         <!-- Contenedor de la información vídeos & pdf de la comunidad -->
+            <h1 class="title_info">Material de Apoyo </h1>
+        <section class="cards-container">
+  <!-- Card 1: Video YouTube -->
+  <div class="card">
+    <h2>Video 1</h2>
+    <iframe
+      width="100%"
+      height="200"
+      src="https://www.youtube.com/embed/dQw4w9WgXcQ"  
+      title="YouTube video player"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+    ></iframe>
+  </div>
+
+  <!-- Card 2: Video YouTube -->
+  <div class="card">
+    <h2>Video 2</h2>
+    <iframe
+      width="100%"
+      height="200"
+      src="https://www.youtube.com/embed/dQw4w9WgXcQ"  
+      title="YouTube video player"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+    ></iframe>
+  </div>
+<!-- Card 3: Video YouTube -->
+<div class="card">
+    <h2>Video 3</h2>
+    <iframe
+      width="100%"
+      height="200"
+      src="https://www.youtube.com/embed/dQw4w9WgXcQ"  
+      title="YouTube video player"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+    ></iframe>
+  </div>
+
+
+  <!-- Card 3: Imagen para descargar PDF -->
+  <div class="card">
+    <h2>Descargar PDF 1</h2>
+    <a href="https://www.example.com/yourfile.pdf" download>
+      <img
+        src="https://via.placeholder.com/300x200.png?text=PDF+1"  
+        alt="Descargar PDF"
+        class="card-image"
+      />
+    </a>
+  </div>
+
+  <!-- Card 4: Imagen para descargar PDF -->
+  <div class="card">
+    <h2>Descargar PDF 2</h2>
+    <a href="https://www.example.com/yourfile2.pdf" download>
+      <img
+        src="https://via.placeholder.com/300x200.png?text=PDF+2" 
+        alt="Descargar PDF"
+        class="card-image"
+      />
+    </a>
+  </div>
+
+  <!-- Card 5: Imagen para descargar PDF -->
+  <div class="card">
+    <h2>Descargar PDF 3</h2>
+    <a href="https://www.example.com/yourfile2.pdf" download>
+      <img
+        src="https://via.placeholder.com/300x200.png?text=PDF+2" 
+        alt="Descargar PDF"
+        class="card-image"
+      />
+    </a>
+  </div>
+</section>
+
         </div>
     </div>
     <!-- Botón de WhatsApp -->
@@ -104,6 +185,11 @@ export default {
                 align-items: center
                 width: 100%
                 gap: 25px
+                
+                .button
+                    width: 100%
+                    margin-left: 105px
+
                 button
                     width: 80%
                     height: 50px
@@ -184,5 +270,54 @@ export default {
   img
     width: 40px 
     height: 40px
+
+
+//Estilos para las cards
+.title_info
+  text-align: center
+  margin-top: 20px
+  color: #0704A5
+  font-size: 2.5rem 
+  position: relative 
+  top: -400px
+  left: 550px
+.cards-container
+  display: flex
+  flex-wrap: wrap
+  justify-content: space-around
+  gap: 50px
+  margin-top: 20px
+
+.card
+  width: 300px
+  border: 1px solid #ddd
+  border-radius: 10px
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
+  overflow: hidden
+  background-color: #0704A5
+
+.card h2
+  padding: 10px
+  text-align: center
+  color: white
+  background-color: #0704A5
+  margin: 0
+
+.card iframe
+  width: 100%
+  height: 200px
+
+.card-image
+  width: 100%
+  height: auto
+  border-top: 1px solid #ddd
+
+.card a
+  text-decoration: none
+  color: white
+
+.card a:hover .card-image
+  opacity: 0.8
+
 
 </style>
