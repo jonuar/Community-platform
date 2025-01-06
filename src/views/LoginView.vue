@@ -1,5 +1,4 @@
 <!-- Importacion a la base de datos del Administrador -->
-import admin_user from "@/utils/admindb.js";
 
 <template>
   <div id="login">
@@ -62,9 +61,10 @@ export default {
     submitLogin() {
       const toast = useToast();
       const storedUsers = JSON.parse(localStorage.getItem("users")) || [];
+
       const isAdmin = admin_user.find(
         (admin) =>
-          admin.email === this.emailUser &&
+          admin.username === this.emailUser &&
           admin.password === this.passwordUser
       );
       const user = storedUsers.find(
@@ -75,7 +75,7 @@ export default {
         toast.success("Inicio de Sesión Administrador Exitoso");
         this.$router.push({
           name: "WelcomeAdmin",
-          params: { user: isAdmin.name },
+          params: { user: isAdmin.username }, 
         });
         this.loginFailed = false;
       } else if (user) {
