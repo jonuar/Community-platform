@@ -9,21 +9,26 @@
         />
         <h1>Bienvenido, {{ user }}.</h1>
         <div id="cont-buttons">
-            <button>
-            <font-awesome-icon icon= "layer-group" class="icon_dashboard" />
-            Dashboard
-          </button>
-          <button>
-            <font-awesome-icon icon="book" class="icon_dashboard" />
-            Información
-          </button>
-          <button>
-            <font-awesome-icon icon="gears" class="icon_dashboard" />
-            Configuración
-          </button>
-        <button class="logoutButton">
-            <font-awesome-icon icon="arrow-right-from-bracket" class="icon_dashboard" />
-            Cerrar Sesión
+            
+              <button>
+              <font-awesome-icon icon= "layer-group" class="icon_dashboard" />Dashboard
+              </button>
+            
+
+            <router-link to="/UserInfor" class="button"> 
+              <button>
+              <font-awesome-icon icon="book" class="icon_dashboard" />Información
+              </button>
+            </router-link>
+            
+            <router-link to="/UserConfig" class="button"> 
+              <button>
+              <font-awesome-icon icon="gears" class="icon_dashboard" />Configuración
+              </button>
+            </router-link>
+
+        <button class="logoutButton" @click="cerrarSesion">
+            <font-awesome-icon icon="arrow-right-from-bracket" class="icon_dashboard" /> Cerrar Sesión
         </button>
         </div>
         
@@ -47,7 +52,20 @@
 export default {
   name: "WelcomeUser",
   props: ["user"],
-};
+  methods: {
+      cerrarSesion() {
+    // Elimina el token del localStorage
+        console.log("Token antes de eliminar:", localStorage.getItem("token"));
+        localStorage.removeItem("token");
+
+    // Redirige al login
+        console.log("Redirigiendo a /UserLogin");
+        this.$router.replace("/UserLogin");  // Reemplaza la ruta actual en lugar de añadirla al historial
+      }
+    }
+
+}
+
 </script>
 
 <style lang="sass" scoped>
@@ -90,6 +108,10 @@ export default {
                 align-items: center
                 width: 100%
                 gap: 25px
+                
+                .button
+                    width: 100%
+                    margin-left: 105px
                 button
                     width: 80%
                     height: 50px
@@ -107,6 +129,8 @@ export default {
                         color: white
                         transform: scale(1.05)
                         font-size: 1.1rem
+            
+                        
                     .icon_dashboard
                         font-size: 1.7rem
                         position: relative
@@ -128,6 +152,7 @@ export default {
                 background: #e1e1ef
                 border-radius: 10px
                 margin: 40px
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
             #cont-squares
                 display: flex
                 justify-content: center
@@ -136,16 +161,19 @@ export default {
                 flex-direction: column
                 width: 50%
                 height: 80%
+                
                 #cont-up
                     width: 80%
                     height: 100%
                     background: #e1e1ef
                     border-radius: 10px
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
                 #cont-down
                     width: 80%
                     height: 100%
                     background: #e1e1ef
                     border-radius: 10px
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
 
 .whatsapp-button
   position: fixed
