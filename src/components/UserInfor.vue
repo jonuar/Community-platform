@@ -9,6 +9,7 @@
           />
             <h1>Bienvenido, {{ user }}.</h1>
             <div id="cont-buttons">
+              
                 <RouterLink to="/WelcomeUser" class="button">
                     <button>
                     <font-awesome-icon icon= "layer-group" class="icon_dashboard" />

@@ -9,29 +9,41 @@
         />
         <h1>Bienvenido, {{ user }}.</h1>
         <div id="cont-buttons">
-            
-              <button>
-              <font-awesome-icon icon= "layer-group" class="icon_dashboard" />Dashboard
-              </button>
-            
+          <router-link to="/WelcomeUser" class="button">
+            <button>
+              <font-awesome-icon
+                icon="layer-group"
+                class="icon_dashboard"
+              />Dashboard
+            </button>
+          </router-link>
 
-            <router-link to="/UserInfor" class="button"> 
-              <button>
-              <font-awesome-icon icon="book" class="icon_dashboard" />Información
-              </button>
-            </router-link>
-            
-            <router-link to="/UserConfig" class="button"> 
-              <button>
-              <font-awesome-icon icon="gears" class="icon_dashboard" />Configuración
-              </button>
-            </router-link>
+          <router-link to="/UserInfor" class="button">
+            <button>
+              <font-awesome-icon
+                icon="book"
+                class="icon_dashboard"
+              />Información
+            </button>
+          </router-link>
 
-        <button class="logoutButton" @click="cerrarSesion">
-            <font-awesome-icon icon="arrow-right-from-bracket" class="icon_dashboard" /> Cerrar Sesión
-        </button>
+          <router-link to="/UserConfig" class="button">
+            <button>
+              <font-awesome-icon
+                icon="gears"
+                class="icon_dashboard"
+              />Configuración
+            </button>
+          </router-link>
+
+          <button class="logoutButton" @click="cerrarSesion">
+            <font-awesome-icon
+              icon="arrow-right-from-bracket"
+              class="icon_dashboard"
+            />
+            Cerrar Sesión
+          </button>
         </div>
-        
       </div>
       <div id="right-side">
         <div id="cont-list"></div>
@@ -42,9 +54,17 @@
       </div>
     </div>
     <!-- Botón de WhatsApp -->
-  <a href="https://wa.me/1234567890" class="whatsapp-button" target="_blank" aria-label="Chatea con nosotros en WhatsApp">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/512px-WhatsApp.svg.png" alt="WhatsApp Logo">
-  </a>
+    <a
+      href="https://wa.me/1234567890"
+      class="whatsapp-button"
+      target="_blank"
+      aria-label="Chatea con nosotros en WhatsApp"
+    >
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/512px-WhatsApp.svg.png"
+        alt="WhatsApp Logo"
+      />
+    </a>
   </section>
 </template>
 
@@ -53,19 +73,17 @@ export default {
   name: "WelcomeUser",
   props: ["user"],
   methods: {
-      cerrarSesion() {
-    // Elimina el token del localStorage
-        console.log("Token antes de eliminar:", localStorage.getItem("token"));
-        localStorage.removeItem("token");
+    cerrarSesion() {
+      // Elimina el token del localStorage
+      console.log("Token antes de eliminar:", localStorage.getItem("token"));
+      localStorage.removeItem("token");
 
-    // Redirige al login
-        console.log("Redirigiendo a /UserLogin");
-        this.$router.replace("/UserLogin");  // Reemplaza la ruta actual en lugar de añadirla al historial
-      }
-    }
-
-}
-
+      // Redirige al login
+      console.log("Redirigiendo a /UserLogin");
+      this.$router.replace("/UserLogin"); // Reemplaza la ruta actual en lugar de añadirla al historial
+    },
+  },
+};
 </script>
 
 <style lang="sass" scoped>
@@ -108,7 +126,7 @@ export default {
                 align-items: center
                 width: 100%
                 gap: 25px
-                
+
                 .button
                     width: 100%
                     margin-left: 105px
@@ -129,8 +147,8 @@ export default {
                         color: white
                         transform: scale(1.05)
                         font-size: 1.1rem
-            
-                        
+
+
                     .icon_dashboard
                         font-size: 1.7rem
                         position: relative
@@ -161,7 +179,7 @@ export default {
                 flex-direction: column
                 width: 50%
                 height: 80%
-                
+
                 #cont-up
                     width: 80%
                     height: 100%
@@ -177,26 +195,25 @@ export default {
 
 .whatsapp-button
   position: fixed
-  bottom: 20px 
-  right: 20px 
-  width: 60px 
-  height: 60px 
-  background-color: #25d366 
-  border-radius: 50% 
+  bottom: 20px
+  right: 20px
+  width: 60px
+  height: 60px
+  background-color: #25d366
+  border-radius: 50%
   display: flex
   align-items: center
   justify-content: center
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2)
   cursor: pointer
   transition: transform 0.2s ease, box-shadow 0.2s ease
-  z-index: 1000 
+  z-index: 1000
 
   &:hover
-    transform: scale(1.1) 
+    transform: scale(1.1)
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3)
 
   img
-    width: 40px 
+    width: 40px
     height: 40px
-
 </style>
