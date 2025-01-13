@@ -1,103 +1,201 @@
 <template>
+    <!-- Contenedor principal de la sección -->
     <section id="container">
-    <div id="dashboard">
+      <!-- Dashboard que incluye el menú lateral y el contenido derecho -->
+      <div id="dashboard">
+        <!-- Panel izquierdo con el logo, saludo y botones de navegación -->
         <div id="left-side">
-            <img
+          <!-- Logo de la comunidad -->
+          <img
             id="logo"
             src="../assets/logo-community-nospace.png"
             alt="Logo Comunidad Global One More"
           />
-            <h1>Bienvenido, {{ user }}.</h1>
-            <div id="cont-buttons">
-                <RouterLink to="/WelcomeUser" class="button">
-                    <button>
-                    <font-awesome-icon icon= "layer-group" class="icon_dashboard" />
-                    Dashboard
-                    </button>
-                </RouterLink>
-
-                <RouterLink to="/UserInfor" class="button">
-                    <button>
-                    <font-awesome-icon icon="book" class="icon_dashboard" />
-                    Información
-                    </button>
-                </RouterLink>
-
-                <button>
-                <font-awesome-icon icon="gears" class="icon_dashboard" />Configuración
-                </button>
-                
-                
-            <button class="logoutButton" @click="cerrarSesion">
-                <font-awesome-icon icon="arrow-right-from-bracket" class="icon_dashboard" />
-                Cerrar Sesión
+          <!-- Mensaje de bienvenida con el nombre del usuario -->
+          <h1>Bienvenido, {{ user }}.</h1>
+  
+          <!-- Contenedor de los botones del menú -->
+          <div id="cont-buttons">
+            <!-- Botón para ir al Dashboard -->
+            <RouterLink to="/WelcomeUser" class="button">
+              <button>
+                <font-awesome-icon icon="layer-group" class="icon_dashboard" />
+                Dashboard
+              </button>
+            </RouterLink>
+  
+            <!-- Botón para ir a la información del usuario -->
+            <RouterLink to="/UserInfor" class="button">
+              <button>
+                <font-awesome-icon icon="book" class="icon_dashboard" />
+                Información
+              </button>
+            </RouterLink>
+  
+            <!-- Botón de configuración (sin funcionalidad añadida aún) -->
+            <button>
+              <font-awesome-icon icon="gears" class="icon_dashboard" />Configuración
             </button>
-            </div>
-        <!-- Seccion de la derecha -->
+  
+            <!-- Botón para cerrar sesión -->
+            <button class="logoutButton" @click="cerrarSesion">
+              <font-awesome-icon
+                icon="arrow-right-from-bracket"
+                class="icon_dashboard"
+              />
+              Cerrar Sesión
+            </button>
+          </div>
         </div>
+  
+        <!-- Panel derecho que muestra las opciones de configuración -->
         <div id="right-side">
-            <!-- Seccion de Configuración del usuario  -->
-            <h1 class="title_info">Configuración</h1>
-            <div id="cont-list">
-                <ul>
-                    <li>Correo</li>
-                    <li>Contraseña</li>
-                    <li>Número de móvil</li>
-                </ul>
-            </div>
-      
-
-    <!-- configuracion del usuario  -->
-    <!-- <div id="cont-squares">
-        <div id="cont-up">
-           
+          <h1 class="title_info">Configuración</h1>
+  
+          <!-- Menú para seleccionar la configuración deseada -->
+          <div id="cont-list">
+            <ul>
+              <li><a href="#" @click.prevent="currentSection = 'email'">Correo</a></li>
+              <li><a href="#" @click.prevent="currentSection = 'password'">Contraseña</a></li>
+              <li><a href="#" @click.prevent="currentSection = 'movil'">Número de móvil</a></li>
+            </ul>
+          </div>
+  
+          <!-- Formulario dinámico según la opción seleccionada -->
+          <div id="settings_form">
+            <!-- Formulario para cambiar el correo -->
+            <form v-if="currentSection === 'email'" id="change-email-form">
+              <div class="form-group">
+                <label for="current-email">Escribe tu correo:</label>
+                <input
+                  type="email"
+                  id="current-email"
+                  name="current-email"
+                  placeholder="Correo actual"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="new-email">Escribe el nuevo correo:</label>
+                <input
+                  type="email"
+                  id="new-email"
+                  name="new-email"
+                  placeholder="Nuevo correo"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="confirm-new-email">Confirma tu nuevo correo:</label>
+                <input
+                  type="email"
+                  id="confirm-new-email"
+                  name="confirm-new-email"
+                  placeholder="Confirma el nuevo correo"
+                  required
+                />
+              </div>
+              <button type="submit" id="save-button">Guardar</button>
+            </form>
+  
+            <!-- Formulario para cambiar la contraseña -->
+            <form v-if="currentSection === 'password'" id="change-password-form">
+              <div class="form-group">
+                <label for="current-password">Escribe tu contraseña:</label>
+                <input
+                  type="password"
+                  id="current-password"
+                  name="current-password"
+                  placeholder="Contraseña actual"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="new-password">Escribe la nueva contraseña:</label>
+                <input
+                  type="password"
+                  id="new-password"
+                  name="new-password"
+                  placeholder="Nueva contraseña"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="confirm-new-password">Confirma la nueva contraseña:</label>
+                <input
+                  type="password"
+                  id="confirm-new-password"
+                  name="confirm-new-password"
+                  placeholder="Confirma la nueva contraseña"
+                  required
+                />
+              </div>
+              <button type="submit" id="save-button">Guardar</button>
+            </form>
+  
+            <!-- Formulario para cambiar el número de móvil -->
+            <form v-if="currentSection === 'movil'" id="change-movil-form">
+              <div class="form-group">
+                <label for="current-movil">Escribe tu número de móvil:</label>
+                <input
+                  type="tel"
+                  id="current-movil"
+                  name="current-movil"
+                  placeholder="Número de móvil actual"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="new-movil">Escribe el nuevo número de móvil:</label>
+                <input
+                  type="tel"
+                  id="new-movil"
+                  name="new-movil"
+                  placeholder="Nuevo número de móvil"
+                  required
+                />
+              </div>
+              <button type="submit" id="save-button">Guardar</button>
+            </form>
+          </div>
         </div>
-    </div> -->
-        <div id="settings_form">
-                <form id="change-email-form">
-                    <div class="form-group">
-                    <label for="current-email">Escribe tu correo:</label>
-                    <input type="email" id="current-email" name="current-email" placeholder="Correo actual" required />
-            </div>
-                    <div class="form-group">
-                    <label for="new-email">Escribe el nuevo correo:</label>
-                    <input type="email" id="new-email" name="new-email" placeholder="Nuevo correo" required />
-                    </div>
-                    <div class="form-group">
-                    <label for="confirm-new-email">Confirma tu nuevo correo:</label>
-                    <input type="email" id="confirm-new-email" name="confirm-new-email" placeholder="Confirma el nuevo correo" required />
-                    </div>
-                <button type="submit" id="save-button">Guardar</button>
-                </form>
-            </div>
-
-        </div>
-    </div>
-
-    <!-- Botón de WhatsApp -->
-    <a href="https://wa.me/1234567890" class="whatsapp-button" target="_blank" aria-label="Chatea con nosotros en WhatsApp">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/512px-WhatsApp.svg.png" alt="WhatsApp Logo">
-    </a>
+  
+        <!-- Botón flotante de WhatsApp para contacto -->
+        <a
+          href="https://wa.me/1234567890"
+          class="whatsapp-button"
+          target="_blank"
+          aria-label="Chatea con nosotros en WhatsApp"
+        >
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/512px-WhatsApp.svg.png"
+            alt="WhatsApp Logo"
+          />
+        </a>
+      </div>
     </section>
-</template>
-
-<script>
-export default {
-    name: "WelcomeUser",
-    props: ["user"],
+  </template>
+  
+  <script>
+  export default {
+    name: "WelcomeUser", // Nombre del componente
+    props: ["user"], // Propiedad que recibe el nombre del usuario desde el padre
+    data() {
+      return {
+        currentSection: null, // Sección activa para mostrar el formulario correspondiente
+      };
+    },
     methods: {
       cerrarSesion() {
-    // Elimina el token del localStorage
-        console.log("Token antes de eliminar:", localStorage.getItem("token"));
-        localStorage.removeItem("token");
-
-    // Redirige al login
-        console.log("Redirigiendo a /UserLogin");
-        this.$router.replace("/UserLogin");  // Reemplaza la ruta actual en lugar de añadirla al historial
-      }
-    }
-};
-</script>
+        // Método para cerrar sesión
+        console.log("Token antes de eliminar:", localStorage.getItem("token")); // Mostrar el token actual en consola
+        localStorage.removeItem("token"); // Eliminar el token del almacenamiento local
+        console.log("Redirigiendo a /UserLogin"); // Confirmación en consola
+        this.$router.replace("/UserLogin"); // Redirigir al usuario a la página de login
+      },
+    },
+  };
+  </script>
 
 <style lang="sass" scoped>
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap')
@@ -142,10 +240,11 @@ export default {
                 
                 .button
                     width: 100%
-                    margin-left: 105px
+                    position: relative
+                    left: 5%
                 
                 button
-                    width: 80%
+                    width: 90%
                     height: 50px
                     background: #e1e1ef
                     border-radius: 5px
@@ -184,21 +283,24 @@ export default {
                 margin: 40px
                 position: relative
                 left: -120px
-                top: 80px
+                top: 10%
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
                 ul
                     list-style: none
-                    margin-top: 120px
+                    margin-top: 20%
+                    
                     li
                         font-size: 2rem
                         margin-bottom: 30px
                         cursor: pointer
                         font-weight: bold
-                        color: #0704A5
-                        transition: all 0.3s ease-in-out
-                        &:hover
-                            color: #fff
-                            font-size: 2.3rem
+                        a
+                            color: #0704A5
+                            text-decoration: none
+                            transition: all 0.3s ease-in-out
+                            &:hover
+                                color: white
+                                font-size: 2.3rem
             #settings_form
                 display: flex
                 justify-content: center
@@ -223,6 +325,20 @@ export default {
                     font-weight: bold
 
                 input[type="email"]
+                    width: 100%
+                    padding: 10px
+                    border: 1px solid #ccc
+                    border-radius: 5px
+                    box-sizing: border-box
+                
+                input[type="tel"]
+                    width: 100%
+                    padding: 10px
+                    border: 1px solid #ccc
+                    border-radius: 5px
+                    box-sizing: border-box
+                
+                input[type="password"]
                     width: 100%
                     padding: 10px
                     border: 1px solid #ccc
@@ -290,8 +406,8 @@ export default {
   margin-top: 20px
   color: #0704A5
   position: relative
-  top: -350px
-  left: 230px
+  top: -250px
+  left: 330px
 
 </style>
   
