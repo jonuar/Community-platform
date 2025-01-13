@@ -149,11 +149,12 @@ export default {
         await setDoc(doc(db, "users", userId), {
           name: this.nameUser, // Nombre del usuario.
           email: this.emailUser, // Correo del usuario.
-          movil: this.movilUser, // Móvil del usuario.
+          mobile: this.movilUser, // Móvil del usuario.
           role: 'user', // Rol del usuario (user o admin)
           isActive: false,
           link1: '',
-          link2:''
+          link2: '',
+          linkTaken:'',
         });
 
         // Muestra un mensaje de éxito al usuario.
