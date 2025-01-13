@@ -112,6 +112,9 @@ export default {
             height: 100%
             background: #0704A5
             border-radius: 10px 0 0 10px
+            overflow-y: scroll
+            overflow-x: hidden
+
             #logo
                 width: 30%
                 padding-top: 20px
@@ -124,8 +127,9 @@ export default {
                 display: flex
                 flex-direction: column
                 align-items: center
-                width: 100%
+                width: 90%
                 gap: 25px
+                margin-bottom: 50px
 
                 .button
                     width: 100%
