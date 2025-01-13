@@ -70,60 +70,157 @@
 </template>
 
 <script>
+// Importa las funciones necesarias de Firebase Authentication para manejar la autenticación de usuarios.
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+
+// Importa las funciones necesarias de Firebase Firestore para interactuar con la base de datos.
+import { doc, setDoc } from "firebase/firestore";
+
+// Importa la instancia de la base de datos `db` desde el archivo principal (asegúrate de que la ruta sea correcta).
+import { db } from "@/main";
+
+// Exporta un componente Vue llamado "UserRegister".
 export default {
-  name: "UserRegister",
+  name: "UserRegister", // Nombre del componente.
+  
+  // Define los datos reactivos del componente.
   data() {
     return {
-      nameUser: "",
-      emailUser: "",
-      movilUser: "",
-      passwordUser: "",
-      confirmpasswordUser: "",
+      nameUser: "", // Nombre del usuario.
+      emailUser: "", // Correo electrónico del usuario.
+      movilUser: "", // Número de móvil del usuario.
+      passwordUser: "", // Contraseña del usuario.
+      confirmpasswordUser: "", // Confirmación de la contraseña.
     };
   },
+  
+  // Métodos del componente.
   methods: {
+    // Método para validar si un correo electrónico es válido.
     validateEmail(email) {
+      // Expresión regular para validar correos electrónicos.
       const regex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
-      return regex.test(email);
+      return regex.test(email); // Devuelve true si el correo es válido.
     },
+    
+    // Método para validar si un número de móvil es válido.
     validateMobile(mobile) {
+      // Expresión regular para validar un número de móvil de 9 dígitos.
       const regex = /^[0-9]{9}$/;
-      return regex.test(mobile);
+      return regex.test(mobile); // Devuelve true si el móvil es válido.
     },
-    submitRegister() {
+    
+    // Método para manejar el registro del usuario.
+    async submitRegister() {
       // Validaciones
       if (!this.validateEmail(this.emailUser)) {
-        alert("Por favor, ingresa un correo válido.");
+        alert("Por favor, ingresa un correo válido."); // Alerta si el correo no es válido.
         return;
       }
 
       if (!this.validateMobile(this.movilUser)) {
-        alert("Por favor, ingresa un número de móvil válido (9 dígitos).");
+        alert("Por favor, ingresa un número de móvil válido (9 dígitos)."); // Alerta si el móvil no es válido.
         return;
       }
 
       if (this.passwordUser !== this.confirmpasswordUser) {
-        alert("Las contraseñas no coinciden.");
+        alert("Las contraseñas no coinciden."); // Alerta si las contraseñas no coinciden.
         return;
       }
 
-      // Registrar al usuario
-      const newUser = {
-        name: this.nameUser,
-        email: this.emailUser,
-        movil: this.movilUser,
-        password: this.passwordUser,
-      };
+      try {
+        // Obtiene la instancia de autenticación de Firebase.
+        const auth = getAuth();
 
-      let registeredUsers = JSON.parse(localStorage.getItem("users")) || [];
-      registeredUsers.push(newUser);
-      localStorage.setItem("users", JSON.stringify(registeredUsers));
+        // Crea un nuevo usuario con el correo y la contraseña proporcionados.
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          this.emailUser,
+          this.passwordUser
+        );
 
-      alert("Usuario registrado correctamente");
-      this.$router.push("/login");
+        // Obtiene el ID único del usuario registrado.
+        const userId = userCredential.user.uid;
+
+        // Guarda los datos del usuario en la colección "users" de Firestore.
+        await setDoc(doc(db, "users", userId), {
+          name: this.nameUser, // Nombre del usuario.
+          email: this.emailUser, // Correo del usuario.
+          movil: this.movilUser, // Móvil del usuario.
+          role: 'user', // Rol del usuario (user o admin)
+        });
+
+        // Muestra un mensaje de éxito al usuario.
+        alert("Usuario registrado correctamente");
+
+        // Redirige al usuario a la página de inicio de sesión.
+        this.$router.push("/login");
+      } catch (error) {
+        // Manejo de errores en caso de que falle el registro.
+        console.error("Error al registrar usuario:", error);
+        alert("Hubo un error al registrar al usuario. Intenta nuevamente.");
+      }
     },
   },
 };
+
+
+
+
+// export default {
+//   name: "UserRegister",
+//   data() {
+//     return {
+//       nameUser: "",
+//       emailUser: "",
+//       movilUser: "",
+//       passwordUser: "",
+//       confirmpasswordUser: "",
+//     };
+//   },
+//   methods: {
+//     validateEmail(email) {
+//       const regex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+//       return regex.test(email);
+//     },
+//     validateMobile(mobile) {
+//       const regex = /^[0-9]{9}$/;
+//       return regex.test(mobile);
+//     },
+//     submitRegister() {
+//       // Validaciones
+//       if (!this.validateEmail(this.emailUser)) {
+//         alert("Por favor, ingresa un correo válido.");
+//         return;
+//       }
+
+//       if (!this.validateMobile(this.movilUser)) {
+//         alert("Por favor, ingresa un número de móvil válido (9 dígitos).");
+//         return;
+//       }
+
+//       if (this.passwordUser !== this.confirmpasswordUser) {
+//         alert("Las contraseñas no coinciden.");
+//         return;
+//       }
+
+//       // Registrar al usuario
+//       const newUser = {
+//         name: this.nameUser,
+//         email: this.emailUser,
+//         movil: this.movilUser,
+//         password: this.passwordUser,
+//       };
+
+//       let registeredUsers = JSON.parse(localStorage.getItem("users")) || [];
+//       registeredUsers.push(newUser);
+//       localStorage.setItem("users", JSON.stringify(registeredUsers));
+
+//       alert("Usuario registrado correctamente");
+//       this.$router.push("/login");
+//     },
+//   },
+// };
 </script>
 
 

@@ -1,5 +1,3 @@
-<!-- Importacion a la base de datos del Administrador -->
-
 <template>
   <div id="login">
     <img src="../assets/logo-community.png" alt="logo" class="logo" />
@@ -45,55 +43,124 @@
 </template>
 
 <script>
-import admin_user from "@/utils/admindb.js"; // Usa una ruta consistente
-import { useToast } from "vue-toastification";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "@/main.js";
 
 export default {
   name: "UserLogin",
   data() {
     return {
-      emailUser: "",
-      passwordUser: "",
-      loginFailed: false,
+      emailUser: "", // Correo electrónico ingresado por el usuario.
+      passwordUser: "", // Contraseña ingresada por el usuario.
+      loginFailed: false, // Indicador de inicio de sesión fallido.
     };
   },
   methods: {
-    submitLogin() {
-      const toast = useToast();
-      const storedUsers = JSON.parse(localStorage.getItem("users")) || [];
-
-      const isAdmin = admin_user.find(
-        (admin) =>
-          admin.username === this.emailUser &&
-          admin.password === this.passwordUser
-      );
-      const user = storedUsers.find(
-        (u) => u.email === this.emailUser && u.password === this.passwordUser
-      );
-
-      if (isAdmin) {
-        toast.success("Inicio de Sesión Administrador Exitoso");
-        this.$router.push({
-          name: "WelcomeAdmin",
-          params: { user: isAdmin.username }, 
-        });
-        this.loginFailed = false;
-      } else if (user) {
-        toast.success("Inicio de Sesión Usuario Exitoso");
-        this.$router.push({
-          name: "Welcome",
-          params: { user: user.name },
-        });
-        this.loginFailed = false;
-      } else {
-        toast.error(
-          "Usuario o contraseña incorrectos. Por favor verifica tus datos"
+    async submitLogin() {
+      const auth = getAuth();
+      try {
+        // Autentica al usuario con correo y contraseña.
+        const userCredential = await signInWithEmailAndPassword(
+          auth,
+          this.emailUser,
+          this.passwordUser
         );
-        this.loginFailed = true;
+
+        // Obtiene el ID único del usuario autenticado.
+        const userId = userCredential.user.uid;
+
+        // Busca los datos adicionales del usuario en Firestore.
+        const userDoc = await getDoc(doc(db, "users", userId));
+
+        if (userDoc.exists()) {
+          const userData = userDoc.data(); // Datos del usuario.
+
+          // Verifica el rol del usuario.
+          if (userData.role === "admin") {
+            // Si el usuario es administrador, redirige al componente WelcomeAdmin.
+            this.$router.push({ name: "WelcomeAdmin", params: { user: userData.name } });
+          } else if (userData.role === "user") {
+            // Si el usuario es regular, redirige al componente WelcomeUser.
+            this.$router.push({ name: "Welcome", params: { user: userData.name } });
+          } else {
+            // Si no tiene un rol válido, muestra una alerta.
+            alert("Rol desconocido. Contacta al administrador.");
+          }
+        } else {
+          // Si no se encuentran datos adicionales para el usuario, muestra una alerta.
+          alert("No se encontraron datos adicionales para este usuario.");
+        }
+      } catch (error) {
+        // Manejo de errores en caso de que falle el inicio de sesión.
+        console.error("Error al iniciar sesión:", error);
+
+        // Muestra un mensaje de error al usuario.
+        alert("Usuario o contraseña incorrectos.");
       }
     },
   },
 };
+
+
+// import admin_user from "@/utils/admindb.js"; // Usa una ruta consistente
+// import { useToast } from "vue-toastification";
+// import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+
+// export default {
+//   name: "UserLogin",
+//   data() {
+//     return {
+//       emailUser: "",
+//       passwordUser: "",
+//       loginFailed: false,
+//     };
+//   },
+//   methods: {
+//     submitLogin() {
+//       const toast = useToast();
+//       const storedUsers = JSON.parse(localStorage.getItem("users")) || [];
+
+//       const auth = getAuth()
+//       signInWithEmailAndPassword(auth, this.emailUser, this.passwordUser).then(() => {
+//         alert("Usuario existe")
+//       }).catch((error) => {
+//         alert("Error: " + error.message)
+//       })
+
+
+//       const isAdmin = admin_user.find(
+//         (admin) =>
+//           admin.username === this.emailUser &&
+//           admin.password === this.passwordUser
+//       );
+//       const user = storedUsers.find(
+//         (u) => u.email === this.emailUser && u.password === this.passwordUser
+//       );
+
+//       if (isAdmin) {
+//         toast.success("Inicio de Sesión Administrador Exitoso");
+//         this.$router.push({
+//           name: "WelcomeAdmin",
+//           params: { user: isAdmin.username }, 
+//         });
+//         this.loginFailed = false;
+//       } else if (user) {
+//         toast.success("Inicio de Sesión Usuario Exitoso");
+//         this.$router.push({
+//           name: "Welcome",
+//           params: { user: user.name },
+//         });
+//         this.loginFailed = false;
+//       } else {
+//         toast.error(
+//           "Usuario o contraseña incorrectos. Por favor verifica tus datos"
+//         );
+//         this.loginFailed = true;
+//       }
+//     },
+//   },
+// };
 </script>
 
 <style lang="sass" scoped>
