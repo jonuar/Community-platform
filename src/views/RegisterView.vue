@@ -2,14 +2,14 @@
   <div id="register">
     <img src="../assets/logo-community.png" alt="logo" class="logo">
     <form @submit.prevent="submitRegister" class="container">
-      <h1 class="title">Registrate</h1>
+      <h1 class="title">Regístrate</h1>
       <div class="form-group">
         <font-awesome-icon icon="user" class="icon_register" />
         <input
           type="text"
           class="nameUser"
           v-model="nameUser"
-          placeholder="Ingresa tu nombre & tu apellidos"
+          placeholder="Ingresa tu nombre y apellidos"
           required
         />
       </div>
@@ -31,7 +31,7 @@
           type="number"
           class="movilUser"
           v-model="movilUser"
-          placeholder="Ingresa tu número de móvil"
+          placeholder="Ingresa tu número de celular"
           required
         />
       </div>
@@ -76,6 +76,8 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 // Importa las funciones necesarias de Firebase Firestore para interactuar con la base de datos.
 import { doc, setDoc } from "firebase/firestore";
 
+import { useToast } from "vue-toastification"
+
 // Importa la instancia de la base de datos `db` desde el archivo principal (asegúrate de que la ruta sea correcta).
 import { db } from "@/main";
 
@@ -112,19 +114,20 @@ export default {
     
     // Método para manejar el registro del usuario.
     async submitRegister() {
+      const toast = useToast();
       // Validaciones
       if (!this.validateEmail(this.emailUser)) {
-        alert("Por favor, ingresa un correo válido."); // Alerta si el correo no es válido.
+        toast.error("Por favor, ingresa un correo válido."); // Alerta si el correo no es válido.
         return;
       }
 
       if (!this.validateMobile(this.movilUser)) {
-        alert("Por favor, ingresa un número de móvil válido (9 dígitos)."); // Alerta si el móvil no es válido.
+        toast.error("Por favor, ingresa un número de móvil válido (9 dígitos)."); // Alerta si el móvil no es válido.
         return;
       }
 
       if (this.passwordUser !== this.confirmpasswordUser) {
-        alert("Las contraseñas no coinciden."); // Alerta si las contraseñas no coinciden.
+        toast.error("Las contraseñas no coinciden."); // Alerta si las contraseñas no coinciden.
         return;
       }
 
@@ -148,17 +151,21 @@ export default {
           email: this.emailUser, // Correo del usuario.
           movil: this.movilUser, // Móvil del usuario.
           role: 'user', // Rol del usuario (user o admin)
+          isActive: false,
+          link1: '',
+          link2:''
         });
 
         // Muestra un mensaje de éxito al usuario.
-        alert("Usuario registrado correctamente");
+        // alert("Usuario registrado correctamente");
+        toast.success("Usuario registrado correctamente")
 
         // Redirige al usuario a la página de inicio de sesión.
         this.$router.push("/login");
       } catch (error) {
         // Manejo de errores en caso de que falle el registro.
         console.error("Error al registrar usuario:", error);
-        alert("Hubo un error al registrar al usuario. Intenta nuevamente.");
+        toast.error("Hubo un error al registrar al usuario. Intenta nuevamente.");
       }
     },
   },
@@ -226,20 +233,18 @@ export default {
 
 <style lang="sass" scoped>
 #register
-  overflow: scroll
   background: linear-gradient(to bottom, #0b004b, #b83aff)
-  width: 100vw
-  height: 100vh
+  height: 100%
   display: flex
   align-items: center
   flex-direction: column
   font-family: 'Roboto', sans-serif
   padding-bottom: 150px
+  gap: 5px
 
 .logo
   width: 17%
   height: auto
-  margin-bottom: 20px 
 
 .title
   font-size: 2.5rem

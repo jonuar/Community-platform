@@ -44,6 +44,7 @@
 
 <script>
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { useToast } from "vue-toastification"
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/main.js";
 
@@ -58,6 +59,7 @@ export default {
   },
   methods: {
     async submitLogin() {
+      const toast = useToast();
       const auth = getAuth();
       try {
         // Autentica al usuario con correo y contraseña.
@@ -85,18 +87,18 @@ export default {
             this.$router.push({ name: "Welcome", params: { user: userData.name } });
           } else {
             // Si no tiene un rol válido, muestra una alerta.
-            alert("Rol desconocido. Contacta al administrador.");
+            toast.error("Rol desconocido. Contacta al administrador.");
           }
         } else {
           // Si no se encuentran datos adicionales para el usuario, muestra una alerta.
-          alert("No se encontraron datos adicionales para este usuario.");
+          toast.error("No se encontraron datos adicionales para este usuario.");
         }
       } catch (error) {
         // Manejo de errores en caso de que falle el inicio de sesión.
         console.error("Error al iniciar sesión:", error);
 
         // Muestra un mensaje de error al usuario.
-        alert("Usuario o contraseña incorrectos.");
+        toast.error("Usuario o contraseña incorrectos.");
       }
     },
   },
@@ -170,22 +172,22 @@ export default {
 
 
 #login
-    overflow: hidden
+   
     margin: 0
     padding: 0
     box-sizing: border-box
     background: linear-gradient(to bottom, #0b004b, #b83aff)
-    width: 100vw
-    height: 100vh
+    height: 100%
     display: flex
     align-items: center
     flex-direction: column
     font-family: 'Roboto', sans-serif
+    gap: 5px
+
 
 .logo
   width: 17%
   height: auto
-  margin-bottom: 20px
 
 .title
   font-size: 2.5rem
@@ -204,6 +206,8 @@ export default {
   padding: 30px
   border-radius: 12px
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2)
+  height: 80%
+  margin-bottom: 100px
 
   .form-group
     position: relative
