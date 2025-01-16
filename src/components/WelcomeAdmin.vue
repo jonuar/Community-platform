@@ -25,14 +25,24 @@
                 <th>Correo</th>
                 <th>Teléfono</th>
                 <th>Estado</th>
+                <th>Acción</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="user in users" :key="user.id">
                 <td>{{ user.name }}</td>
                 <td>{{ user.email }}</td>
-                <td>{{ user.movil }}</td>
+                <td>{{ user.mobile }}</td>
                 <td>{{ user.isActive ? "Activo" : "Inactivo" }}</td>
+                <td>
+                  <!-- Botón de activar/desactivar con clases condicionales -->
+                  <button
+                    @click="toggleActive(user)"
+                    :class="user.isActive ? 'btn-activate' : 'btn-deactivate'"
+                  >
+                    {{ user.isActive ? "Desactivar" : "Activar" }}
+                  </button>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -43,7 +53,7 @@
 </template>
 
 <script>
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, updateDoc, doc } from "firebase/firestore";
 import { db } from "@/main";
 
 export default {
@@ -74,6 +84,29 @@ export default {
         this.users = usersList; // Actualizamos el estado del componente con usuarios filtrados
       } catch (error) {
         console.error("Error al obtener la lista de usuarios:", error);
+      }
+    },
+
+    // Método para activar/desactivar al usuario
+    async toggleActive(user) {
+      try {
+        // Cambiar el estado de isActive
+        const updatedStatus = !user.isActive;
+        user.isActive = updatedStatus;
+
+        // Actualizar Firestore con el nuevo valor de isActive
+        const userRef = doc(db, "users", user.id); // Obtener referencia al usuario en Firestore
+        await updateDoc(userRef, {
+          isActive: updatedStatus,
+        });
+
+        // Confirmación
+        alert(
+          `Usuario ${updatedStatus ? "activado" : "desactivado"} correctamente.`
+        );
+      } catch (error) {
+        console.error("Error al cambiar el estado de usuario:", error);
+        alert("Hubo un error al cambiar el estado del usuario.");
       }
     },
   },
@@ -166,4 +199,25 @@ export default {
                             background-color: #f9f9f9
                         tr:hover
                             background-color: #f1f1f1
+                        button
+                            padding: 5px 10px
+                            background-color: #4CAF50
+                            color: white
+                            border: none
+                            cursor: pointer
+                            font-size: 14px
+                            border-radius: 5px
+                            cursor: pointer
+                            &:hover
+                                opacity: 0.6
+
+                    /* Estilos para el botón Activar */
+                    .btn-deactivate
+                        background-color: #4CAF50
+                        color: white
+
+                    /* Estilos para el botón Desactivar */
+                    .btn-activate 
+                        background-color: #f44336
+                        color: white
 </style>
