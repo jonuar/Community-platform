@@ -1,32 +1,87 @@
 <template>
-    <section id="container">
-        <div id="dashboard">
-            <div id="left-side">
-                <img src="../assets/logo-community-nospace.png" alt="Logo Comunidad Global One More" id="logo">
-                <h1>Bienvenido, {{ user }}.</h1>
-                <div id="cont-buttons">
-                    <button>Gestion</button>
-                    <button>Datos</button>
-                    <button>Configuracion</button>
-                </div>
-            </div>
-            <div id="right-side">
-                <div id="cont-list"></div>
-                <div id="cont-squares">
-                    <div id="cont-up"></div>
-                    <div id="cont-down"></div>
-                </div>
-            </div>
+  <section id="container">
+    <div id="dashboard">
+      <div id="left-side">
+        <img
+          src="../assets/logo-community-nospace.png"
+          alt="Logo Comunidad Global One More"
+          id="logo"
+        />
+        <h1>Bienvenido, {{ user }}.</h1>
+        <div id="cont-buttons">
+          <button>Gestion</button>
+          <button>Datos</button>
+          <button>Configuracion</button>
         </div>
-    </section>
-</template> 
+      </div>
+      <div id="right-side">
+        <div id="cont-list">
+          <!-- Renderizamos la lista de usuarios aquí -->
+          <!-- Tabla para mostrar usuarios -->
+          <table>
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Correo</th>
+                <th>Teléfono</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="user in users" :key="user.id">
+                <td>{{ user.name }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.movil }}</td>
+                <td>{{ user.isActive ? "Activo" : "Inactivo" }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+</template>
 
 <script>
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "@/main";
+
 export default {
-    name:"WelcomeAdmin",
-    props:["user"],
+  name: "WelcomeAdmin",
+  props: {
+    user: {
+      type: String,
+      required: true,
+    },
+  },
+  data() {
+    return {
+      users: [], // Almacenar la lista de usuarios
+    };
+  },
+  methods: {
+    async fetchUsers() {
+      try {
+        const querySnapshot = await getDocs(collection(db, "users")); // Obtenemos todos los documentos de la colección
+        const usersList = [];
+        querySnapshot.forEach((doc) => {
+          const userData = { id: doc.id, ...doc.data() };
+          // Filtrar usuarios que no sean admin
+          if (userData.role !== "admin") {
+            usersList.push(userData);
+          }
+        });
+        this.users = usersList; // Actualizamos el estado del componente con usuarios filtrados
+      } catch (error) {
+        console.error("Error al obtener la lista de usuarios:", error);
+      }
+    },
+  },
+  mounted() {
+    this.fetchUsers(); // Llamamos a la función al montar el componente
+  },
 };
-</script> 
+</script>
 
 <style lang="sass" scoped>
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap')
@@ -91,27 +146,24 @@ export default {
             background: white
             border-radius: 0 10px 10px 0
             #cont-list
-                width: 50%
+                width: 90%
                 height: 80%
                 background: #e1e1ef
                 border-radius: 10px
                 margin: 40px
-            #cont-squares
-                display: flex
-                justify-content: center
-                align-items: center
-                gap: 40px
-                flex-direction: column
-                width: 50%
-                height: 80%
-                #cont-up
-                    width: 80%
-                    height: 100%
-                    background: #e1e1ef
-                    border-radius: 10px
-                #cont-down
-                    width: 80%
-                    height: 100%
-                    background: #e1e1ef
-                    border-radius: 10px
+                padding: 20px
+                table
+                    width: 100%
+                    border-collapse: collapse
+                    text-align: left
+                    thead
+                        background-color: #f4f4f4
+                    th, td
+                        padding: 10px
+                        border: 1px solid #ddd
+                    tbody
+                        tr:nth-child(even)
+                            background-color: #f9f9f9
+                        tr:hover
+                            background-color: #f1f1f1
 </style>
