@@ -172,12 +172,9 @@ export default {
 
 
 #login
-   
-    margin: 0
-    padding: 0
-    box-sizing: border-box
     background: linear-gradient(to bottom, #0b004b, #b83aff)
     height: 100%
+    padding-bottom: 150px
     display: flex
     align-items: center
     flex-direction: column
