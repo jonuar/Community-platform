@@ -5,6 +5,14 @@
         <img id="logo" src="../assets/logo-community-nospace.png" alt="Logo" />
         <h1>Bienvenido, {{ userName }}.</h1>
         <div id="cont-buttons">
+          
+            <button>
+              <font-awesome-icon icon="layer-group" class="icon_dashboard" />
+              Dashboard
+            </button>
+          
+            
+
           <router-link to="/UserInfor" class="button">
             <button>
               <font-awesome-icon icon="book" class="icon_dashboard" />
@@ -250,15 +258,16 @@ mounted() {
                 display: flex
                 flex-direction: column
                 align-items: center
-                width: 90%
+                width: 100%
                 gap: 25px
-                margin-bottom: 50px
+                
 
                 .button
                     width: 100%
-                    margin-left: 105px
+                    position: relative
+                    left: 5%
                 button
-                    width: 80%
+                    width: 90%
                     height: 50px
                     background: #e1e1ef
                     border-radius: 5px

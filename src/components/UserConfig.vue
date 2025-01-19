@@ -12,12 +12,12 @@
             alt="Logo Comunidad Global One More"
           />
           <!-- Mensaje de bienvenida con el nombre del usuario -->
-          <h1>Bienvenido, {{ user }}.</h1>
+          <h1>Bienvenido, {{ userName }}.</h1>
   
           <!-- Contenedor de los botones del menú -->
           <div id="cont-buttons">
             <!-- Botón para ir al Dashboard -->
-            <RouterLink to="/WelcomeUser" class="button">
+            <RouterLink to="/welcome" class="button">
               <button>
                 <font-awesome-icon icon="layer-group" class="icon_dashboard" />
                 Dashboard
@@ -183,6 +183,7 @@
     data() {
       return {
         currentSection: null, // Sección activa para mostrar el formulario correspondiente
+        userName: localStorage.getItem("userName")
       };
     },
     methods: {
@@ -353,7 +354,7 @@
                     top: 20px
                     width: 80%
                     padding: 10px
-                    background-color: #0704A5
+                    background-color: #4CAF50
                     color: #fff
                     border: none
                     border-radius: 5px
