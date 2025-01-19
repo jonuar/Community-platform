@@ -28,6 +28,7 @@
           <table>
             <thead>
               <tr>
+                <th>#</th>
                 <th>Nombre</th>
                 <th>Correo</th>
                 <th>Teléfono</th>
@@ -36,7 +37,8 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="user in users" :key="user.id">
+              <tr v-for="(user, index) in users" :key="user.id">
+                <td>{{ index + 1 }}</td>
                 <td>{{ user.name }}</td>
                 <td>{{ user.email }}</td>
                 <td>{{ user.mobile }}</td>

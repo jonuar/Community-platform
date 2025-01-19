@@ -2,110 +2,93 @@
   <section id="container">
     <div id="dashboard">
       <div id="left-side">
-        <img
-          id="logo"
-          src="../assets/logo-community-nospace.png"
-          alt="Logo Comunidad Global One More"
-        />
+        <img id="logo" src="../assets/logo-community-nospace.png" alt="Logo" />
         <h1>Bienvenido, {{ userName }}.</h1>
         <div id="cont-buttons">
-          <router-link to="/WelcomeUser" class="button">
-            <button>
-              <font-awesome-icon
-                icon="layer-group"
-                class="icon_dashboard"
-              />Dashboard
-            </button>
-          </router-link>
-
           <router-link to="/UserInfor" class="button">
             <button>
-              <font-awesome-icon
-                icon="book"
-                class="icon_dashboard"
-              />Información
+              <font-awesome-icon icon="book" class="icon_dashboard" />
+              Información
             </button>
           </router-link>
-
           <router-link to="/UserConfig" class="button">
             <button>
-              <font-awesome-icon
-                icon="gears"
-                class="icon_dashboard"
-              />Configuración
+              <font-awesome-icon icon="gears" class="icon_dashboard" />
+              Configuración
             </button>
           </router-link>
-
           <button class="logoutButton" @click="cerrarSesion">
-            <font-awesome-icon
-              icon="arrow-right-from-bracket"
-              class="icon_dashboard"
-            />
+            <font-awesome-icon icon="arrow-right-from-bracket" class="icon_dashboard" />
             Cerrar Sesión
           </button>
         </div>
       </div>
       <div id="right-side">
         <div id="cont-list">
-          <!-- Tabla con lista de usuarios activos -->
           <table>
             <thead>
               <tr>
                 <th>#</th>
                 <th>Nombre Miembro</th>
+                <th>Enlace Izquierda</th>
+                <th>Enlace Derecha</th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(user, index) in activeUsers" :key="user.id">
+              <!-- Iterar sobre los usuarios filtrados -->
+              <tr v-for="(user, index) in filteredUsers" :key="user.id">
                 <td>{{ index + 1 }}.</td>
                 <td>{{ user.name }}</td>
+                <td>
+                  <!-- Botón para copiar enlace izquierdo -->
+                  <button class="btn-enlace" :disabled="!user.link1[1] || hasTakenLink"
+                    @click="copiarEnlace(user.id, user.name, user.link1, 'link1')">
+                    Tomar enlace
+                  </button>
+                </td>
+                <td>
+                  <!-- Botón para copiar enlace derecho -->
+                  <button class="btn-enlace" :disabled="!user.link2[1] || hasTakenLink"
+                    @click="copiarEnlace(user.id, user.name, user.link2, 'link2')">
+                    Tomar enlace
+                  </button>
+                </td>
               </tr>
             </tbody>
           </table>
         </div>
         <div id="cont-squares">
-          <div id="cont-up"></div>
+          <div id="cont-up">
+            <!-- Mostrar el mensaje del enlace tomado -->
+            <p v-if="linkTaken">
+              Has tomado el enlace: <span id="enlaceTomado">{{ linkTaken[0] }}</span> del usuario: <strong>{{ linkTaken[1] }}</strong>
+            </p>
+            <p v-else>
+              No has tomado ningún enlace aún.
+            </p>
+          </div>
           <div id="cont-down">
             <form @submit.prevent="guardarEnlaces">
               <h3>Ingresa tus enlaces</h3>
-              <input
-                type="text"
-                id="enlaceIzquierda"
-                v-model="enlaceIzquierda"
-                placeholder="Ingrese el enlace izquierdo aquí"
-                required
-              />
-              <input
-                type="text"
-                id="enlaceDerecha"
-                v-model="enlaceDerecha"
-                placeholder="Ingrese el enlace derecho aquí"
-                required
-              />
-
-              <button type="submit">Guardar</button>
+              <input type="text" id="enlaceIzquierda" v-model="enlaceIzquierda"
+                placeholder="Ingrese el enlace izquierdo aquí" required />
+              <input type="text" id="enlaceDerecha" v-model="enlaceDerecha" placeholder="Ingrese el enlace derecho aquí"
+                required />
+              <button type="submit" :disabled="!linkTaken">Guardar</button>
             </form>
           </div>
         </div>
       </div>
     </div>
-    <!-- Botón de WhatsApp -->
-    <a
-      href="https://wa.me/1234567890"
-      class="whatsapp-button"
-      target="_blank"
-      aria-label="Chatea con nosotros en WhatsApp"
-    >
-      <img
-        src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/512px-WhatsApp.svg.png"
-        alt="WhatsApp Logo"
-      />
+    <a href="https://wa.me/1234567890" class="whatsapp-button" target="_blank">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/512px-WhatsApp.svg.png"
+        alt="WhatsApp Logo" />
     </a>
   </section>
 </template>
 
 <script>
-import { collection, query, where, onSnapshot, doc, updateDoc } from "firebase/firestore";
+import { collection, query, where, onSnapshot, doc, updateDoc, getDoc } from "firebase/firestore";
 import { getAuth, signOut } from "firebase/auth";
 import { db } from "@/main";
 
@@ -113,76 +96,111 @@ export default {
   name: "WelcomeUser",
   data() {
     return {
-      userId: localStorage.getItem("userId"), // Recupera el userId desde localStorage
+      userId: localStorage.getItem("userId"), // Recupera el ID del usuario desde localStorage
       userName: localStorage.getItem("userName"), // Recupera el nombre del usuario desde localStorage
-      activeUsers: [], // Arreglo para almacenar los usuarios activos
-      enlaceIzquierda: "", // Valor del enlace izquierdo
-      enlaceDerecha: "", // Valor del enlace derecho
+      activeUsers: [], // Lista de usuarios activos
+      enlaceIzquierda: "", // Enlace izquierdo proporcionado por el usuario
+      enlaceDerecha: "", // Enlace derecho proporcionado por el usuario
+      linkTaken: null, // Información del enlace tomado desde la base de datos
+      hasTakenLink: false, // Indica si el usuario ya tomó un enlace
     };
   },
+  computed: {
+    // Propiedad computada para filtrar usuarios activos con enlaces disponibles
+    filteredUsers() {
+      return this.activeUsers.filter(user => (user.link1[0] || user.link2[0]));
+    },
+  },
   methods: {
-    // Cerrar sesión y redirigir al login
     async cerrarSesion() {
       const auth = getAuth();
-
       try {
-        // Cerrar sesión en Firebase
-        await signOut(auth);
-        console.log("Usuario cerrado sesión con éxito");
-
-        // Eliminar los datos del usuario del localStorage
+        await signOut(auth); // Cerrar sesión en Firebase
         localStorage.removeItem("userId");
         localStorage.removeItem("userName");
-
-        // Redirigir al login después de cerrar sesión
+        localStorage.removeItem("linkTaken"); // Eliminar el enlace tomado del localStorage
         this.$router.replace("/login");
       } catch (error) {
         console.error("Error al cerrar sesión:", error);
       }
     },
-
-    // Escuchar cambios en Firestore para usuarios activos
     fetchActiveUsers() {
-      const usersRef = collection(db, "users"); // Referencia a la colección 'users'
-      const q = query(usersRef, where("isActive", "==", true)); // Consulta solo los usuarios activos
+      const usersRef = collection(db, "users");
+      const q = query(usersRef, where("isActive", "==", true)); // Filtra usuarios activos
       onSnapshot(q, (querySnapshot) => {
         const users = [];
         querySnapshot.forEach((doc) => {
-          users.push({ id: doc.id, ...doc.data() }); // Obtener datos de cada usuario activo
+          users.push({ id: doc.id, ...doc.data() });
         });
-        this.activeUsers = users; // Actualizar la lista reactiva de usuarios activos
+        this.activeUsers = users;
       });
     },
-
+    async fetchUserData() {
+      try {
+        const userDocRef = doc(db, "users", this.userId); // Referencia al documento del usuario
+        const docSnapshot = await getDoc(userDocRef); // Obtener la información del documento del usuario
+        if (docSnapshot.exists()) {
+          const userData = docSnapshot.data();
+          this.linkTaken = userData.linkTaken || null;
+          this.hasTakenLink = !!this.linkTaken; // Si linkTaken tiene valor, se toma un enlace
+        }
+      } catch (error) {
+        console.error("Error al obtener datos del usuario:", error);
+      }
+    },
     async guardarEnlaces() {
       try {
-        // Referencia al documento del usuario en Firestore
         const userDocRef = doc(db, "users", this.userId);
-
-        // Actualización de los enlaces en Firestore
         await updateDoc(userDocRef, {
-          link1: [this.enlaceIzquierda, true],
-          link2: [this.enlaceDerecha, true],
+          link1: [this.enlaceIzquierda, true], // Guardar enlace izquierdo
+          link2: [this.enlaceDerecha, true], // Guardar enlace derecho
+        });
+        alert("Enlaces guardados correctamente.");
+      } catch (error) {
+        console.error("Error al guardar los enlaces:", error);
+        alert("Ocurrió un error al guardar los enlaces.");
+      }
+    },
+    async copiarEnlace(ownerId, ownerName, link, linkKey) {
+      try {
+        if (this.hasTakenLink) {
+          alert("Ya tomaste un enlace.");
+          return;
+        }
+
+        const currentUserRef = doc(db, "users", this.userId);
+        const ownerRef = doc(db, "users", ownerId);
+
+        await updateDoc(currentUserRef, {
+          linkTaken: [link[0], ownerName], // Guardar el enlace tomado y su dueño
         });
 
-        alert("Enlaces actualizados correctamente.");
+        const updatedLinks = { [linkKey]: [link[0], false] }; // Desactivar el enlace tomado
+        await updateDoc(ownerRef, updatedLinks);
+
+        const owner = this.activeUsers.find((user) => user.id === ownerId);
+        if (!owner.link1[1] && !owner.link2[1]) {
+          await updateDoc(ownerRef, { isActive: false }); // Marcar al dueño como inactivo si ambos enlaces son tomados
+        }
+
+        this.linkTaken = [link[0], ownerName];
+        this.hasTakenLink = true;
+        alert(`Has tomado el enlace: ${link[0]} del usuario ${ownerName}`);
       } catch (error) {
-        console.error("Error al actualizar los enlaces:", error);
-        alert("Ocurrió un error al guardar los enlaces.");
+        console.error("Error al copiar el enlace:", error);
+        alert("Ocurrió un error al tomar el enlace.");
       }
     },
   },
   mounted() {
-    if (!this.userId || !this.userName) {
-      this.$router.replace("/login"); // Si no hay datos, redirige al login
-    }
+    this.fetchActiveUsers(); // Cargar usuarios activos
+    this.fetchUserData(); // Cargar el estado del enlace tomado desde la base de datos
   },
-  created() {
-    // Llamar al método para cargar y escuchar cambios en usuarios activos
-    this.fetchActiveUsers();
-  },
-};
+}
 </script>
+
+
+
 
 <style lang="sass" scoped>
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap')
@@ -210,7 +228,7 @@ export default {
             height: 100%
             background: #0704A5
             border-radius: 10px 0 0 10px
-            overflow-y: scroll
+            overflow: auto
             overflow-x: hidden
 
             #logo
@@ -249,8 +267,6 @@ export default {
                         color: white
                         transform: scale(1.05)
                         font-size: 1.1rem
-
-
                     .icon_dashboard
                         font-size: 1.7rem
                         position: relative
@@ -262,19 +278,18 @@ export default {
             display: flex
             justify-content: center
             align-items: center
-            width: 70%
+            width: 80%
             height: 100%
             background: white
             border-radius: 0 10px 10px 0
             #cont-list
-                width: 50%
+                width: 60%
                 height: 80%
                 background: #e1e1ef
                 border-radius: 10px
                 margin: 40px
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
                 overflow: auto
-                #cont-list
                 table
                   width: 100%
                   border-collapse: collapse
@@ -283,42 +298,70 @@ export default {
                   border-radius: 8px
                   overflow: hidden
                   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
-
-                th, td
-                  padding: 10px 15px
-                  border-bottom: 1px solid #eaeaea
-
-                th
-                  background: #0704a5
-                  color: white
-                  font-weight: bold
-                  text-transform: uppercase
-
-                tr:nth-child(even)
-                  background: #f9f9f9
-
-                tr:hover
-                  background: #f1f1f1
-
-                td
-                  font-size: 0.9rem
-
+                  th, td
+                    padding: 10px 15px
+                    border-bottom: 1px solid #eaeaea
+                  th
+                    background: #0704a5
+                    color: white
+                    font-weight: bold
+                    text-transform: uppercase
+                  tr:nth-child(even)
+                    background: #f9f9f9
+                  tr:hover
+                    background: #f1f1f1
+                  td
+                    font-size: 0.9rem
+                    .btn-enlace
+                      background-color: #824caf
+                      color: #fff
+                      font-size: 14px
+                      padding: 10px 15px
+                      border: none
+                      border-radius: 5px
+                      cursor: pointer
+                      transition: background-color 0.3s ease
+                      &:hover
+                        background-color: #45a049
+                      &:disabled
+                        background-color: #ccc
+                        color: #666
+                        cursor: not-allowed
 
             #cont-squares
                 display: flex
                 justify-content: center
                 align-items: center
-                gap: 40px
+                gap: 20px
                 flex-direction: column
-                width: 50%
+                width: 40%
                 height: 80%
 
                 #cont-up
+                    display: flex
+                    flex-direction: column
+                    align-items: center
+                    justify-content: center
                     width: 80%
                     height: 100%
                     background: #e1e1ef
                     border-radius: 10px
                     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
+                    padding: 20px
+                    font-size: 1.2rem
+                    color: #333
+                    #cont-up strong
+                      color: #2c3e50
+                      font-weight: bold
+                    #cont-up p
+                      font-style: italic
+                    #enlaceTomado
+                      font-style: italic
+                      color: purple
+                    #cont-up p:empty
+                      color: #999
+                      font-style: normal
+
                 #cont-down
                     width: 80%
                     padding: 20px
@@ -359,11 +402,15 @@ export default {
                         cursor: pointer
                         font-size: 1rem
                         transition: all 0.3s ease
-                        width: 30%
+                        width: 40%
 
                         &:hover
                           background: #6a42ff
                           transform: scale(1.05)
+
+
+
+
 
 .whatsapp-button
   position: fixed
