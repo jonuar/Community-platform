@@ -199,6 +199,9 @@ export default {
                     &:hover
                         background: #6a42ff
                         color: white
+                .logoutButton
+                  background: #fb573b
+                  color: white
         #right-side
             display: flex
             justify-content: center
