@@ -46,7 +46,23 @@
         </div>
       </div>
       <div id="right-side">
-        <div id="cont-list"></div>
+        <div id="cont-list">
+          <!-- Tabla con lista de usuarios activos -->
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Nombre Miembro</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(user, index) in activeUsers" :key="user.id">
+                <td>{{ index + 1 }}.</td>
+                <td>{{ user.name }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
         <div id="cont-squares">
           <div id="cont-up"></div>
           <div id="cont-down"></div>
@@ -69,21 +85,43 @@
 </template>
 
 <script>
+import { collection, query, where, onSnapshot } from "firebase/firestore";
+import { db } from "@/main";
+
 export default {
   name: "WelcomeUser",
-  props: ["user"],
+  props: ["user"], // Recibe el nombre del usuario como propiedad
+  data() {
+    return {
+      activeUsers: [], // Arreglo para almacenar los usuarios activos
+    };
+  },
   methods: {
+    // Cerrar sesión y redirigir al login
     cerrarSesion() {
-      // Elimina el token del localStorage
-      console.log("Token antes de eliminar:", localStorage.getItem("token"));
       localStorage.removeItem("token");
-
-      // Redirige al login
-      console.log("Redirigiendo a /UserLogin");
-      this.$router.replace("/UserLogin"); // Reemplaza la ruta actual en lugar de añadirla al historial
+      this.$router.replace("/UserLogin");
+    },
+    // Escuchar cambios en Firestore para usuarios activos
+    fetchActiveUsers() {
+      const usersRef = collection(db, "users"); // Referencia a la colección 'users'
+      const q = query(usersRef, where("isActive", "==", true)); // Consulta solo los usuarios activos
+      onSnapshot(q, (querySnapshot) => {
+        const users = [];
+        querySnapshot.forEach((doc) => {
+          users.push({ id: doc.id, ...doc.data() }); // Obtener datos de cada usuario activo
+        });
+        this.activeUsers = users; // Actualizar la lista reactiva de usuarios activos
+      });
     },
   },
+  created() {
+    // Llamar al método para cargar y escuchar cambios en usuarios activos
+    this.fetchActiveUsers();
+  },
 };
+
+
 </script>
 
 <style lang="sass" scoped>
@@ -175,6 +213,37 @@ export default {
                 border-radius: 10px
                 margin: 40px
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
+                overflow: auto
+                #cont-list
+                table
+                  width: 100%
+                  border-collapse: collapse
+                  text-align: left
+                  background: #fff
+                  border-radius: 8px
+                  overflow: hidden
+                  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
+
+                th, td
+                  padding: 10px 15px
+                  border-bottom: 1px solid #eaeaea
+
+                th
+                  background: #0704a5
+                  color: white
+                  font-weight: bold
+                  text-transform: uppercase
+
+                tr:nth-child(even)
+                  background: #f9f9f9
+
+                tr:hover
+                  background: #f1f1f1
+
+                td
+                  font-size: 0.9rem
+
+
             #cont-squares
                 display: flex
                 justify-content: center
