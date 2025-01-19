@@ -7,11 +7,18 @@
           alt="Logo Comunidad Global One More"
           id="logo"
         />
-        <h1>Bienvenido, {{ user }}.</h1>
+        <h1>Bienvenido, {{ userName }}.</h1>
         <div id="cont-buttons">
           <button>Gestion</button>
           <button>Datos</button>
           <button>Configuracion</button>
+          <button class="logoutButton" @click="cerrarSesion">
+            <font-awesome-icon
+              icon="arrow-right-from-bracket"
+              class="icon_dashboard"
+            />
+            Cerrar Sesión
+          </button>
         </div>
       </div>
       <div id="right-side">
@@ -54,6 +61,7 @@
 
 <script>
 import { collection, getDocs, updateDoc, doc } from "firebase/firestore";
+import { getAuth, signOut } from "firebase/auth";
 import { db } from "@/main";
 
 export default {
@@ -67,6 +75,8 @@ export default {
   data() {
     return {
       users: [], // Almacenar la lista de usuarios
+      userId: localStorage.getItem("userId"), // Recupera el userId desde localStorage
+      userName: localStorage.getItem("userName"), // Recupera el nombre del usuario desde localStorage
     };
   },
   methods: {
@@ -107,6 +117,25 @@ export default {
       } catch (error) {
         console.error("Error al cambiar el estado de usuario:", error);
         alert("Hubo un error al cambiar el estado del usuario.");
+      }
+    },
+
+    async cerrarSesion() {
+      const auth = getAuth();
+
+      try {
+        // Cerrar sesión en Firebase
+        await signOut(auth);
+        console.log("Usuario cerrado sesión con éxito");
+
+        // Eliminar los datos del usuario del localStorage
+        localStorage.removeItem("userId");
+        localStorage.removeItem("userName");
+
+        // Redirigir al login después de cerrar sesión
+        this.$router.replace("/login");
+      } catch (error) {
+        console.error("Error al cerrar sesión:", error);
       }
     },
   },

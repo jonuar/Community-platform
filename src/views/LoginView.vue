@@ -44,7 +44,7 @@
 
 <script>
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { useToast } from "vue-toastification"
+import { useToast } from "vue-toastification";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/main.js";
 
@@ -78,13 +78,17 @@ export default {
         if (userDoc.exists()) {
           const userData = userDoc.data(); // Datos del usuario.
 
+          // Guardamos el userId y el nombre en localStorage.
+          localStorage.setItem("userId", userId);
+          localStorage.setItem("userName", userData.name);
+
           // Verifica el rol del usuario.
           if (userData.role === "admin") {
             // Si el usuario es administrador, redirige al componente WelcomeAdmin.
-            this.$router.push({ name: "WelcomeAdmin", params: { user: userData.name } });
+            this.$router.push({ name: "WelcomeAdmin" });
           } else if (userData.role === "user") {
             // Si el usuario es regular, redirige al componente WelcomeUser.
-            this.$router.push({ name: "Welcome", params: { user: userData.name } });
+            this.$router.push({ name: "Welcome" });
           } else {
             // Si no tiene un rol válido, muestra una alerta.
             toast.error("Rol desconocido. Contacta al administrador.");
@@ -103,7 +107,6 @@ export default {
     },
   },
 };
-
 
 // import admin_user from "@/utils/admindb.js"; // Usa una ruta consistente
 // import { useToast } from "vue-toastification";
@@ -130,7 +133,6 @@ export default {
 //         alert("Error: " + error.message)
 //       })
 
-
 //       const isAdmin = admin_user.find(
 //         (admin) =>
 //           admin.username === this.emailUser &&
@@ -144,7 +146,7 @@ export default {
 //         toast.success("Inicio de Sesión Administrador Exitoso");
 //         this.$router.push({
 //           name: "WelcomeAdmin",
-//           params: { user: isAdmin.username }, 
+//           params: { user: isAdmin.username },
 //         });
 //         this.loginFailed = false;
 //       } else if (user) {

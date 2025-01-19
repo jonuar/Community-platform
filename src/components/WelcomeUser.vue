@@ -7,7 +7,7 @@
           src="../assets/logo-community-nospace.png"
           alt="Logo Comunidad Global One More"
         />
-        <h1>Bienvenido, {{ user }}.</h1>
+        <h1>Bienvenido, {{ userName }}.</h1>
         <div id="cont-buttons">
           <router-link to="/WelcomeUser" class="button">
             <button>
@@ -106,13 +106,15 @@
 
 <script>
 import { collection, query, where, onSnapshot, doc, updateDoc } from "firebase/firestore";
+import { getAuth, signOut } from "firebase/auth";
 import { db } from "@/main";
 
 export default {
   name: "WelcomeUser",
-  props: ["user", "userId"], // Nombre del usuario y su ID como propiedad
   data() {
     return {
+      userId: localStorage.getItem("userId"), // Recupera el userId desde localStorage
+      userName: localStorage.getItem("userName"), // Recupera el nombre del usuario desde localStorage
       activeUsers: [], // Arreglo para almacenar los usuarios activos
       enlaceIzquierda: "", // Valor del enlace izquierdo
       enlaceDerecha: "", // Valor del enlace derecho
@@ -120,10 +122,25 @@ export default {
   },
   methods: {
     // Cerrar sesión y redirigir al login
-    cerrarSesion() {
-      localStorage.removeItem("token");
-      this.$router.replace("/UserLogin");
+    async cerrarSesion() {
+      const auth = getAuth();
+
+      try {
+        // Cerrar sesión en Firebase
+        await signOut(auth);
+        console.log("Usuario cerrado sesión con éxito");
+
+        // Eliminar los datos del usuario del localStorage
+        localStorage.removeItem("userId");
+        localStorage.removeItem("userName");
+
+        // Redirigir al login después de cerrar sesión
+        this.$router.replace("/login");
+      } catch (error) {
+        console.error("Error al cerrar sesión:", error);
+      }
     },
+
     // Escuchar cambios en Firestore para usuarios activos
     fetchActiveUsers() {
       const usersRef = collection(db, "users"); // Referencia a la colección 'users'
@@ -154,6 +171,11 @@ export default {
         alert("Ocurrió un error al guardar los enlaces.");
       }
     },
+  },
+  mounted() {
+    if (!this.userId || !this.userName) {
+      this.$router.replace("/login"); // Si no hay datos, redirige al login
+    }
   },
   created() {
     // Llamar al método para cargar y escuchar cambios en usuarios activos
@@ -308,23 +330,23 @@ export default {
                       display: flex
                       flex-direction: column
                       gap: 15px
-                      
+
                       h3
                         font-size: 1.5rem
                         color: #0704a5
                         text-align: center
-                      
+
                       label
                         font-weight: bold
                         color: #333
-                      
+
                       input
                         padding: 10px
                         border: 1px solid #ccc
                         border-radius: 5px
                         outline: none
                         transition: all 0.3s ease
-                        
+
                         &:focus
                           border-color: #0704a5
 
@@ -338,7 +360,7 @@ export default {
                         font-size: 1rem
                         transition: all 0.3s ease
                         width: 30%
-                        
+
                         &:hover
                           background: #6a42ff
                           transform: scale(1.05)

@@ -10,13 +10,12 @@ import UserConfig from '@/components/UserConfig.vue';
 const routes = [
   { path: '/login', name: 'UserLogin', component: Loginview },
   { path: '/register', name: 'UserRegister', component: Registerview },
-  { path: '/welcome/:user', name: 'Welcome', component: WelcomeUser, props: true },
-  {path: '/welcomeadmin/:user', name: 'WelcomeAdmin', component: WelcomeAdmin, props: true},
+  { path: '/welcome', name: 'Welcome', component: WelcomeUser }, 
+  { path: '/welcomeadmin', name: 'WelcomeAdmin', component: WelcomeAdmin }, 
   { path: '/userinfor', name: 'UserInfor', component: UserInfor },
   { path: '/userconfig', name: 'UserConfig', component: UserConfig },
   { path: '/:pathMatch(.*)*', redirect: '/login' }, // Ruta genérica al final
 ];
-
 const router = createRouter({
   history: createWebHistory(),
   routes,
