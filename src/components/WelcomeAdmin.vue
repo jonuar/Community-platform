@@ -31,8 +31,8 @@
                 <th>Nombre</th>
                 <th>Correo</th>
                 <th>Teléfono</th>
+                <th>Enlaces</th>
                 <th>Estado</th>
-                <th>Acción</th>
               </tr>
             </thead>
             <tbody>
@@ -40,8 +40,18 @@
                 <td>{{ user.name }}</td>
                 <td>{{ user.email }}</td>
                 <td>{{ user.mobile }}</td>
-                <td>{{ user.isActive ? "Activo" : "Inactivo" }}</td>
                 <td>
+                  <!-- Mostrar enlace 1 o mensaje si no existe -->
+                  <span v-if="user.link1[0]">{{ user.link1[0] }}</span>
+                  <span v-else>Sin enlace izquierdo</span>
+                  <hr />
+                  <!-- Mostrar enlace 2 o mensaje si no existe -->
+                  <span v-if="user.link2[0]">{{ user.link2[0] }}</span>
+                  <span v-else>Sin enlace derecho</span>
+                </td>
+                <td>
+                  {{ user.isActive ? "Activo" : "Inactivo" }}
+                  <hr />
                   <!-- Botón de activar/desactivar con clases condicionales -->
                   <button
                     @click="toggleActive(user)"
@@ -60,20 +70,19 @@
 </template>
 
 <script>
-import mitt from 'mitt'; 
-import { collection, getDocs, updateDoc, doc, onSnapshot } from "firebase/firestore";
+import mitt from "mitt";
+import {
+  collection,
+  getDocs,
+  updateDoc,
+  doc,
+  onSnapshot,
+} from "firebase/firestore";
 import { getAuth, signOut } from "firebase/auth";
 import { db } from "@/main";
 
-
 export default {
   name: "WelcomeAdmin",
-  props: {
-    user: {
-      type: String,
-      required: true,
-    },
-  },
   data() {
     return {
       users: [], // Almacenar la lista de usuarios
@@ -107,7 +116,9 @@ export default {
         await updateDoc(userRef, {
           isActive: updatedStatus,
         });
-        alert(`Usuario ${updatedStatus ? "activado" : "desactivado"} correctamente.`);
+        alert(
+          `Usuario ${updatedStatus ? "activado" : "desactivado"} correctamente.`
+        );
       } catch (error) {
         console.error("Error al cambiar el estado de usuario:", error);
         alert("Hubo un error al cambiar el estado del usuario.");
@@ -141,7 +152,7 @@ export default {
         }
       });
       this.users = usersList; // Actualizamos la lista de usuarios
-      this.emitter.emit('usersUpdated', usersList); // Emitimos un evento con mitt
+      this.emitter.emit("usersUpdated", usersList); // Emitimos un evento con mitt
     });
   },
 
@@ -259,7 +270,7 @@ export default {
                         color: white
 
                     /* Estilos para el botón Desactivar */
-                    .btn-activate 
+                    .btn-activate
                         background-color: #f44336
                         color: white
 </style>
