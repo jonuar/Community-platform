@@ -5,8 +5,21 @@
 </template>
 
 <script>
+import {onAuthStateChanged} from "firebase/auth";
+import {auth} from "@/main.js";
 export default {
   name: 'App',
+  data(){
+    return{
+      user:null,
+    };
+  }, 
+
+  created(){
+    onAuthStateChanged(auth, (user) => {
+      this.user = user; // Almacena el usuario actual en una variable reacriva en el componente
+    });
+  }
 }
 </script>
 <style lang="sass" >

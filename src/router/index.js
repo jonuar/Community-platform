@@ -5,30 +5,66 @@ import WelcomeUser from '../components/WelcomeUser.vue';
 import WelcomeAdmin from '../components/WelcomeAdmin.vue';
 import UserInfor from '@/components/UserInfor.vue';
 import UserConfig from '@/components/UserConfig.vue';
+import {auth} from '../main.js'
 
 // Asignación de "RUTAS"
 const routes = [
-  { path: '/login', name: 'UserLogin', component: Loginview },
-  { path: '/register', name: 'UserRegister', component: Registerview },
-  { path: '/welcome', name: 'Welcome', component: WelcomeUser }, 
-  { path: '/welcomeadmin', name: 'WelcomeAdmin', component: WelcomeAdmin }, 
-  { path: '/userinfor', name: 'UserInfor', component: UserInfor },
-  { path: '/userconfig', name: 'UserConfig', component: UserConfig },
-  { path: '/:pathMatch(.*)*', redirect: '/login' }, // Ruta genérica al final
+  { path: '/login', 
+    name: 'UserLogin', 
+    component: Loginview 
+  },
+  
+  { path: '/register', 
+    name: 'UserRegister', 
+    component: Registerview,
+    meta: { requiresAuth:true}
+  },
+  
+  { path: '/welcome', 
+    name: 'Welcome', 
+    component: WelcomeUser,
+    meta: { requiresAuth:true}
+  }, 
+  
+  { path: '/welcomeadmin', 
+    name: 'WelcomeAdmin', 
+    component: WelcomeAdmin,
+    meta: { requiresAuth:true}
+  }, 
+  
+  { path: '/userinfor', 
+    name: 'UserInfor', 
+    component: UserInfor, 
+    meta: { requiresAuth:true}
+  },
+  
+  { path: '/userconfig', 
+    name: 'UserConfig', 
+    component: UserConfig,
+    meta: { requiresAuth:true}
+  },
+
+  { path: '/:pathMatch(.*)*', 
+    redirect: '/login' 
+  }, // Ruta genérica al final
 ];
+
 const router = createRouter({
   history: createWebHistory(),
   routes,
 });
 
-// // Guardia de navegación
-// router.beforeEach((to, from, next) => {
-//   const isAuthenticated = localStorage.getItem('token'); // Validación de autenticación
-//   if (to.name !== 'UserLogin' && !isAuthenticated) {
-//     next({ name: 'UserLogin' }); // Redirige al login si no está autenticado
-//   } else {
-//     next(); // Permite la navegación
-//   }
-// });
+// Guardian de navegación 
+
+router.beforeEach((to,from, next)=>{
+  const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
+  const currentUser = auth.currentUser; //Verifica si el usuario esta Autenticado 
+
+  if (requiresAuth && !currentUser){
+    next('/login'); // Si el usuario no esta autenticado, lo vuelve a la pantalla de login
+  }else{
+    next();// Deja pasar al usuario a la siguiente ruta
+  }
+});
 
 export default router;

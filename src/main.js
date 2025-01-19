@@ -1,49 +1,46 @@
 // Importa el módulo `createApp` de Vue para crear una aplicación Vue.
-import { createApp } from 'vue';
+import { createApp } from "vue";
 // Importa el componente raíz de la aplicación (App.vue).
-import App from './App.vue';
+import App from "./App.vue";
 // Importa el archivo de configuración de rutas de Vue Router.
-import router from './router';
+import router from "./router";
 // Importa el componente FontAwesomeIcon desde el plugin de FontAwesome.
-import FontAwesomeIcon from './plugins/fontawesome';
+import FontAwesomeIcon from "./plugins/fontawesome";
 // Importa el plugin Toastification para mostrar notificaciones en la aplicación.
 import Toast from "vue-toastification";
 // Importa los estilos predeterminados de Toastification.
 import "vue-toastification/dist/index.css";
-// Importa la función `initializeApp` de Firebase para inicializar la aplicación Firebase.
+// Importa las funciones necesarias de Firebase.
 import { initializeApp } from "firebase/app";
-// Importa la función `getFirestore` para interactuar con la base de datos Firestore de Firebase.
 import { getFirestore } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 
-// Objeto de configuración de Firebase que contiene claves y detalles del proyecto.
+// Configuración del proyecto Firebase.
 const firebaseConfig = {
-    apiKey: "AIzaSyC8PU-QvenpMB1Mt47ZuUS3Lh_A7OSFsCY", // Clave API para autenticar las solicitudes al proyecto Firebase.
-    authDomain: "comunidad-one-more.firebaseapp.com", // Dominio de autenticación proporcionado por Firebase.
-    projectId: "comunidad-one-more", // ID del proyecto de Firebase.
-    storageBucket: "comunidad-one-more.firebasestorage.app", // URL del almacenamiento de Firebase.
-    messagingSenderId: "1013547337296", // ID del remitente para la mensajería en la nube de Firebase.
-    appId: "1:1013547337296:web:1fe648af2545edc0fd3355" // ID único de la aplicación Firebase.
+  apiKey: "AIzaSyC8PU-QvenpMB1Mt47ZuUS3Lh_A7OSFsCY",
+  authDomain: "comunidad-one-more.firebaseapp.com",
+  projectId: "comunidad-one-more",
+  storageBucket: "comunidad-one-more.firebasestorage.app",
+  messagingSenderId: "1013547337296",
+  appId: "1:1013547337296:web:1fe648af2545edc0fd3355",
 };
 
-// Inicializa la aplicación Firebase con la configuración especificada.
+// Inicializa Firebase.
 const firebaseApp = initializeApp(firebaseConfig);
-// Inicializa la base de datos Firestore asociada a la aplicación Firebase.
-const db = getFirestore(firebaseApp);
 
-// Crea la instancia principal de la aplicación Vue.
+// Inicializa Firestore y Auth después de que Firebase se haya inicializado.
+export const db = getFirestore(firebaseApp);
+export const auth = getAuth(firebaseApp);
+
+// Crea la aplicación Vue.
 const app = createApp(App);
 
-// Usa el plugin Toastification en la aplicación Vue.
+// Usa los plugins en la aplicación Vue.
 app.use(Toast);
-
-// Usa el sistema de enrutamiento de Vue Router en la aplicación Vue.
 app.use(router);
 
-// Registra el componente FontAwesomeIcon como un componente global en la aplicación Vue.
-app.component('font-awesome-icon', FontAwesomeIcon);
+// Registra el componente global FontAwesomeIcon.
+app.component("font-awesome-icon", FontAwesomeIcon);
 
-// Monta la aplicación Vue en el elemento HTML con el id `#app`.
-app.mount('#app');
-
-// Exporta la instancia de la base de datos Firestore para que pueda usarse en otros archivos.
-export { db };
+// Monta la aplicación en el elemento con id `#app`.
+app.mount("#app");
