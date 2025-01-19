@@ -272,7 +272,7 @@
             display: flex
             justify-content: center
             align-items: center
-            width: 70%
+            width: 80%
             height: 100%
             background: white
             border-radius: 0 10px 10px 0
