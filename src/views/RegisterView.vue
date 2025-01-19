@@ -157,6 +157,7 @@ export default {
           link1: ["", "true"], // ["enlace1", "true"]
           link2: ["", "true"], // ["enlace2", "true"]
           linkTaken: ["", ""], // ["enlaceTomado", "nombre de ususario a quien pertenece"]
+          createdAt: new Date(), // Fecha de registro del usuario.
         });
 
         // Muestra un mensaje de éxito al usuario.

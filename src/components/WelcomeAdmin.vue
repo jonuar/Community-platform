@@ -9,9 +9,9 @@
         />
         <h1>Bienvenido, {{ userName }}.</h1>
         <div id="cont-buttons">
-          <button>Gestion</button>
+          <!-- <button>Gestion</button>
           <button>Datos</button>
-          <button>Configuracion</button>
+          <button>Configuracion</button> -->
           <button class="logoutButton" @click="cerrarSesion">
             <font-awesome-icon
               icon="arrow-right-from-bracket"

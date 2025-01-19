@@ -28,10 +28,10 @@
         <p>
           No tienes cuenta? <router-link to="/register">Registrate</router-link>
         </p>
-        <p>
+        <!-- <p>
           Olvidaste tu contraseña?
           <router-link to="/">Recuperar Contraseña</router-link>
-        </p>
+        </p> -->
       </div>
       <button class="loginButton" type="submit">Iniciar Sesión</button>
     </form>
@@ -175,8 +175,8 @@ export default {
 
 #login
     background: linear-gradient(to bottom, #0b004b, #b83aff)
-    height: 100%
-    padding-bottom: 150px
+    height: 100dvh
+    width: 100%
     display: flex
     align-items: center
     flex-direction: column
@@ -205,7 +205,7 @@ export default {
   padding: 30px
   border-radius: 12px
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2)
-  height: 80%
+  height: auto
   margin-bottom: 100px
 
   .form-group
