@@ -60,9 +60,11 @@
 </template>
 
 <script>
-import { collection, getDocs, updateDoc, doc } from "firebase/firestore";
+import mitt from 'mitt'; 
+import { collection, getDocs, updateDoc, doc, onSnapshot } from "firebase/firestore";
 import { getAuth, signOut } from "firebase/auth";
 import { db } from "@/main";
+
 
 export default {
   name: "WelcomeAdmin",
@@ -77,43 +79,35 @@ export default {
       users: [], // Almacenar la lista de usuarios
       userId: localStorage.getItem("userId"), // Recupera el userId desde localStorage
       userName: localStorage.getItem("userName"), // Recupera el nombre del usuario desde localStorage
+      emitter: mitt(), // Crear una instancia de mitt
     };
   },
   methods: {
     async fetchUsers() {
       try {
-        const querySnapshot = await getDocs(collection(db, "users")); // Obtenemos todos los documentos de la colección
+        const querySnapshot = await getDocs(collection(db, "users"));
         const usersList = [];
         querySnapshot.forEach((doc) => {
           const userData = { id: doc.id, ...doc.data() };
-          // Filtrar usuarios que no sean admin
           if (userData.role !== "admin") {
             usersList.push(userData);
           }
         });
-        this.users = usersList; // Actualizamos el estado del componente con usuarios filtrados
+        this.users = usersList;
       } catch (error) {
         console.error("Error al obtener la lista de usuarios:", error);
       }
     },
 
-    // Método para activar/desactivar al usuario
     async toggleActive(user) {
       try {
-        // Cambiar el estado de isActive
         const updatedStatus = !user.isActive;
         user.isActive = updatedStatus;
-
-        // Actualizar Firestore con el nuevo valor de isActive
-        const userRef = doc(db, "users", user.id); // Obtener referencia al usuario en Firestore
+        const userRef = doc(db, "users", user.id);
         await updateDoc(userRef, {
           isActive: updatedStatus,
         });
-
-        // Confirmación
-        alert(
-          `Usuario ${updatedStatus ? "activado" : "desactivado"} correctamente.`
-        );
+        alert(`Usuario ${updatedStatus ? "activado" : "desactivado"} correctamente.`);
       } catch (error) {
         console.error("Error al cambiar el estado de usuario:", error);
         alert("Hubo un error al cambiar el estado del usuario.");
@@ -124,15 +118,10 @@ export default {
       const auth = getAuth();
 
       try {
-        // Cerrar sesión en Firebase
         await signOut(auth);
         console.log("Usuario cerrado sesión con éxito");
-
-        // Eliminar los datos del usuario del localStorage
         localStorage.removeItem("userId");
         localStorage.removeItem("userName");
-
-        // Redirigir al login después de cerrar sesión
         this.$router.replace("/login");
       } catch (error) {
         console.error("Error al cerrar sesión:", error);
@@ -140,7 +129,27 @@ export default {
     },
   },
   mounted() {
-    this.fetchUsers(); // Llamamos a la función al montar el componente
+    this.fetchUsers();
+
+    // Usamos mitt para escuchar los cambios en la base de datos
+    this.unsubscribe = onSnapshot(collection(db, "users"), (querySnapshot) => {
+      const usersList = [];
+      querySnapshot.forEach((doc) => {
+        const userData = { id: doc.id, ...doc.data() };
+        if (userData.role !== "admin") {
+          usersList.push(userData);
+        }
+      });
+      this.users = usersList; // Actualizamos la lista de usuarios
+      this.emitter.emit('usersUpdated', usersList); // Emitimos un evento con mitt
+    });
+  },
+
+  // Usamos onBeforeUnmount para limpiar el listener cuando el componente se destruya
+  BeforeUnmount() {
+    if (this.unsubscribe) {
+      this.unsubscribe(); // Limpiar el listener de Firestore
+    }
   },
 };
 </script>
