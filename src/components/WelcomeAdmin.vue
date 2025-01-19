@@ -185,6 +185,7 @@ export default {
                 border-radius: 10px
                 margin: 40px
                 padding: 20px
+                overflow: auto
                 table
                     width: 100%
                     border-collapse: collapse

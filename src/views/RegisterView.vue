@@ -1,6 +1,6 @@
 <template>
   <div id="register">
-    <img src="../assets/logo-community.png" alt="logo" class="logo">
+    <img src="../assets/logo-community.png" alt="logo" class="logo" />
     <form @submit.prevent="submitRegister" class="container">
       <h1 class="title">Regístrate</h1>
       <div class="form-group">
@@ -76,7 +76,7 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 // Importa las funciones necesarias de Firebase Firestore para interactuar con la base de datos.
 import { doc, setDoc } from "firebase/firestore";
 
-import { useToast } from "vue-toastification"
+import { useToast } from "vue-toastification";
 
 // Importa la instancia de la base de datos `db` desde el archivo principal (asegúrate de que la ruta sea correcta).
 import { db } from "@/main";
@@ -84,7 +84,7 @@ import { db } from "@/main";
 // Exporta un componente Vue llamado "UserRegister".
 export default {
   name: "UserRegister", // Nombre del componente.
-  
+
   // Define los datos reactivos del componente.
   data() {
     return {
@@ -95,7 +95,7 @@ export default {
       confirmpasswordUser: "", // Confirmación de la contraseña.
     };
   },
-  
+
   // Métodos del componente.
   methods: {
     // Método para validar si un correo electrónico es válido.
@@ -104,14 +104,14 @@ export default {
       const regex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
       return regex.test(email); // Devuelve true si el correo es válido.
     },
-    
+
     // Método para validar si un número de móvil es válido.
     validateMobile(mobile) {
       // Expresión regular para validar un número de móvil de 9 dígitos.
       const regex = /^[0-9]{9}$/;
       return regex.test(mobile); // Devuelve true si el móvil es válido.
     },
-    
+
     // Método para manejar el registro del usuario.
     async submitRegister() {
       const toast = useToast();
@@ -122,7 +122,9 @@ export default {
       }
 
       if (!this.validateMobile(this.movilUser)) {
-        toast.error("Por favor, ingresa un número de móvil válido (9 dígitos)."); // Alerta si el móvil no es válido.
+        toast.error(
+          "Por favor, ingresa un número de móvil válido (9 dígitos)."
+        ); // Alerta si el móvil no es válido.
         return;
       }
 
@@ -150,30 +152,29 @@ export default {
           name: this.nameUser, // Nombre del usuario.
           email: this.emailUser, // Correo del usuario.
           mobile: this.movilUser, // Móvil del usuario.
-          role: 'user', // Rol del usuario (user o admin)
+          role: "user", // Rol del usuario (user o admin)
           isActive: false,
-          link1: '',
-          link2: '',
-          linkTaken:'',
+          link1: ["", "true"], // ["enlace1", "true"]
+          link2: ["", "true"], // ["enlace2", "true"]
+          linkTaken: ["", ""], // ["enlaceTomado", "nombre de ususario a quien pertenece"]
         });
 
         // Muestra un mensaje de éxito al usuario.
         // alert("Usuario registrado correctamente");
-        toast.success("Usuario registrado correctamente")
+        toast.success("Usuario registrado correctamente");
 
         // Redirige al usuario a la página de inicio de sesión.
         this.$router.push("/login");
       } catch (error) {
         // Manejo de errores en caso de que falle el registro.
         console.error("Error al registrar usuario:", error);
-        toast.error("Hubo un error al registrar al usuario. Intenta nuevamente.");
+        toast.error(
+          "Hubo un error al registrar al usuario. Intenta nuevamente."
+        );
       }
     },
   },
 };
-
-
-
 
 // export default {
 //   name: "UserRegister",
@@ -231,7 +232,6 @@ export default {
 // };
 </script>
 
-
 <style lang="sass" scoped>
 #register
   background: linear-gradient(to bottom, #0b004b, #b83aff)
@@ -251,7 +251,7 @@ export default {
   font-size: 2.5rem
   color: white
   text-align: center
-  margin-bottom: 15% 
+  margin-bottom: 15%
 
 .container
   display: flex
@@ -268,14 +268,14 @@ export default {
     position: relative
     width: 100%
     margin-bottom: 20px
-    
+
     .icon_register
       position: absolute
       top: 50%
       left: 10px
       transform: translateY(-50%)
-      color: #0704A5 
-      
+      color: #0704A5
+
     input
       width: 85%
       padding: 10px
@@ -303,9 +303,9 @@ export default {
     color: white
     font-weight: bold
     cursor: pointer
-    transition: background-color 0.3s ease 
+    transition: background-color 0.3s ease
     &:hover
-      background-color: #b83aff 
+      background-color: #b83aff
 
 .loginRegister
   display: flex
@@ -349,5 +349,4 @@ export default {
 
   .loginButton
     width: 60% // Botón más ancho para facilitar interacción en móviles
-
 </style>
