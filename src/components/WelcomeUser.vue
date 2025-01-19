@@ -65,7 +65,27 @@
         </div>
         <div id="cont-squares">
           <div id="cont-up"></div>
-          <div id="cont-down"></div>
+          <div id="cont-down">
+            <form @submit.prevent="guardarEnlaces">
+              <h3>Ingresa tus enlaces</h3>
+              <input
+                type="text"
+                id="enlaceIzquierda"
+                v-model="enlaceIzquierda"
+                placeholder="Ingrese el enlace izquierdo aquí"
+                required
+              />
+              <input
+                type="text"
+                id="enlaceDerecha"
+                v-model="enlaceDerecha"
+                placeholder="Ingrese el enlace derecho aquí"
+                required
+              />
+
+              <button type="submit">Guardar</button>
+            </form>
+          </div>
         </div>
       </div>
     </div>
@@ -85,15 +105,17 @@
 </template>
 
 <script>
-import { collection, query, where, onSnapshot } from "firebase/firestore";
+import { collection, query, where, onSnapshot, doc, updateDoc } from "firebase/firestore";
 import { db } from "@/main";
 
 export default {
   name: "WelcomeUser",
-  props: ["user"], // Recibe el nombre del usuario como propiedad
+  props: ["user", "userId"], // Nombre del usuario y su ID como propiedad
   data() {
     return {
       activeUsers: [], // Arreglo para almacenar los usuarios activos
+      enlaceIzquierda: "", // Valor del enlace izquierdo
+      enlaceDerecha: "", // Valor del enlace derecho
     };
   },
   methods: {
@@ -114,14 +136,30 @@ export default {
         this.activeUsers = users; // Actualizar la lista reactiva de usuarios activos
       });
     },
+
+    async guardarEnlaces() {
+      try {
+        // Referencia al documento del usuario en Firestore
+        const userDocRef = doc(db, "users", this.userId);
+
+        // Actualización de los enlaces en Firestore
+        await updateDoc(userDocRef, {
+          link1: [this.enlaceIzquierda, true],
+          link2: [this.enlaceDerecha, true],
+        });
+
+        alert("Enlaces actualizados correctamente.");
+      } catch (error) {
+        console.error("Error al actualizar los enlaces:", error);
+        alert("Ocurrió un error al guardar los enlaces.");
+      }
+    },
   },
   created() {
     // Llamar al método para cargar y escuchar cambios en usuarios activos
     this.fetchActiveUsers();
   },
 };
-
-
 </script>
 
 <style lang="sass" scoped>
@@ -261,10 +299,49 @@ export default {
                     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
                 #cont-down
                     width: 80%
+                    padding: 20px
                     height: 100%
                     background: #e1e1ef
                     border-radius: 10px
                     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
+                    form
+                      display: flex
+                      flex-direction: column
+                      gap: 15px
+                      
+                      h3
+                        font-size: 1.5rem
+                        color: #0704a5
+                        text-align: center
+                      
+                      label
+                        font-weight: bold
+                        color: #333
+                      
+                      input
+                        padding: 10px
+                        border: 1px solid #ccc
+                        border-radius: 5px
+                        outline: none
+                        transition: all 0.3s ease
+                        
+                        &:focus
+                          border-color: #0704a5
+
+                      button //Guardar
+                        padding: 10px
+                        background: #4CAF50
+                        color: white
+                        border: none
+                        border-radius: 5px
+                        cursor: pointer
+                        font-size: 1rem
+                        transition: all 0.3s ease
+                        width: 30%
+                        
+                        &:hover
+                          background: #6a42ff
+                          transform: scale(1.05)
 
 .whatsapp-button
   position: fixed
