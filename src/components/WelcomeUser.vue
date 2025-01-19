@@ -41,14 +41,14 @@
                 <td>{{ user.name }}</td>
                 <td>
                   <!-- Botón para copiar enlace izquierdo -->
-                  <button class="btn-enlace" :disabled="!user.link1[1] || hasTakenLink"
+                  <button class="btn-enlace" :disabled="isButtonDisabled(user.link1)"
                     @click="copiarEnlace(user.id, user.name, user.link1, 'link1')">
                     Tomar enlace
                   </button>
                 </td>
                 <td>
                   <!-- Botón para copiar enlace derecho -->
-                  <button class="btn-enlace" :disabled="!user.link2[1] || hasTakenLink"
+                  <button class="btn-enlace" :disabled="isButtonDisabled(user.link2)"
                     @click="copiarEnlace(user.id, user.name, user.link2, 'link2')">
                     Tomar enlace
                   </button>
@@ -61,7 +61,8 @@
           <div id="cont-up">
             <!-- Mostrar el mensaje del enlace tomado -->
             <p v-if="linkTaken">
-              Has tomado el enlace: <span id="enlaceTomado">{{ linkTaken[0] }}</span> del usuario: <strong>{{ linkTaken[1] }}</strong>
+              Has tomado el enlace: <span id="enlaceTomado">{{ linkTaken[0] }}</span> del usuario: <strong>{{
+                linkTaken[1] }}</strong>
             </p>
             <p v-else>
               No has tomado ningún enlace aún.
@@ -101,7 +102,7 @@ export default {
       activeUsers: [], // Lista de usuarios activos
       enlaceIzquierda: "", // Enlace izquierdo proporcionado por el usuario
       enlaceDerecha: "", // Enlace derecho proporcionado por el usuario
-      linkTaken: null, // Información del enlace tomado desde la base de datos
+      linkTaken: [], // Información del enlace tomado desde la base de datos
       hasTakenLink: false, // Indica si el usuario ya tomó un enlace
     };
   },
@@ -142,60 +143,66 @@ export default {
         if (docSnapshot.exists()) {
           const userData = docSnapshot.data();
           this.linkTaken = userData.linkTaken || null;
-          this.hasTakenLink = !!this.linkTaken; // Si linkTaken tiene valor, se toma un enlace
+          this.hasTakenLink = this.linkTaken !== null && this.linkTaken.length > 0; // Si linkTaken tiene un valor, se toma un enlace
         }
       } catch (error) {
         console.error("Error al obtener datos del usuario:", error);
       }
     },
+
+    // Lógica de deshabilitar botones para tomar enlaces
+    isButtonDisabled(link) {
+      // El botón se deshabilita si no hay enlace disponible o si el usuario ya ha tomado un enlace
+      return !link[1] || this.hasTakenLink;
+    },
     async guardarEnlaces() {
-      try {
-        const userDocRef = doc(db, "users", this.userId);
-        await updateDoc(userDocRef, {
-          link1: [this.enlaceIzquierda, true], // Guardar enlace izquierdo
-          link2: [this.enlaceDerecha, true], // Guardar enlace derecho
-        });
-        alert("Enlaces guardados correctamente.");
-      } catch (error) {
-        console.error("Error al guardar los enlaces:", error);
-        alert("Ocurrió un error al guardar los enlaces.");
-      }
-    },
-    async copiarEnlace(ownerId, ownerName, link, linkKey) {
-      try {
-        if (this.hasTakenLink) {
-          alert("Ya tomaste un enlace.");
-          return;
-        }
-
-        const currentUserRef = doc(db, "users", this.userId);
-        const ownerRef = doc(db, "users", ownerId);
-
-        await updateDoc(currentUserRef, {
-          linkTaken: [link[0], ownerName], // Guardar el enlace tomado y su dueño
-        });
-
-        const updatedLinks = { [linkKey]: [link[0], false] }; // Desactivar el enlace tomado
-        await updateDoc(ownerRef, updatedLinks);
-
-        const owner = this.activeUsers.find((user) => user.id === ownerId);
-        if (!owner.link1[1] && !owner.link2[1]) {
-          await updateDoc(ownerRef, { isActive: false }); // Marcar al dueño como inactivo si ambos enlaces son tomados
-        }
-
-        this.linkTaken = [link[0], ownerName];
-        this.hasTakenLink = true;
-        alert(`Has tomado el enlace: ${link[0]} del usuario ${ownerName}`);
-      } catch (error) {
-        console.error("Error al copiar el enlace:", error);
-        alert("Ocurrió un error al tomar el enlace.");
-      }
-    },
+    try {
+      const userDocRef = doc(db, "users", this.userId);
+      await updateDoc(userDocRef, {
+        link1: [this.enlaceIzquierda, true], // Guardar enlace izquierdo
+        link2: [this.enlaceDerecha, true], // Guardar enlace derecho
+      });
+      alert("Enlaces guardados correctamente.");
+    } catch (error) {
+      console.error("Error al guardar los enlaces:", error);
+      alert("Ocurrió un error al guardar los enlaces.");
+    }
   },
-  mounted() {
-    this.fetchActiveUsers(); // Cargar usuarios activos
-    this.fetchUserData(); // Cargar el estado del enlace tomado desde la base de datos
+  async copiarEnlace(ownerId, ownerName, link, linkKey) {
+    try {
+      if (this.hasTakenLink) {
+        alert("Ya tomaste un enlace.");
+        return;
+      }
+
+      const currentUserRef = doc(db, "users", this.userId);
+      const ownerRef = doc(db, "users", ownerId);
+
+      await updateDoc(currentUserRef, {
+        linkTaken: [link[0], ownerName], // Guardar el enlace tomado y su dueño
+      });
+
+      const updatedLinks = { [linkKey]: [link[0], false] }; // Desactivar el enlace tomado
+      await updateDoc(ownerRef, updatedLinks);
+
+      const owner = this.activeUsers.find((user) => user.id === ownerId);
+      if (!owner.link1[1] && !owner.link2[1]) {
+        await updateDoc(ownerRef, { isActive: false }); // Marcar al dueño como inactivo si ambos enlaces son tomados
+      }
+
+      this.linkTaken = [link[0], ownerName];
+      this.hasTakenLink = true;
+      alert(`Has tomado el enlace: ${link[0]} del usuario ${ownerName}`);
+    } catch (error) {
+      console.error("Error al copiar el enlace:", error);
+      alert("Ocurrió un error al tomar el enlace.");
+    }
   },
+},
+mounted() {
+  this.fetchActiveUsers(); // Cargar usuarios activos
+  this.fetchUserData(); // Cargar el estado del enlace tomado desde la base de datos
+},
 }
 </script>
 
