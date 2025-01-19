@@ -7,10 +7,10 @@
             src="../assets/logo-community-nospace.png"
             alt="Logo Comunidad Global One More"
           />
-            <h1>Bienvenido, {{ user }}.</h1>
+            <h1>Bienvenido, {{ userName }}.</h1>
             <div id="cont-buttons">
               
-                <RouterLink to="/WelcomeUser" class="button">
+                <RouterLink to="/welcome" class="button">
                     <button>
                     <font-awesome-icon icon= "layer-group" class="icon_dashboard" />
                     Dashboard
@@ -132,7 +132,6 @@
 <script>
 export default {
     name: "WelcomeUser",
-    props: ["user"],
     methods: {
     cerrarSesion() {
     // Elimina el token del localStorage
@@ -143,6 +142,11 @@ export default {
         console.log("Redirigiendo a /UserLogin");
         this.$router.replace("/UserLogin");  // Reemplaza la ruta actual en lugar de añadirla al historial
         }
+    },
+    data(){
+      return{
+        userName: localStorage.getItem("userName")
+      }
     }
 };
 </script>
@@ -173,6 +177,9 @@ export default {
             height: 100%
             background: #0704A5
             border-radius: 10px 0 0 10px
+            overflow: auto
+            overflow-x: hidden
+
             #logo
                 width: 30%
                 padding-top: 20px
@@ -291,6 +298,7 @@ export default {
   gap: 3%
   margin-top: 13%
   margin-right: 4%
+  
   
 
 .card
