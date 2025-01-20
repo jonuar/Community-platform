@@ -49,14 +49,14 @@
                 <td>{{ user.name }}</td>
                 <td>
                   <!-- Botón para copiar enlace izquierdo -->
-                  <button class="btn-enlace" :disabled="isButtonDisabled(user.link1)"
+                  <button v-if="index === 0" class="btn-enlace" :disabled="isButtonDisabled(user.link1)"
                     @click="copiarEnlace(user.id, user.name, user.link1, 'link1')">
                     Tomar enlace
                   </button>
                 </td>
                 <td>
                   <!-- Botón para copiar enlace derecho -->
-                  <button class="btn-enlace" :disabled="isButtonDisabled(user.link2)"
+                  <button v-if="index === 0" class="btn-enlace" :disabled="isButtonDisabled(user.link2)"
                     @click="copiarEnlace(user.id, user.name, user.link2, 'link2')">
                     Tomar enlace
                   </button>
@@ -151,9 +151,9 @@ export default {
         if (docSnapshot.exists()) {
           const userData = docSnapshot.data();
           this.linkTaken = userData.linkTaken || null;
-          console.log("Link tomado:", this.linkTaken)
+          // console.log("Link tomado:", this.linkTaken)
           this.hasTakenLink = this.linkTaken !== null && this.linkTaken[0].length > 0; // Si linkTaken tiene un valor diferente de null y su longitud en el item 0 es mayor a 0, se ha tomado un enlace
-          console.log("Has tomado un enlace:", this.hasTakenLink)
+          // console.log("Has tomado un enlace:", this.hasTakenLink)
         }
       } catch (error) {
         console.error("Error al obtener datos del usuario:", error);
