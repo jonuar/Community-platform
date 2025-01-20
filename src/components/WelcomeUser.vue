@@ -83,7 +83,7 @@
                 placeholder="Ingrese el enlace izquierdo aquí" required />
               <input type="text" id="enlaceDerecha" v-model="enlaceDerecha" placeholder="Ingrese el enlace derecho aquí"
                 required />
-              <button type="submit" :disabled="!linkTaken">Guardar</button>
+              <button type="submit" :disabled="!linkTaken[0]">Guardar</button>
             </form>
           </div>
         </div>
