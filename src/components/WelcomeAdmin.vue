@@ -197,7 +197,7 @@ export default {
                 width: 30%
                 padding-top: 20px
             h1
-                font-size: 2rem
+                font-size: 1.5rem
                 color: white
                 text-align: center
                 margin-bottom: 100px

@@ -6,23 +6,12 @@
       <h1 class="title">Iniciar Sesión</h1>
       <div class="form-group">
         <font-awesome-icon icon="user" class="icon_login" />
-        <input
-          type="text"
-          class="emailUser"
-          v-model="emailUser"
-          placeholder="Ingresa tu correo electrónico"
-          required
-        />
+        <input type="text" class="emailUser" v-model="emailUser" placeholder="Ingresa tu correo electrónico" required />
       </div>
       <div class="form-group">
         <font-awesome-icon icon="key" class="icon_login" />
-        <input
-          type="password"
-          class="passwordUser"
-          v-model="passwordUser"
-          placeholder="Ingresa tu contraseña"
-          required
-        />
+        <input type="password" class="passwordUser" v-model="passwordUser" placeholder="Ingresa tu contraseña"
+          required />
       </div>
       <div class="registerLogin">
         <p>
@@ -174,14 +163,15 @@ export default {
 
 
 #login
-    background: linear-gradient(to bottom, #0b004b, #b83aff)
-    height: 100dvh
-    width: 100%
-    display: flex
-    align-items: center
-    flex-direction: column
-    font-family: 'Roboto', sans-serif
-    gap: 5px
+  
+  height: 100dvh
+  width: 100%
+  display: flex
+  align-items: center
+  flex-direction: column
+  font-family: 'Roboto', sans-serif
+  gap: 5px
+  margin-bottom: 50px
 
 
 .logo

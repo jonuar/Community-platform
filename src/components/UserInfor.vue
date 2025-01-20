@@ -184,7 +184,7 @@ export default {
                 width: 30%
                 padding-top: 20px
             h1
-                font-size: 2rem
+                font-size: 1.5rem
                 color: white
                 text-align: center
                 margin-bottom: 100px
@@ -194,6 +194,7 @@ export default {
                 align-items: center
                 width: 100%
                 gap: 25px
+                margin-bottom: 50px
                 
                 .button
                     width: 100%
@@ -228,7 +229,7 @@ export default {
             display: flex
             justify-content: center
             align-items: center
-            width: 80%
+            width: 70%
             height: 100%
             background: white
             border-radius: 0 10px 10px 0

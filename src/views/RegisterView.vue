@@ -235,7 +235,6 @@ export default {
 
 <style lang="sass" scoped>
 #register
-  background: linear-gradient(to bottom, #0b004b, #b83aff)
   height: 100%
   display: flex
   align-items: center

@@ -29,6 +29,7 @@ body
   padding: 0
   box-sizing: border-box
   height: 100%
+  background: linear-gradient(to bottom, #0b004b, #b83aff)
 
 #app 
   height: 100%
