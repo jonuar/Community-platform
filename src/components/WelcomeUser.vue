@@ -302,6 +302,7 @@ mounted() {
             height: 100%
             background: white
             border-radius: 0 10px 10px 0
+            overflow: auto
             #cont-list
                 width: 60%
                 height: 80%
