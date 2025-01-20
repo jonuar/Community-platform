@@ -208,7 +208,7 @@ export default {
                 width: 100%
                 gap: 25px
                 button
-                    width: 80%
+                    width: 90%
                     height: 50px
                     background: #e1e1ef
                     border-radius: 5px
@@ -218,9 +218,19 @@ export default {
                     outline: none
                     cursor: pointer
                     border: none
+                    transition: all 0.3s ease-in-out
+                    display: flex
+                    align-items: center
+                    justify-content: center
                     &:hover
                         background: #6a42ff
                         color: white
+                        transform: scale(1.05)
+                        font-size: 1.1rem
+                    .icon_dashboard
+                        font-size: 1.7rem
+                        position: relative
+                        right: 16%
                 .logoutButton
                   background: #fb573b
                   color: white

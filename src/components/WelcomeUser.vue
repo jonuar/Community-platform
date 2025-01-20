@@ -19,12 +19,12 @@
               Información
             </button>
           </router-link>
-          <router-link to="/UserConfig" class="button">
+          <!-- <router-link to="/UserConfig" class="button">
             <button>
               <font-awesome-icon icon="gears" class="icon_dashboard" />
               Configuración
             </button>
-          </router-link>
+          </router-link> -->
           <button class="logoutButton" @click="cerrarSesion">
             <font-awesome-icon icon="arrow-right-from-bracket" class="icon_dashboard" />
             Cerrar Sesión
@@ -263,8 +263,6 @@ mounted() {
                 width: 100%
                 gap: 25px
                 margin-bottom: 50px
-                
-
                 .button
                     width: 100%
                     position: relative
