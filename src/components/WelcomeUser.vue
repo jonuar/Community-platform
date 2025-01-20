@@ -68,7 +68,7 @@
         <div id="cont-squares">
           <div id="cont-up">
             <!-- Mostrar el mensaje del enlace tomado -->
-            <p v-if="linkTaken">
+            <p v-if="linkTaken[0]">
               Has tomado el enlace: <span id="enlaceTomado">{{ linkTaken[0] }}</span> del usuario: <strong>{{
                 linkTaken[1] }}</strong>
             </p>
@@ -151,7 +151,9 @@ export default {
         if (docSnapshot.exists()) {
           const userData = docSnapshot.data();
           this.linkTaken = userData.linkTaken || null;
-          this.hasTakenLink = this.linkTaken !== null && this.linkTaken.length > 0; // Si linkTaken tiene un valor, se toma un enlace
+          console.log("Link tomado:", this.linkTaken)
+          this.hasTakenLink = this.linkTaken !== null && this.linkTaken[0].length > 0; // Si linkTaken tiene un valor diferente de null y su longitud en el item 0 es mayor a 0, se ha tomado un enlace
+          console.log("Has tomado un enlace:", this.hasTakenLink)
         }
       } catch (error) {
         console.error("Error al obtener datos del usuario:", error);
@@ -160,7 +162,7 @@ export default {
 
     // Lógica de deshabilitar botones para tomar enlaces
     isButtonDisabled(link) {
-      // El botón se deshabilita si no hay enlace disponible o si el usuario ya ha tomado un enlace
+      // El botón se deshabilita si el enlace está en false
       return !link[1] || this.hasTakenLink;
     },
     async guardarEnlaces() {
