@@ -22,12 +22,12 @@
                 Información
                 </button>
 
-                <RouterLink to="/UserConfig" class="button">
+                <!-- <RouterLink to="/UserConfig" class="button">
                     <button>
                     <font-awesome-icon icon="gears" class="icon_dashboard" />
                     Configuración
                     </button>
-                </RouterLink>
+                </RouterLink> -->
 
             <button class="logoutButton" @click="cerrarSesion">
                 <font-awesome-icon icon="arrow-right-from-bracket" class="icon_dashboard" />
@@ -213,6 +213,9 @@ export default {
                     cursor: pointer
                     border: none
                     transition: all 0.3s ease-in-out
+                    display: flex
+                    align-items: center
+                    justify-content: center
                     &:hover
                         background: #6a42ff
                         color: white

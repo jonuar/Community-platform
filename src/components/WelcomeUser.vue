@@ -279,6 +279,9 @@ mounted() {
                     cursor: pointer
                     border: none
                     transition: all 0.3s ease-in-out
+                    display: flex
+                    align-items: center
+                    justify-content: center
                     &:hover
                         background: #6a42ff
                         color: white
