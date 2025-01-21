@@ -3,6 +3,7 @@ import Loginview from '@/views/LoginView.vue';
 import Registerview from '@/views/RegisterView.vue';
 import WelcomeUser from '../components/WelcomeUser.vue';
 import WelcomeAdmin from '../components/WelcomeAdmin.vue';
+import InfoAdmin from '../components/InfoAdmin.vue';
 import UserInfor from '@/components/UserInfor.vue';
 import UserConfig from '@/components/UserConfig.vue';
 import {auth} from '../main.js'
@@ -29,6 +30,12 @@ const routes = [
   { path: '/welcomeadmin', 
     name: 'WelcomeAdmin', 
     component: WelcomeAdmin,
+    meta: { requiresAuth:true}
+  },
+  
+  { path: '/infoadmin', 
+    name: 'InfoAdmin', 
+    component: InfoAdmin,
     meta: { requiresAuth:true}
   }, 
   

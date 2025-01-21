@@ -5,12 +5,13 @@
         <img src="../assets/logo-community-nospace.png" alt="Logo Comunidad Global One More" id="logo" />
         <h1>Bienvenido, {{ userName }}.</h1>
         <div id="cont-buttons">
-          <RouterLink to="/infoadmin" class="button">
+          <RouterLink to="/welcomeadmin" class="button">
             <button>
-              <font-awesome-icon icon="book" class="icon_dashboard" />
-              Información
+              <font-awesome-icon icon="layer-group" class="icon_dashboard" />
+              Estado
             </button>
           </RouterLink>
+          
           <button class="logoutButton" @click="cerrarSesion">
             <font-awesome-icon icon="arrow-right-from-bracket" class="icon_dashboard" />
             Cerrar Sesión
@@ -26,39 +27,21 @@
               <tr>
                 <th>#</th>
                 <th>Nombre</th>
+                <th>Correo</th>
+                <th>Teléfono</th>
                 <th>Estado</th>
-                <th>Enlace izquierdo</th>
-                <th>Enlace derecho</th>
-                <th>Activar/Desactivar</th>
-                <th>Comprobante</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(user, index) in users" :key="user.id">
                 <td>{{ index + 1 }}</td>
                 <td>{{ user.name }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.mobile }}</td>
+                
                 <td>
-                  <strong :style="{ color: user.isActive ? 'green' : 'red', textDecoration: 'underline' }"> {{ user.isActive ? 'Activo' : 'Inactivo' }}</strong>
-                </td>
-                <td>
-                  <!-- Mostrar enlace 1 o mensaje si no existe -->
-                  <span v-if="user.link1[0]">{{ user.link1[0] }}</span>
-                  <br>
-                  <span v-if="user.link1[0]">{{ user.link1[1] ? "(Tomado)" : "(No tomado)" }}</span>
-                  <span v-else>Sin enlace izquierdo</span>
-                </td>
-                <td>
-                  <!-- Mostrar enlace 2 o mensaje si no existe -->
-                  <span v-if="user.link2[0]">{{ user.link2[0] }}</span>
-                  <br>
-                  <span v-if="user.link2[0]">{{ user.link2[1] ? "(Tomado)" : "(No tomado)" }}</span>
-                  <span v-else>Sin enlace derecho</span>
-                </td>
-                <td>
-                  <!-- Botón de activar/desactivar con clases condicionales -->
-                  <button @click="toggleActive(user)" :class="user.isActive ? 'btn-activate' : 'btn-deactivate'">
-                    <strong>{{ user.isActive ? "Desactivar" : "Activar" }}</strong>
-                  </button>
+                  <strong :style="{ color: user.isActive ? 'green' : 'red' }"> {{ user.isActive ? 'Activo' : 'Inactivo' }}</strong>
+
                 </td>
               </tr>
             </tbody>
@@ -82,7 +65,7 @@ import { getAuth, signOut } from "firebase/auth";
 import { db } from "@/main";
 
 export default {
-  name: "WelcomeAdmin",
+  name: "InfoAdmin",
   data() {
     return {
       users: [], // Almacenar la lista de usuarios
@@ -223,7 +206,7 @@ export default {
                     transition: all 0.3s ease-in-out
                     display: flex
                     align-items: center
-                    justify-content: space-evenly
+                    justify-content:  space-evenly
                     &:hover
                         background: #6a42ff
                         color: white

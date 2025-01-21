@@ -25,7 +25,7 @@
             </RouterLink>
   
             <!-- Botón para ir a la información del usuario -->
-            <RouterLink to="/UserInfor" class="button">
+            <RouterLink to="/userinfor" class="button">
               <button>
                 <font-awesome-icon icon="book" class="icon_dashboard" />
                 Información
