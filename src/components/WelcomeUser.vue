@@ -5,13 +5,13 @@
         <img id="logo" src="../assets/logo-community-nospace.png" alt="Logo" />
         <h1>Bienvenido, {{ userName }}.</h1>
         <div id="cont-buttons">
-          
-            <button>
-              <font-awesome-icon icon="layer-group" class="icon_dashboard" />
-              Dashboard
-            </button>
-          
-            
+
+          <button>
+            <font-awesome-icon icon="layer-group" class="icon_dashboard" />
+            Dashboard
+          </button>
+
+
 
           <router-link to="/UserInfor" class="button">
             <button>
@@ -67,14 +67,21 @@
         </div>
         <div id="cont-squares">
           <div id="cont-up">
+            <h3>Enlace tomado</h3>
             <!-- Mostrar el mensaje del enlace tomado -->
-            <p v-if="linkTaken[0]">
-              Has tomado el enlace: <span id="enlaceTomado">{{ linkTaken[0] }}</span> del usuario: <strong>{{
-                linkTaken[1] }}</strong>
-            </p>
+            <div id="cont-enlaceTomado" v-if="linkTaken[0]">
+              <!-- Mostrar el enlace tomado y de qué lado proviene -->
+              <p>Has tomado el enlace {{ linkSource }}<!-- Muestra si el enlace es izquierdo o derecho -->: <span
+                  id="enlaceTomado">{{ linkTaken[0] }}</span><br><span> del usuario: <strong>{{ linkTaken[1]
+                    }}</strong></span></p>
+
+            </div>
             <p v-else>
               No has tomado ningún enlace aún.
             </p>
+          </div>
+          <div id="cont-center">
+
           </div>
           <div id="cont-down">
             <form @submit.prevent="guardarEnlaces">
@@ -111,13 +118,29 @@ export default {
       enlaceIzquierda: "", // Enlace izquierdo proporcionado por el usuario
       enlaceDerecha: "", // Enlace derecho proporcionado por el usuario
       linkTaken: [], // Información del enlace tomado desde la base de datos
-      hasTakenLink: false, // Indica si el usuario ya tomó un enlace
+      hasTakenLink: false, // Indica si el usuario tomó un enlace
     };
   },
   computed: {
     // Propiedad computada para filtrar usuarios activos con enlaces disponibles
     filteredUsers() {
       return this.activeUsers.filter(user => (user.link1[0] || user.link2[0]));
+    },
+
+    // Propiedad computada para determinar si el enlace tomado es izquierdo o derecho
+    linkSource() {
+      if (this.linkTaken && this.linkTaken[0]) {
+        // Busca en la lista de usuarios activos al propietario del enlace tomado
+        const owner = this.activeUsers.find((user) =>
+          user.link1[0] === this.linkTaken[0] || user.link2[0] === this.linkTaken[0]
+        );
+        if (owner) {
+          // Verifica si el enlace tomado es el izquierdo o derecho
+          if (owner.link1[0] === this.linkTaken[0]) return "izquierdo";
+          if (owner.link2[0] === this.linkTaken[0]) return "derecho";
+        }
+      }
+      return ""; // Por defecto, no se muestra nada si no hay enlace tomado
     },
   },
   methods: {
@@ -151,9 +174,9 @@ export default {
         if (docSnapshot.exists()) {
           const userData = docSnapshot.data();
           this.linkTaken = userData.linkTaken || null;
-          // console.log("Link tomado:", this.linkTaken)
+          console.log("Link tomado:", this.linkTaken)
           this.hasTakenLink = this.linkTaken !== null && this.linkTaken[0].length > 0; // Si linkTaken tiene un valor diferente de null y su longitud en el item 0 es mayor a 0, se ha tomado un enlace
-          // console.log("Has tomado un enlace:", this.hasTakenLink)
+          console.log("Has tomado un enlace:", this.hasTakenLink)
         }
       } catch (error) {
         console.error("Error al obtener datos del usuario:", error);
@@ -166,53 +189,53 @@ export default {
       return !link[1] || this.hasTakenLink;
     },
     async guardarEnlaces() {
-    try {
-      const userDocRef = doc(db, "users", this.userId);
-      await updateDoc(userDocRef, {
-        link1: [this.enlaceIzquierda, true], // Guardar enlace izquierdo
-        link2: [this.enlaceDerecha, true], // Guardar enlace derecho
-      });
-      alert("Enlaces guardados correctamente.");
-    } catch (error) {
-      console.error("Error al guardar los enlaces:", error);
-      alert("Ocurrió un error al guardar los enlaces.");
-    }
-  },
-  async copiarEnlace(ownerId, ownerName, link, linkKey) {
-    try {
-      if (this.hasTakenLink) {
-        alert("Ya tomaste un enlace.");
-        return;
+      try {
+        const userDocRef = doc(db, "users", this.userId);
+        await updateDoc(userDocRef, {
+          link1: [this.enlaceIzquierda, true], // Guardar enlace izquierdo
+          link2: [this.enlaceDerecha, true], // Guardar enlace derecho
+        });
+        alert("Enlaces guardados correctamente.");
+      } catch (error) {
+        console.error("Error al guardar los enlaces:", error);
+        alert("Ocurrió un error al guardar los enlaces.");
       }
+    },
+    async copiarEnlace(ownerId, ownerName, link, linkKey) {
+      try {
+        if (this.hasTakenLink) {
+          alert("Ya tomaste un enlace.");
+          return;
+        }
 
-      const currentUserRef = doc(db, "users", this.userId);
-      const ownerRef = doc(db, "users", ownerId);
+        const currentUserRef = doc(db, "users", this.userId);
+        const ownerRef = doc(db, "users", ownerId);
 
-      await updateDoc(currentUserRef, {
-        linkTaken: [link[0], ownerName], // Guardar el enlace tomado y su dueño
-      });
+        await updateDoc(currentUserRef, {
+          linkTaken: [link[0], ownerName], // Guardar el enlace tomado y su dueño
+        });
 
-      const updatedLinks = { [linkKey]: [link[0], false] }; // Desactivar el enlace tomado
-      await updateDoc(ownerRef, updatedLinks);
+        const updatedLinks = { [linkKey]: [link[0], false] }; // Desactivar el enlace tomado
+        await updateDoc(ownerRef, updatedLinks);
 
-      const owner = this.activeUsers.find((user) => user.id === ownerId);
-      if (!owner.link1[1] && !owner.link2[1]) {
-        await updateDoc(ownerRef, { isActive: false }); // Marcar al dueño como inactivo si ambos enlaces son tomados
+        const owner = this.activeUsers.find((user) => user.id === ownerId);
+        if (!owner.link1[1] && !owner.link2[1]) {
+          await updateDoc(ownerRef, { isActive: false }); // Marcar al dueño como inactivo si ambos enlaces son tomados
+        }
+
+        this.linkTaken = [link[0], ownerName];
+        this.hasTakenLink = true;
+        alert(`Has tomado el enlace: ${link[0]} del usuario ${ownerName}`);
+      } catch (error) {
+        console.error("Error al copiar el enlace:", error);
+        alert("Ocurrió un error al tomar el enlace.");
       }
-
-      this.linkTaken = [link[0], ownerName];
-      this.hasTakenLink = true;
-      alert(`Has tomado el enlace: ${link[0]} del usuario ${ownerName}`);
-    } catch (error) {
-      console.error("Error al copiar el enlace:", error);
-      alert("Ocurrió un error al tomar el enlace.");
-    }
+    },
   },
-},
-mounted() {
-  this.fetchActiveUsers(); // Cargar usuarios activos
-  this.fetchUserData(); // Cargar el estado del enlace tomado desde la base de datos
-},
+  mounted() {
+    this.fetchActiveUsers(); // Cargar usuarios activos
+    this.fetchUserData(); // Cargar el estado del enlace tomado desde la base de datos
+  },
 }
 </script>
 
@@ -371,17 +394,38 @@ mounted() {
                     padding: 20px
                     font-size: 1.2rem
                     color: #333
-                    #cont-up strong
-                      color: #2c3e50
-                      font-weight: bold
-                    #cont-up p
-                      font-style: italic
-                    #enlaceTomado
-                      font-style: italic
-                      color: purple
-                    #cont-up p:empty
+                    h3
+                      font-size: 1.3rem
+                      color: #0704a5
+                    #cont-enlaceTomado
+                      display: flex
+                      flex-direction: column
+                      align-items: start
+                      justify-content: center
+                      
+                      p
+                        text-align: center
+                        display: flex
+                        flex-direction: column
+                      
+                      #enlaceTomado
+                        font-weight: bold
+                        color: purple
+                    #cont-up div p:empty
                       color: #999
                       font-style: normal
+
+                #cont-center
+                    display: flex
+                    flex-direction: column
+                    align-items: center
+                    justify-content: center
+                    width: 80%
+                    height: 100%
+                    background: #e1e1ef
+                    border-radius: 10px
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
+                    padding: 20px
 
                 #cont-down
                     width: 80%
@@ -396,7 +440,7 @@ mounted() {
                       gap: 15px
 
                       h3
-                        font-size: 1.5rem
+                        font-size: 1.3rem
                         color: #0704a5
                         text-align: center
 
