@@ -80,9 +80,28 @@
               No has tomado ningún enlace aún.
             </p>
           </div>
-          <div id="cont-center">
+          
 
+            <div id="cont-center">
+
+            </div>
+
+            <div id="cont-pay">
+              <form>
+                <h3>Activación</h3>
+                <img src="https://imgs.search.brave.com/ha47WwMoeEgrtA6F6ZnSewUMfCLvw3uD-HbmYuyN9xo/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly91cGxv/YWQud2lraW1lZGlh/Lm9yZy93aWtpcGVk/aWEvY29tbW9ucy9l/L2VjL1FSb3JnLnBu/Zw" alt="">
+                
+                <span>(TRC20):34dfeycv3547gehceu3683294r97 </span> 
+                
+                  <input type="file" id="imagen" name="imagen" accept="image/*">
+                  <button type="submit">Activar</button>
+              
+              
+            </form>
           </div>
+        
+
+
           <div id="cont-down">
             <form @submit.prevent="guardarEnlaces">
               <h3>Ingresa tus enlaces</h3>
@@ -254,8 +273,8 @@ export default {
     font-family: 'Roboto', sans-serif
     #dashboard
         display: flex
-        width: 80%
-        height: 80%
+        width: 90%
+        height: 90%
         background: white
         border-radius: 10px
         box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2)
@@ -387,7 +406,7 @@ export default {
                     align-items: center
                     justify-content: center
                     width: 80%
-                    height: 100%
+                    height: 20%
                     background: #e1e1ef
                     border-radius: 10px
                     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
@@ -421,26 +440,75 @@ export default {
                     align-items: center
                     justify-content: center
                     width: 80%
-                    height: 100%
+                    height: 30%
                     background: #e1e1ef
                     border-radius: 10px
                     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
                     padding: 20px
 
+                #cont-pay
+                    display: flex
+                    flex-direction: column
+                    justify-content: center
+                    align-items: center
+                    width: 80%
+                    height: 34%
+                    background: #e1e1ef
+                    border-radius: 10px
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
+                    padding: 20px
+                    h3
+                      font-size: 1.2rem
+                      color: #0704a5
+                      text-align: center
+                    img
+                      width: 90px
+                      margin-bottom: 10px
+                      margin-left: 110px
+                      border-radius: 10px
+                    span
+                      margin-top: 50px
+                      font-weight: bold
+                      font-size: 1rem
+                      margin: 5px 0 
+                      text-align: center
+                    input
+                      padding: 7px
+                      border-radius: 5px
+                    button
+                        padding: 10px
+                        background: #4CAF50
+                        color: white
+                        border: none
+                        border-radius: 5px
+                        cursor: pointer
+                        font-size: 1rem
+                        transition: all 0.3s ease
+                        width: 25%
+                        margin-right: 5px !important
+
+                        &:hover
+                          background: #6a42ff
+                          transform: scale(1.05)
+                    
+                    
+
                 #cont-down
                     width: 80%
                     padding: 20px
-                    height: 100%
+                    margin-top: 20%
+                    height: 30%
                     background: #e1e1ef
                     border-radius: 10px
                     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
                     form
                       display: flex
                       flex-direction: column
-                      gap: 15px
+                      gap: 8px
 
                       h3
-                        font-size: 1.3rem
+                        
+                        font-size: 1.1rem
                         color: #0704a5
                         text-align: center
 
@@ -449,7 +517,7 @@ export default {
                         color: #333
 
                       input
-                        padding: 10px
+                        padding: 7px
                         border: 1px solid #ccc
                         border-radius: 5px
                         outline: none
@@ -467,7 +535,7 @@ export default {
                         cursor: pointer
                         font-size: 1rem
                         transition: all 0.3s ease
-                        width: 40%
+                        width: 25%
 
                         &:hover
                           background: #6a42ff
