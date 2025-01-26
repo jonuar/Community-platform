@@ -265,6 +265,71 @@
         background: white
         border-radius: 10px
         box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2)
+        @media screen and (max-width: 500px)
+          display: flex
+          flex-direction: column
+          justify-content: center
+          align-items: center
+          width: 85%
+          height: 95%
+        .dropdown
+          display: none
+        @media screen and ( max-width: 500px)
+          .dropdown
+            display: block
+            position: fixed
+            top:5%
+            right: 11%
+            color: #fff
+            border: none
+            cursor: pointer
+            font-size: 1.9rem
+          .dropdown-menu
+            position: fixed
+            top: 0
+            left: 0
+            width: 100vw
+            height: 100vh
+            background-color:rgba(128, 0, 128, 0.9)
+            backdrop-filter: blur(10px)
+            display: flex
+            flex-direction: column
+            justify-content: center
+            align-items: center
+            list-style: none
+            padding: 0
+            margin: 0
+            z-index: 1000
+            color: #b83aff
+          .dropdown-menu li
+            margin-bottom: 15% 
+            color: #fb573b
+          .dropdown-menu a
+            text-decoration: none
+            color: #0704A5
+            font-size: 1.8rem
+            font-weight: bold
+            transition: color 0.3s ease
+            &:hover
+              color:#b83aff
+          .close-btn 
+            position: absolute
+            top: 5%
+            right: 20px
+            background-color: transparent
+            color: #fb573b
+            border: none
+            font-size: 2rem
+            cursor: pointer
+            border-radius: 50%
+            padding: 8px
+            width: 30px
+            height: 30px
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1)
+            transition: background-color 0.3s ease
+            text-align: center
+          .close-btn:hover 
+            background-color: #ffcc00
         #left-side
             display: flex
             justify-content: start
@@ -276,9 +341,16 @@
             border-radius: 10px 0 0 10px
             overflow: auto
             overflow-x: hidden
+            @media screen and (max-width: 500px)
+              width: 100% 
+              height: 25%
+              overflow: hidden
             #logo
                 width: 30%
                 padding-top: 20px
+                @media screen and (max-width: 500px)
+                  width: 20%
+                  padding-top: 10px
             h1
                 font-size: 1.5rem
                 color: white
@@ -332,6 +404,14 @@
             height: 100%
             background: white
             border-radius: 0 10px 10px 0
+            @media screen and (max-width: 650px)
+              width: 95%
+              display: flex
+              flex-direction: column
+              justify-content: center
+              align-items: center
+              overflow: auto
+            
             #cont-list
                 width: 30%
                 height: 40%
@@ -342,15 +422,23 @@
                 left: -120px
                 top: 10%
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
+                @media screen and (max-width: 650px)
+                  width: 29%
+                  margin-left: 100px
+                
                 ul
                     list-style: none
                     margin-top: 20%
+                    @media screen and (max-width: 650px)
+                      margin-left: -42%
                     
                     li
                         font-size: 2rem
                         margin-bottom: 30px
                         cursor: pointer
                         font-weight: bold
+                        @media screen and (max-width: 650px)
+                          font-size: .9rem
                         a
                             color: #0704A5
                             text-decoration: none
@@ -358,6 +446,8 @@
                             &:hover
                                 color: white
                                 font-size: 2.3rem
+                                @media screen and (max-width: 650px)
+                                  font-size: 1.2rem
             #settings_form
                 display: flex
                 justify-content: center
@@ -372,7 +462,12 @@
                 left: -100px
                 top:80px
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
-                
+                @media screen and (max-width: 500px)
+                  position: relative
+                  left:20%
+                  top: -42%
+                  width: 55%
+                  
                 .form-group
                     margin-bottom: 15px
                 
@@ -380,35 +475,44 @@
                     display: block
                     margin-bottom: 5px
                     font-weight: bold
+                    @media screen and (max-width: 500px)
+                      font-size: 0.7rem
+                      color: #0704A5
+                      margin-top: 20px
 
                 input[type="email"]
                     width: 100%
                     padding: 10px
                     border: 1px solid #ccc
                     border-radius: 5px
-                    box-sizing: border-box
+                    @media screen and (max-width: 500px)
+                      width: 70%
+                      font-size: 0.5rem
+                      
                 
                 input[type="tel"]
                     width: 100%
                     padding: 10px
                     border: 1px solid #ccc
                     border-radius: 5px
-                    box-sizing: border-box
-                
+                    @media screen and (max-width: 500px)
+                      width: 70%
+                      font-size: 0.5rem
                 input[type="password"]
                     width: 100%
                     padding: 10px
                     border: 1px solid #ccc
                     border-radius: 5px
-                    box-sizing: border-box
-
+                    @media screen and (max-width: 500px)
+                      width: 70%
+                      font-size: 0.5rem
                 button#save-button
 
                     display: inline-block
                     position: relative
                     left: 11%
                     top: 20px
-                    width: 80%
+                    width: 40%
                     padding: 10px
                     background-color: #4CAF50
                     color: #fff
@@ -417,22 +521,12 @@
                     font-size: 16px
                     cursor: pointer
                     transition: all 0.3s ease-in-out
+                    @media screen and (max-width: 500px)
+                      font-size: 0.8rem
+                      margin-bottom: 20%
                     &:hover
                         background-color: #6a42ff
-                // #cont-squares
-                //     display: flex
-                //     justify-content: center
-                //     align-items: center
-                //     gap: 40px
-                //     flex-direction: column
-                //     width: 50%
-                //     height: 80%
-                //     #cont-up
-                //         width: 80%
-                //         height: 100%
-                //         background: #e1e1ef
-                //         border-radius: 10px
-                
+
 .whatsapp-button
   position: fixed
   bottom: 20px 
