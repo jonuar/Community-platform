@@ -11,8 +11,6 @@
             Dashboard
           </button>
 
-
-
           <router-link to="/UserInfor" class="button">
             <button>
               <font-awesome-icon icon="book" class="icon_dashboard" />
@@ -74,33 +72,26 @@
               <p>Has tomado el enlace {{ linkSource }}<!-- Muestra si el enlace es izquierdo o derecho -->: <span
                   id="enlaceTomado">{{ linkTaken[0] }}</span><br><span> del usuario: <strong>{{ linkTaken[1]
                     }}</strong></span></p>
-
             </div>
             <p v-else>
               No has tomado ningún enlace aún.
             </p>
           </div>
-          
 
-            <div id="cont-center">
-
-            </div>
-
-            <div id="cont-pay">
-              <form>
-                <h3>Activación</h3>
-                <img src="https://imgs.search.brave.com/ha47WwMoeEgrtA6F6ZnSewUMfCLvw3uD-HbmYuyN9xo/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly91cGxv/YWQud2lraW1lZGlh/Lm9yZy93aWtpcGVk/aWEvY29tbW9ucy9l/L2VjL1FSb3JnLnBu/Zw" alt="">
-                
-                <span>(TRC20):34dfeycv3547gehceu3683294r97 </span> 
-                
-                  <input type="file" id="imagen" name="imagen" accept="image/*">
-                  <button type="submit">Activar</button>
-              
-              
+          <div id="cont-upload">
+            <form action="">
+              <input type="file" id="imagen" name="imagen" accept="image/*">
+              <button type="submit">Activar</button>
             </form>
           </div>
-        
 
+          <div id="cont-pay">
+            <h3>Activación</h3>
+            <img
+              src="https://imgs.search.brave.com/ha47WwMoeEgrtA6F6ZnSewUMfCLvw3uD-HbmYuyN9xo/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly91cGxv/YWQud2lraW1lZGlh/Lm9yZy93aWtpcGVk/aWEvY29tbW9ucy9l/L2VjL1FSb3JnLnBu/Zw"
+              alt="Código QR">
+            <span>(TRC20):34dfeycv3547gehceu3683294r97 </span>
+          </div>
 
           <div id="cont-down">
             <form @submit.prevent="guardarEnlaces">
@@ -434,7 +425,7 @@ export default {
                       color: #999
                       font-style: normal
 
-                #cont-center
+                #cont-upload
                     display: flex
                     flex-direction: column
                     align-items: center
@@ -445,6 +436,29 @@ export default {
                     border-radius: 10px
                     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
                     padding: 20px
+                    form
+                      display: flex
+                      flex-direction: column
+                      align-items: center
+                      justify-content: center
+                    input
+                      padding: 7px
+                      border: 1px solid #ccc
+                    button
+                        padding: 10px
+                        background: #4CAF50
+                        color: white
+                        border: none
+                        border-radius: 5px
+                        cursor: pointer
+                        font-size: 1rem
+                        transition: all 0.3s ease
+                        width: 30%
+                        margin-right: 5px !important
+
+                        &:hover
+                          background: #6a42ff
+                          transform: scale(1.05)
 
                 #cont-pay
                     display: flex
@@ -464,7 +478,6 @@ export default {
                     img
                       width: 90px
                       margin-bottom: 10px
-                      margin-left: 110px
                       border-radius: 10px
                     span
                       margin-top: 50px
@@ -472,31 +485,10 @@ export default {
                       font-size: 1rem
                       margin: 5px 0 
                       text-align: center
-                    input
-                      padding: 7px
-                      border-radius: 5px
-                    button
-                        padding: 10px
-                        background: #4CAF50
-                        color: white
-                        border: none
-                        border-radius: 5px
-                        cursor: pointer
-                        font-size: 1rem
-                        transition: all 0.3s ease
-                        width: 25%
-                        margin-right: 5px !important
-
-                        &:hover
-                          background: #6a42ff
-                          transform: scale(1.05)
                     
-                    
-
                 #cont-down
                     width: 80%
                     padding: 20px
-                    margin-top: 20%
                     height: 30%
                     background: #e1e1ef
                     border-radius: 10px
@@ -540,10 +532,6 @@ export default {
                         &:hover
                           background: #6a42ff
                           transform: scale(1.05)
-
-
-
-
 
 .whatsapp-button
   position: fixed
