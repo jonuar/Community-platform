@@ -30,6 +30,48 @@
             Cerrar Sesión
           </button>
         </div>
+
+                  <!-- Menú desplegable RESPONSIVE -->
+                  <div class="dropdown">
+            <div class="dropdown-btn" @click="toggleDropdown">
+              <font-awesome-icon icon="bars" class="icon_dashboard" />
+            </div>
+            <ul class="dropdown-menu" v-if="isDropdownOpen">
+              <li>
+                <h1 class="dropdown-title">Bienvenido, {{ userName }}.</h1>
+              </li>
+              <li>
+                <router-link to="/Welcome">
+                  <font-awesome-icon icon="layer-group" class="icon_dashboard" />
+                  Dashboard
+                </router-link>
+            </li>
+
+              <li>
+                <router-link to="/UserInfor">
+                  <font-awesome-icon icon="book" class="icon_dashboard" />
+                  Información
+                </router-link>
+              </li>
+
+              <li>
+                <router-link to="/UserConfig">
+                  <font-awesome-icon icon="gears" class="icon_dashboard" />
+                    Configuración
+                </router-link>
+              </li>
+              <li @click="cerrarSesion">
+                <font-awesome-icon icon="arrow-right-from-bracket" class="icon_dashboard" />
+            Cerrar Sesión
+              </li>
+                  <!-- Botón para cerrar el menú -->
+              <button class="close-btn" @click="toggleDropdown">
+                x
+              </button>
+            </ul>
+          </div>
+
+
       </div>
       <div id="right-side">
         <div id="cont-list">
@@ -85,7 +127,8 @@
             <div id="cont-center">
 
             </div>
-
+            <!-- Formulario para activar la cuenta -->
+<!--            
             <div id="cont-pay">
               <form>
                 <h3>Activación</h3>
@@ -96,9 +139,8 @@
                   <input type="file" id="imagen" name="imagen" accept="image/*">
                   <button type="submit">Activar</button>
               
-              
             </form>
-          </div>
+          </div> -->
         
 
 
@@ -138,6 +180,7 @@ export default {
       enlaceDerecha: "", // Enlace derecho proporcionado por el usuario
       linkTaken: [], // Información del enlace tomado desde la base de datos
       hasTakenLink: false, // Indica si el usuario tomó un enlace
+      isDropdownOpen: false,
     };
   },
   computed: {
@@ -250,6 +293,13 @@ export default {
         alert("Ocurrió un error al tomar el enlace.");
       }
     },
+
+    toggleMenu() {
+      this.isMenuOpen = !this.isMenuOpen;
+    },
+    toggleDropdown() {
+      this.isDropdownOpen = !this.isDropdownOpen;
+    },
   },
   mounted() {
     this.fetchActiveUsers(); // Cargar usuarios activos
@@ -278,6 +328,75 @@ export default {
         background: white
         border-radius: 10px
         box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2)
+        @media screen and (max-width: 500px)
+          display: flex
+          flex-direction: column
+          justify-content: center
+          align-items: center
+          width: 85%
+          height: 95%
+
+        
+
+        .dropdown
+          display: none
+        @media screen and ( max-width: 500px)
+          .dropdown
+            display: block
+            position: fixed
+            top:5%
+            right: 11%
+            color: #fff
+            border: none
+            cursor: pointer
+            font-size: 1.9rem
+          .dropdown-menu
+            position: fixed
+            top: 0
+            left: 0
+            width: 100vw
+            height: 100vh
+            background-color:rgba(128, 0, 128, 0.9)
+            backdrop-filter: blur(10px)
+            display: flex
+            flex-direction: column
+            justify-content: center
+            align-items: center
+            list-style: none
+            padding: 0
+            margin: 0
+            z-index: 1000
+            color: #b83aff
+          .dropdown-menu li
+            margin-bottom: 15% 
+            color: #fb573b
+          .dropdown-menu a
+            text-decoration: none
+            color: #0704A5
+            font-size: 1.8rem
+            font-weight: bold
+            transition: color 0.3s ease
+            &:hover
+              color:#b83aff
+          .close-btn 
+            position: absolute
+            top: 5%
+            right: 20px
+            background-color: transparent
+            color: #fb573b
+            border: none
+            font-size: 2rem
+            cursor: pointer
+            border-radius: 50%
+            padding: 8px
+            width: 30px
+            height: 30px
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1)
+            transition: background-color 0.3s ease
+            text-align: center
+          .close-btn:hover 
+            background-color: #ffcc00
+        
         #left-side
             display: flex
             justify-content: start
@@ -289,10 +408,21 @@ export default {
             border-radius: 10px 0 0 10px
             overflow: auto
             overflow-x: hidden
+            
+            @media screen and (max-width: 500px)
+              width: 100% 
+              height: 25%
+              overflow: hidden 
+         
+            
 
             #logo
                 width: 30%
                 padding-top: 20px
+                @media screen and (max-width: 500px)
+                  width: 20%
+                  padding-top: 10px
+                
             h1
                 font-size: 1.5rem
                 color: white
@@ -345,6 +475,13 @@ export default {
             background: white
             border-radius: 0 10px 10px 0
             overflow: auto
+            @media screen and (max-width: 500px)
+              width: 95%
+              display: flex
+              flex-direction: column
+              justify-content: center
+              align-items: center
+              overflow: auto
             #cont-list
                 width: 60%
                 height: 80%
@@ -353,6 +490,10 @@ export default {
                 margin: 40px
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
                 overflow: auto
+                @media screen and (max-width: 500px)
+                  width: 80%
+                  height: 80%
+                  overflow: auto
                 table
                   width: 100%
                   border-collapse: collapse
@@ -361,20 +502,29 @@ export default {
                   border-radius: 8px
                   overflow: hidden
                   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
+                  @media screen and (max-width: 500px)
+                    width: 100%
                   th, td
                     padding: 10px 15px
                     border-bottom: 1px solid #eaeaea
+                    @media screen and (max-width: 500px)
+                      padding: 5px 8px
                   th
                     background: #0704a5
                     color: white
                     font-weight: bold
                     text-transform: uppercase
+                    @media screen and (max-width: 500px)
+                      font-size: .6rem
                   tr:nth-child(even)
                     background: #f9f9f9
                   tr:hover
                     background: #f1f1f1
                   td
                     font-size: 0.9rem
+                  @media screen and (max-width: 500px)
+                    td
+                      font-size: 0.57rem
                     .btn-enlace
                       background-color: #824caf
                       color: #fff
@@ -384,6 +534,9 @@ export default {
                       border-radius: 5px
                       cursor: pointer
                       transition: background-color 0.3s ease
+                      @media screen and (max-width: 500px)
+                        font-size: .4rem
+                        padding: 5px  10px
                       &:hover
                         background-color: #45a049
                       &:disabled
@@ -399,23 +552,33 @@ export default {
                 flex-direction: column
                 width: 40%
                 height: 80%
+                @media screen and (max-width: 500px)
+                  width: 80%
+                  height: 30%
+                  margin-top: 37% !important
 
                 #cont-up
                     display: flex
                     flex-direction: column
                     align-items: center
                     justify-content: center
+                    margin-top: 20%
                     width: 80%
-                    height: 20%
+                    height: 50%
                     background: #e1e1ef
                     border-radius: 10px
                     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
                     padding: 20px
                     font-size: 1.2rem
                     color: #333
+                    @media screen and (max-width: 500px)
+                      font-size: .8rem
                     h3
                       font-size: 1.3rem
                       color: #0704a5
+                      margin-bottom: 10px
+                      @media screen and (max-width: 500px)
+                        font-size: 1rem
                     #cont-enlaceTomado
                       display: flex
                       flex-direction: column
@@ -501,6 +664,8 @@ export default {
                     background: #e1e1ef
                     border-radius: 10px
                     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
+                    @media screen and (max-width: 650px)  
+                      height: 135%
                     form
                       display: flex
                       flex-direction: column
@@ -511,10 +676,14 @@ export default {
                         font-size: 1.1rem
                         color: #0704a5
                         text-align: center
+                        @media screen and (max-width: 500px)
+                          font-size: 1rem
 
                       label
                         font-weight: bold
                         color: #333
+                        @media screen and (max-width: 500px)
+                          font-size: .6rem
 
                       input
                         padding: 7px
@@ -522,6 +691,10 @@ export default {
                         border-radius: 5px
                         outline: none
                         transition: all 0.3s ease
+                        @media screen and (max-width: 500px)
+                          font-size: .8rem
+                          width: 95%
+                          height: 10% 
 
                         &:focus
                           border-color: #0704a5
@@ -536,12 +709,15 @@ export default {
                         font-size: 1rem
                         transition: all 0.3s ease
                         width: 25%
+                        @media screen and (max-width: 500px)
+                          width: 47%
+                          font-size: .6rem
+                          padding: 7px
 
                         &:hover
                           background: #6a42ff
                           transform: scale(1.05)
-
-
+                          
 
 
 
@@ -569,3 +745,4 @@ export default {
     width: 40px
     height: 40px
 </style>
+

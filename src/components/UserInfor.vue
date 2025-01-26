@@ -34,6 +34,48 @@
                 Cerrar Sesión
             </button>
             </div>
+
+                              <!-- Menú desplegable RESPONSIVE -->
+                              <div class="dropdown">
+            <div class="dropdown-btn" @click="toggleDropdown">
+              <font-awesome-icon icon="bars" class="icon_dashboard" />
+            </div>
+            <ul class="dropdown-menu" v-if="isDropdownOpen">
+              <li>
+                <h1 class="dropdown-title">Bienvenido, {{ userName }}.</h1>
+              </li>
+              <li>
+                <router-link to="/Welcome">
+                  <font-awesome-icon icon="layer-group" class="icon_dashboard" />
+                  Dashboard
+                </router-link>
+            </li>
+
+              <li>
+                <router-link to="/UserInfor">
+                  <font-awesome-icon icon="book" class="icon_dashboard" />
+                  Información
+                </router-link>
+              </li>
+
+              <li>
+                <router-link to="/UserConfig">
+                  <font-awesome-icon icon="gears" class="icon_dashboard" />
+                    Configuración
+                </router-link>
+              </li>
+              <li @click="cerrarSesion">
+                <font-awesome-icon icon="arrow-right-from-bracket" class="icon_dashboard" />
+            Cerrar Sesión
+              </li>
+                  <!-- Botón para cerrar el menú -->
+              <button class="close-btn" @click="toggleDropdown">
+                x
+              </button>
+            </ul>
+          </div>
+
+
         <!-- Seccion de la derecha -->
         </div>
         <div id="right-side">
@@ -141,11 +183,18 @@ export default {
     // Redirige al login
         console.log("Redirigiendo a /UserLogin");
         this.$router.replace("/UserLogin");  // Reemplaza la ruta actual en lugar de añadirla al historial
-        }
+        },
+        toggleMenu() {
+      this.isMenuOpen = !this.isMenuOpen;
+    },
+    toggleDropdown() {
+      this.isDropdownOpen = !this.isDropdownOpen;
+    },
     },
     data(){
       return{
-        userName: localStorage.getItem("userName")
+        userName: localStorage.getItem("userName"),
+        isDropdownOpen: false,
       }
     }
 };
