@@ -408,14 +408,10 @@ export default {
             border-radius: 10px 0 0 10px
             overflow: auto
             overflow-x: hidden
-            
             @media screen and (max-width: 500px)
               width: 100% 
               height: 25%
               overflow: hidden 
-         
-            
-
             #logo
                 width: 30%
                 padding-top: 20px
