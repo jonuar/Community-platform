@@ -14,6 +14,8 @@ import "vue-toastification/dist/index.css";
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
+// Importa las funciones necesarias de Firebase Storage.
+import { getStorage } from "firebase/storage";
 
 // Configuración del proyecto Firebase.
 const firebaseConfig = {
@@ -28,9 +30,10 @@ const firebaseConfig = {
 // Inicializa Firebase.
 const firebaseApp = initializeApp(firebaseConfig);
 
-// Inicializa Firestore y Auth después de que Firebase se haya inicializado.
+// Inicializa Firestore, Auth y Storage después de que Firebase se haya inicializado.
 export const db = getFirestore(firebaseApp);
 export const auth = getAuth(firebaseApp);
+export const storage = getStorage(firebaseApp); // Inicializa Storage.
 
 // Crea la aplicación Vue.
 const app = createApp(App);
@@ -44,3 +47,6 @@ app.component("font-awesome-icon", FontAwesomeIcon);
 
 // Monta la aplicación en el elemento con id `#app`.
 app.mount("#app");
+
+
+// PENDIENTE CONECTAR CON SERVICIO STORAGE

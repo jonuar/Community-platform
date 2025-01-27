@@ -111,12 +111,20 @@
             <div id="cont-enlaceTomado" v-if="linkTaken[0]">
               <!-- Mostrar el enlace tomado y de qué lado proviene -->
               <p>Has tomado el enlace {{ linkSource }}<!-- Muestra si el enlace es izquierdo o derecho -->: <span
-                  id="enlaceTomado">{{ linkTaken[0] }}</span><br><span> del usuario: <strong>{{ linkTaken[1]
+                  id="enlaceTomado">{{ linkTaken[0] }}</span><span> del usuario: <strong>{{ linkTaken[1]
                     }}</strong></span></p>
             </div>
             <p v-else>
               No has tomado ningún enlace aún.
             </p>
+          </div>
+
+          <div id="cont-pay">
+            <h3>Activación</h3>
+            <img
+              src="https://imgs.search.brave.com/ha47WwMoeEgrtA6F6ZnSewUMfCLvw3uD-HbmYuyN9xo/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly91cGxv/YWQud2lraW1lZGlh/Lm9yZy93aWtpcGVk/aWEvY29tbW9ucy9l/L2VjL1FSb3JnLnBu/Zw"
+              alt="Código QR">
+            <span>(TRC20):34dfeycv3547gehceu3683294r97 </span>
           </div>
 
           <div id="cont-upload">
@@ -133,14 +141,6 @@
 
           <!-- <div id="cont-center">
           </div> -->
-
-          <div id="cont-pay">
-            <h3>Activación</h3>
-            <img
-              src="https://imgs.search.brave.com/ha47WwMoeEgrtA6F6ZnSewUMfCLvw3uD-HbmYuyN9xo/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly91cGxv/YWQud2lraW1lZGlh/Lm9yZy93aWtpcGVk/aWEvY29tbW9ucy9l/L2VjL1FSb3JnLnBu/Zw"
-              alt="Código QR">
-            <span>(TRC20):34dfeycv3547gehceu3683294r97 </span>
-          </div>
 
           <div id="cont-down">
             <form @submit.prevent="guardarEnlaces">
@@ -164,6 +164,7 @@
 
 <script>
 import { collection, query, where, onSnapshot, doc, updateDoc, getDoc } from "firebase/firestore";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { getAuth, signOut } from "firebase/auth";
 import { db } from "@/main";
 
@@ -178,6 +179,8 @@ export default {
       enlaceDerecha: "", // Enlace derecho proporcionado por el usuario
       linkTaken: [], // Información del enlace tomado desde la base de datos
       hasTakenLink: false, // Indica si el usuario tomó un enlace
+      selectedFile: null, // Archivo seleccionado
+      userImageUrl: null, // URL de la imagen subida
       isDropdownOpen: false,
     };
   },
@@ -289,6 +292,47 @@ export default {
       } catch (error) {
         console.error("Error al copiar el enlace:", error);
         alert("Ocurrió un error al tomar el enlace.");
+      }
+    },
+
+    // Manejar el archivo seleccionado
+    onFileChange(event) {
+      this.selectedFile = event.target.files[0];
+    },
+    // Subir la imagen a Firebase Storage
+    async subirImagen() {
+      if (!this.selectedFile) {
+        alert("Por favor, selecciona una imagen.");
+        return;
+      }
+
+      try {
+        // Referencia a Firebase Storage
+        const storage = getStorage();
+        const storageRef = ref(storage, `user-images/${this.userId}/${this.selectedFile.name}`);
+
+        // Subir la imagen
+        const snapshot = await uploadBytes(storageRef, this.selectedFile);
+        const downloadURL = await getDownloadURL(snapshot.ref);
+
+        // Guardar la URL en Firestore
+        const userDocRef = doc(db, "users", this.userId);
+        await updateDoc(userDocRef, { imageUrl: downloadURL });
+
+        // Actualizar la interfaz
+        this.userImageUrl = downloadURL;
+        alert("Imagen subida correctamente.");
+      } catch (error) {
+        console.error("Error al subir la imagen:", error);
+        alert("Ocurrió un error al subir la imagen.");
+      }
+    },
+    async fetchUserImage() {
+      // Recuperar la URL de la imagen desde Firestore
+      const userDocRef = doc(db, "users", this.userId);
+      const docSnapshot = await getDoc(userDocRef);
+      if (docSnapshot.exists() && docSnapshot.data().imageUrl) {
+        this.userImageUrl = docSnapshot.data().imageUrl;
       }
     },
 
@@ -465,7 +509,7 @@ export default {
             background: white
             border-radius: 0 10px 10px 0
             overflow: auto
-            padding: 20px
+            margin: 0 10px
             @media screen and (max-width: 500px)
               width: 95%
               display: flex
@@ -475,7 +519,7 @@ export default {
               overflow: auto
             #cont-list
                 width: 60%
-                height: 80%
+                height: 100%
                 background: #e1e1ef
                 border-radius: 10px
                 margin: 40px 0
@@ -573,18 +617,47 @@ export default {
                     #cont-enlaceTomado
                       display: flex
                       flex-direction: column
-                      align-items: start
+                      align-items: flex-start
                       justify-content: center
                       p
-                        text-align: center
                         display: flex
                         flex-direction: column
+                        font-size: 1rem
                       #enlaceTomado
                         font-weight: bold
                         color: purple
+                        text-decoration: underline
+                        padding: 5px 0
                     #cont-up div p:empty
                       color: #999
                       font-style: normal
+
+                #cont-pay
+                  display: flex
+                  flex-direction: column
+                  justify-content: center
+                  align-items: center
+                  width: 80%
+                  height: 34%
+                  background: #e1e1ef
+                  border-radius: 10px
+                  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
+                  padding: 20px
+                  h3
+                    font-size: 1.2rem
+                    color: #0704a5
+                    text-align: center
+                  img
+                    width: 90px
+                    margin-bottom: 10px
+                    border-radius: 10px
+                  span
+                    font-weight: bold
+                    font-size: 1rem
+                    margin: 5px 0 
+                    text-align: center
+                    word-wrap: break-word
+                    white-space: normal
 
                 #cont-upload
                     display: flex
@@ -624,31 +697,6 @@ export default {
                           background: #6a42ff
                           transform: scale(1.05)
 
-                #cont-pay
-                    display: flex
-                    flex-direction: column
-                    justify-content: center
-                    align-items: center
-                    width: 80%
-                    height: 34%
-                    background: #e1e1ef
-                    border-radius: 10px
-                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
-                    padding: 20px
-                    h3
-                      font-size: 1.2rem
-                      color: #0704a5
-                      text-align: center
-                    img
-                      width: 90px
-                      margin-bottom: 10px
-                      border-radius: 10px
-                    span
-                      font-weight: bold
-                      font-size: 1rem
-                      margin: 5px 0 
-                      text-align: center
-                    
                 #cont-down
                     width: 80%
                     padding: 20px

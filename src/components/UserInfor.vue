@@ -75,7 +75,6 @@
             </ul>
           </div>
 
-
         <!-- Seccion de la derecha -->
         </div>
         <div id="right-side">
@@ -212,8 +211,8 @@ export default {
     font-family: 'Roboto', sans-serif
     #dashboard
         display: flex
-        width: 80%
-        height: 80%
+        width: 90%
+        height: 90%
         background: white
         border-radius: 10px
         box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2)
@@ -300,8 +299,8 @@ export default {
             #logo
                 width: 30%
                 padding-top: 20px
-                width: 30%
-                padding-top: 20px
+                width: 20%
+                padding-top: 10px
                 @media screen and (max-width: 500px)
                   width: 20%
                   padding-top: 10px

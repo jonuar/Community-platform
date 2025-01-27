@@ -19,7 +19,6 @@
       </div>
       <div id="right-side">
         <div id="cont-list">
-          <!-- Renderizamos la lista de usuarios aquí -->
           <!-- Tabla para mostrar usuarios -->
           <table>
             <thead>
@@ -38,7 +37,8 @@
                 <td>{{ index + 1 }}</td>
                 <td>{{ user.name }}</td>
                 <td>
-                  <strong :style="{ color: user.isActive ? 'green' : 'red', textDecoration: 'underline' }"> {{ user.isActive ? 'Activo' : 'Inactivo' }}</strong>
+                  <strong :style="{ color: user.isActive ? 'green' : 'red', textDecoration: 'underline' }"> {{
+                    user.isActive ? 'Activo' : 'Inactivo' }}</strong>
                 </td>
                 <td>
                   <!-- Mostrar enlace 1 o mensaje si no existe -->
@@ -60,6 +60,11 @@
                     <strong>{{ user.isActive ? "Desactivar" : "Activar" }}</strong>
                   </button>
                 </td>
+                <td>
+                  <!-- Mostrar imagen o mensaje si no hay imagen -->
+                  <img v-if="user.imageUrl" :src="user.imageUrl" alt="Comprobante" class="image-preview" />
+                  <span v-else>No hay comprobante</span>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -74,37 +79,58 @@ import mitt from "mitt";
 import {
   collection,
   getDocs,
-  updateDoc,
+  query,
+  where,
   doc,
-  onSnapshot,
+  updateDoc,
+  onSnapshot
 } from "firebase/firestore";
+import { getDownloadURL, ref } from "firebase/storage"; 
 import { getAuth, signOut } from "firebase/auth";
-import { db } from "@/main";
+import { db, storage } from "@/main"; // Asegúrate de tener configurado el almacenamiento de Firebase
 
 export default {
-  name: "WelcomeAdmin",
   data() {
     return {
-      users: [], // Almacenar la lista de usuarios
-      userId: localStorage.getItem("userId"), // Recupera el userId desde localStorage
-      userName: localStorage.getItem("userName"), // Recupera el nombre del usuario desde localStorage
-      emitter: mitt(), // Crear una instancia de mitt
+      users: [], // Lista de usuarios
+      userId: localStorage.getItem("userId"), // ID del usuario logueado
+      userName: localStorage.getItem("userName"), // Nombre del usuario logueado
+      emitter: mitt(), // Instancia de mitt para eventos
     };
   },
   methods: {
     async fetchUsers() {
       try {
-        const querySnapshot = await getDocs(collection(db, "users"));
         const usersList = [];
+        // Crea una consulta para filtrar usuarios por su rol, excluyendo administradores
+        const q = query(collection(db, "users"), where("role", "not-in", ["admin"]));
+
+        const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
           const userData = { id: doc.id, ...doc.data() };
-          if (userData.role !== "admin") {
-            usersList.push(userData);
-          }
+          usersList.push(userData);
         });
+
+        // Asociar imágenes de Storage con los usuarios
+        for (let user of usersList) {
+          user.imageURL = await this.getUserImage(user.id); // Recuperar imagen asociada
+        }
+
         this.users = usersList;
       } catch (error) {
         console.error("Error al obtener la lista de usuarios:", error);
+      }
+    },
+
+    // Método para obtener la imagen de un usuario desde Firebase Storage
+    async getUserImage(userId) {
+      try {
+        const storageRef = ref(storage, `images/${userId}/profile.jpg`); // Ruta a la imagen (ajusta según sea necesario)
+        const url = await getDownloadURL(storageRef);
+        return url;
+      } catch (error) {
+        console.error("Error al obtener la imagen del usuario:", error);
+        return null; // En caso de error, retornar null o una imagen predeterminada
       }
     },
 
