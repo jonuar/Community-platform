@@ -320,11 +320,16 @@ export default {
       }
     },
     async fetchUserImage() {
-      // Recuperar la URL de la imagen desde Firestore
-      const userDocRef = doc(db, "users", this.userId);
-      const docSnapshot = await getDoc(userDocRef);
-      if (docSnapshot.exists() && docSnapshot.data().imageUrl) {
-        this.userImageUrl = docSnapshot.data().imageUrl;
+      try {
+        const userDocRef = doc(db, "users", this.userId); // Referencia al documento del usuario
+        const docSnapshot = await getDoc(userDocRef);
+
+        if (docSnapshot.exists()) {
+          const userData = docSnapshot.data();
+          this.userImageUrl = userData.imageUrl || null; // Asignar la URL de la imagen si existe
+        }
+      } catch (error) {
+        console.error("Error al obtener la imagen del usuario:", error);
       }
     },
 
@@ -338,6 +343,7 @@ export default {
   mounted() {
     this.fetchActiveUsers(); // Cargar usuarios activos
     this.fetchUserData(); // Cargar el estado del enlace tomado desde la base de datos
+    this.fetchUserImage(); // Recuperar la URL de la imagen al iniciar
   },
 }
 </script>
