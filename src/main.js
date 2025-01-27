@@ -16,6 +16,8 @@ import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 // Importa las funciones necesarias de Firebase Storage.
 import { getStorage } from "firebase/storage";
+//Importa el forget password de Firebase 
+import { sendPasswordResetEmail } from "firebase/auth";
 
 // Configuración del proyecto Firebase.
 const firebaseConfig = {
@@ -34,7 +36,16 @@ const firebaseApp = initializeApp(firebaseConfig);
 export const db = getFirestore(firebaseApp);
 export const auth = getAuth(firebaseApp);
 export const storage = getStorage(firebaseApp); // Inicializa Storage.
-
+// Función para enviar un correo de restablecimiento de contraseña.
+export const sendResetPasswordEmail = async (email) =>{
+  const auth = getAuth();
+  try{
+    await sendPasswordResetEmail(auth, email);
+    return { success: true, message: "Correo de recuperación de contraseña enviado."}
+  }catch(error){
+    return {success: false, message: error.message}
+  }
+};
 // Crea la aplicación Vue.
 const app = createApp(App);
 

@@ -17,10 +17,10 @@
         <p>
           No tienes cuenta? <router-link to="/register">Registrate</router-link>
         </p>
-        <!-- <p>
+        <p>
           Olvidaste tu contraseña?
-          <router-link to="/">Recuperar Contraseña</router-link>
-        </p> -->
+          <router-link to="/forgetpass">Recuperar Contraseña</router-link>
+        </p>
       </div>
       <button class="loginButton" type="submit">Iniciar Sesión</button>
     </form>

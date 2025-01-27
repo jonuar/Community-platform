@@ -7,6 +7,7 @@ import InfoAdmin from '../components/InfoAdmin.vue';
 import UserInfor from '@/components/UserInfor.vue';
 import UserConfig from '@/components/UserConfig.vue';
 import UserPay from '@/components/UserPay.vue';
+import ForgetPass from '@/components/ForgetPass.vue';
 import {auth} from '../main.js'
 
 // Asignación de "RUTAS"
@@ -60,6 +61,11 @@ const routes = [
     name: 'UserPay', 
     component: UserPay,
     meta: { requiresAuth:true}
+  }, 
+
+  { path: '/forgetpass', 
+    name: 'ForgetPass', 
+    component: ForgetPass,
   },
 
 ];
