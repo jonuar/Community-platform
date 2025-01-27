@@ -525,25 +525,24 @@ export default {
             overflow: auto
             margin: 0 10px
             @media screen and (max-width: 500px)
-              width: 95%
-              display: flex
-              flex-direction: column
-              justify-content: center
-              align-items: center
-              overflow: auto
+              width: 100%
+              display: grid 
+              grid-template-columns:1fr
+              grid-template-rows:1fr
+              place-items: center
             #cont-list
                 width: 60%
-                height: 90%
+                height: 80%
                 background: #e1e1ef
                 border-radius: 10px
-                margin: 40px 0
+                margin: 40px 0 
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
                 overflow: auto
                 @media screen and (max-width: 500px)
-                  width: 80%
-                  height: 80%
-                  margin-bottom: 100px
-                  overflow: auto
+                  width: 85%
+                  height: 400px
+                  
+                
                 table
                   width: 100%
                   border-collapse: collapse
@@ -604,10 +603,11 @@ export default {
                 height: auto
                 margin: 40px 0
                 @media screen and (max-width: 500px)
-                  width: 80%
-                  height: 30%
-                  margin-top: 37% !important
-                  margin-bottom: 50px
+                  width: 90%
+                  height: 30% 
+                  margin: -50px 0
+                  
+
 
                 #cont-up
                     display: flex
@@ -623,14 +623,14 @@ export default {
                     font-size: 1.2rem
                     color: #333
                     @media screen and (max-width: 500px)
-                      font-size: .6rem
+                      
                     h3
                       font-size: 1.3rem
                       color: #0704a5
                       margin-bottom: 10px
                       font-size: 1.2rem 
                       @media screen and (max-width: 500px)
-                        font-size: 1rem
+                        font-size: .9rem
                     #cont-enlaceTomado
                       display: flex
                       flex-direction: column
@@ -641,6 +641,8 @@ export default {
                         display: flex
                         flex-direction: column
                         font-size: 1rem
+                        @media screen and (max-width: 500px)
+                          font-size: .7rem
                       #enlaceTomado
                         font-weight: bold
                         color: purple
@@ -708,7 +710,7 @@ export default {
                     border-radius: 10px
                     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
                     @media screen and (max-width: 650px)  
-                      height: 135%
+                    
                     form
                       display: flex
                       flex-direction: column
