@@ -388,7 +388,6 @@ export default {
           width: 85%
           height: 95%
           
-
         .dropdown
           display: none
         @media screen and ( max-width: 500px)
@@ -521,7 +520,7 @@ export default {
             width: 70%
             height: 100%
             background: white
-            border-radius: 0 10px 10px 0
+            border-radius: 10px
             overflow: auto
             margin: 0 10px
             @media screen and (max-width: 500px)
@@ -530,6 +529,8 @@ export default {
               grid-template-columns:1fr
               grid-template-rows:1fr
               place-items: center
+              gap: 10px
+              margin-bottom: 20px
             #cont-list
                 width: 60%
                 height: 80%
@@ -540,9 +541,7 @@ export default {
                 overflow: auto
                 @media screen and (max-width: 500px)
                   width: 85%
-                  height: 400px
-                  
-                
+                  height: 390px
                 table
                   width: 100%
                   border-collapse: collapse
@@ -574,24 +573,24 @@ export default {
                   @media screen and (max-width: 500px)
                     td
                       font-size: 0.57rem
-                    .btn-enlace
-                      background-color: #824caf
-                      color: #fff
-                      font-size: 14px
-                      padding: 10px 15px
-                      border: none
-                      border-radius: 5px
-                      cursor: pointer
-                      transition: background-color 0.3s ease
-                      @media screen and (max-width: 500px)
-                        font-size: .4rem
-                        padding: 5px  10px
-                      &:hover
-                        background-color: #45a049
-                      &:disabled
-                        background-color: #ccc
-                        color: #666
-                        cursor: not-allowed
+                  .btn-enlace
+                    background-color: #824caf
+                    color: #fff
+                    font-size: 1rem
+                    padding: 10px 15px
+                    border: none
+                    border-radius: 5px
+                    cursor: pointer
+                    transition: background-color 0.3s ease
+                    @media screen and (max-width: 500px)
+                      font-size: .65rem
+                      padding: 5px  10px
+                    &:hover
+                      background-color: #45a049
+                    &:disabled
+                      background-color: #ccc
+                      color: #666
+                      cursor: not-allowed
 
             #cont-squares
                 display: flex
@@ -599,7 +598,7 @@ export default {
                 align-items: center
                 gap: 10px
                 flex-direction: column
-                width: 40%
+                width: 60%
                 height: auto
                 margin: 40px 0
                 @media screen and (max-width: 500px)
@@ -607,8 +606,6 @@ export default {
                   height: 30% 
                   margin: -50px 0
                   
-
-
                 #cont-up
                     display: flex
                     flex-direction: column
@@ -630,19 +627,18 @@ export default {
                       margin-bottom: 10px
                       font-size: 1.2rem 
                       @media screen and (max-width: 500px)
-                        font-size: .9rem
+                        font-size: 1rem
                     #cont-enlaceTomado
                       display: flex
                       flex-direction: column
                       align-items: flex-start
                       justify-content: center
-                      
                       p
                         display: flex
                         flex-direction: column
                         font-size: 1rem
                         @media screen and (max-width: 500px)
-                          font-size: .7rem
+                          font-size: .9rem
                       #enlaceTomado
                         font-weight: bold
                         color: purple
@@ -667,6 +663,8 @@ export default {
                       font-size: 1.2rem
                       color: #0704a5
                       text-align: center
+                      @media screen and (max-width: 500px)
+                        font-size: 1rem
                     form
                       display: flex
                       flex-direction: column
@@ -714,9 +712,9 @@ export default {
                     form
                       display: flex
                       flex-direction: column
+                      align-items: center
                       gap: 8px
                       h3
-                        
                         font-size: 1.1rem
                         color: #0704a5
                         text-align: center
@@ -749,10 +747,10 @@ export default {
                         font-size: 1rem
                         transition: all 0.3s ease
                         width: auto
-                        @media screen and (max-width: 500px)
-                          width: 47%
-                          font-size: .6rem
-                          padding: 7px
+                        // @media screen and (max-width: 500px)
+                        //   width: 50%
+                        //   font-size: .8rem
+                        //   padding: 7px
                         &:hover
                           background: #6a42ff
                           transform: scale(1.05)
