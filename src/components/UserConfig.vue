@@ -161,8 +161,7 @@
                 <label for="current-password">Escribe tu contraseña:</label>
                 <input
                   type="password"
-                  id="current-password"
-                  name="current-password"
+                  id="current-password"                  name="current-password"
                   placeholder="Contraseña actual"
                   required
                 />
@@ -233,37 +232,116 @@
         </a>
       </div>
     </section>
-  </template>
+</template>
   
-  <script>
-  export default {
-    name: "WelcomeUser", // Nombre del componente
-    props: ["user"], // Propiedad que recibe el nombre del usuario desde el padre
-    data() {
-      return {
-        currentSection: null, // Sección activa para mostrar el formulario correspondiente
-        userName: localStorage.getItem("userName"),
-        isDropdownOpen: false,
-      };
-    },
-    methods: {
-      cerrarSesion() {
-        // Método para cerrar sesión
-        console.log("Token antes de eliminar:", localStorage.getItem("token")); // Mostrar el token actual en consola
-        localStorage.removeItem("token"); // Eliminar el token del almacenamiento local
-        console.log("Redirigiendo a /UserLogin"); // Confirmación en consola
-        this.$router.replace("/UserLogin"); // Redirigir al usuario a la página de login
-      },
+<script>
+import { 
+  updatePassword, 
+  reauthenticateWithCredential, 
+  EmailAuthProvider, 
+  updateEmail, 
+  getAuth 
+} from "firebase/auth";
+import { doc, updateDoc } from "firebase/firestore";
+import { auth, db } from "@/main";
+import { useToast } from "vue-toastification";
 
-      toggleMenu() {
+export default {
+  name: "UserConfig",
+  props: ["user"],
+  data() {
+    return {
+      currentSection: "password",
+      newPassword: "",
+      confirmNewPassword: "",
+      currentPassword: "",
+      newEmail: "",
+      newMobile: "",
+      isDropdownOpen: false,
+      isMenuOpen: false,
+    };
+  },
+  methods: {
+    cerrarSesion() {
+      console.log("Token antes de eliminar:", localStorage.getItem("token"));
+      localStorage.removeItem("token");
+      console.log("Redirigiendo a /UserLogin");
+      this.$router.replace("/UserLogin");
+    },
+
+    toggleMenu() {
       this.isMenuOpen = !this.isMenuOpen;
     },
     toggleDropdown() {
       this.isDropdownOpen = !this.isDropdownOpen;
     },
+
+    async changePassword() {
+      const toast = useToast();
+      const auth = getAuth();
+      try {
+        if (this.newPassword !== this.confirmNewPassword) {
+          toast.error("Las contraseñas no coinciden.");
+          return;
+        }
+
+        if (!this.currentPassword) {
+          toast.error("Por favor, ingresa tu contraseña actual.");
+          return;
+        }
+
+        const user = auth.currentUser;
+        const credential = EmailAuthProvider.credential(user.email, this.currentPassword);
+        await reauthenticateWithCredential(user, credential);
+        await updatePassword(user, this.newPassword);
+        toast.success("Contraseña actualizada correctamente.");
+      } catch (error) {
+        toast.error(error.message || "Error al actualizar la contraseña.");
+      }
     },
-  };
-  </script>
+
+    async changeEmail() {
+      const toast = useToast();
+      const auth = getAuth();
+      try {
+        if (!this.currentPassword) {
+          toast.error("Por favor, ingresa tu contraseña actual.");
+          return;
+        }
+
+        const user = auth.currentUser;
+        const credential = EmailAuthProvider.credential(user.email, this.currentPassword);
+        await reauthenticateWithCredential(user, credential);
+        await updateEmail(user, this.newEmail);
+
+        const userRef = doc(db, "users", user.uid);
+        await updateDoc(userRef, { email: this.newEmail });
+        toast.success("Correo actualizado correctamente.");
+      } catch (error) {
+        toast.error(error.message || "Error al actualizar el correo.");
+      }
+    },
+
+    async changeMobile() {
+      const toast = useToast();
+      try {
+        if (!/^\d{10}$/.test(this.newMobile)) {
+          toast.error("Por favor, ingresa un número de móvil válido (10 dígitos).");
+          return;
+        }
+
+        const user = auth.currentUser;
+        const userRef = doc(db, "users", user.uid);
+        await updateDoc(userRef, { mobile: this.newMobile });
+        toast.success("Número de móvil actualizado correctamente.");
+      } catch (error) {
+        toast.error(error.message || "Error al actualizar el número de móvil.");
+      }
+    },
+  },
+};
+</script>
+
 
 <style lang="sass" scoped>
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap')
