@@ -30,12 +30,19 @@
                 <font-awesome-icon icon="book" class="icon_dashboard" />
                 Información
               </button>
-            </RouterLink>
+            </RouterLink> 
+
+            <router-link to="/UserPay" class="button">
+            <button>
+              <font-awesome-icon icon="bitcoin-sign" class="icon_dashboard" />
+              Comprobante
+            </button>
+          </router-link>
   
             <!-- Botón de configuración (sin funcionalidad añadida aún) -->
-            <button>
+            <!-- <button>
               <font-awesome-icon icon="gears" class="icon_dashboard" />Configuración
-            </button>
+            </button> -->
   
             <!-- Botón para cerrar sesión -->
             <button class="logoutButton" @click="cerrarSesion">
@@ -48,7 +55,7 @@
           </div>
 
                             <!-- Menú desplegable RESPONSIVE -->
-                            <div class="dropdown">
+            <div class="dropdown">
             <div class="dropdown-btn" @click="toggleDropdown">
               <font-awesome-icon icon="bars" class="icon_dashboard" />
             </div>
@@ -69,13 +76,20 @@
                   Información
                 </router-link>
               </li>
-
+              
               <li>
+                <router-link to="/UserPay">
+                  <font-awesome-icon icon="bitcoin-sign" class="icon_dashboard" />
+                  Comprobante
+                </router-link>
+              </li>
+
+              <!-- <li>
                 <router-link to="/UserConfig">
                   <font-awesome-icon icon="gears" class="icon_dashboard" />
                     Configuración
                 </router-link>
-              </li>
+              </li> -->
               <li @click="cerrarSesion">
                 <font-awesome-icon icon="arrow-right-from-bracket" class="icon_dashboard" />
             Cerrar Sesión
@@ -93,7 +107,8 @@
         <!-- Panel derecho que muestra las opciones de configuración -->
         <div id="right-side">
           <h1 class="title_info">Configuración</h1>
-  
+          
+          <div class="container-confg">
           <!-- Menú para seleccionar la configuración deseada -->
           <div id="cont-list">
             <ul>
@@ -202,6 +217,8 @@
           </div>
         </div>
   
+      </div> 
+
         <!-- Botón flotante de WhatsApp para contacto -->
         <a
           href="https://wa.me/1234567890"
@@ -260,8 +277,8 @@
     font-family: 'Roboto', sans-serif
     #dashboard
         display: flex
-        width: 80%
-        height: 80%
+        width: 90%
+        height: 90%
         background: white
         border-radius: 10px
         box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2)
@@ -404,32 +421,35 @@
             height: 100%
             background: white
             border-radius: 0 10px 10px 0
-            @media screen and (max-width: 650px)
+            @media screen and (max-width: 500px)
               width: 95%
               display: flex
               flex-direction: column
               justify-content: center
               align-items: center
               overflow: auto
-            
-            #cont-list
-                width: 30%
-                height: 40%
+            .container-confg
+              display: flex 
+              justify-content: space-evenly
+              align-items: center
+              width: 90%
+              margin-right: 30%
+              @media screen and (max-width: 500px)
+                margin-left:-80%
+              #cont-list
+                width: 450px
                 background: #e1e1ef
                 border-radius: 10px
                 margin: 40px
-                position: relative
-                left: -120px
-                top: 10%
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
-                @media screen and (max-width: 650px)
-                  width: 29%
-                  margin-left: 100px
+                @media screen and (max-width: 500px)
+                  width: 375px
+                  margin-left: 180px
                 
                 ul
                     list-style: none
                     margin-top: 20%
-                    @media screen and (max-width: 650px)
+                    @media screen and (max-width: 500px)
                       margin-left: -42%
                     
                     li
@@ -438,7 +458,9 @@
                         cursor: pointer
                         font-weight: bold
                         @media screen and (max-width: 650px)
-                          font-size: .9rem
+                          font-size: .7rem
+                          padding-left: 40px
+
                         a
                             color: #0704A5
                             text-decoration: none
@@ -447,36 +469,36 @@
                                 color: white
                                 font-size: 2.3rem
                                 @media screen and (max-width: 650px)
-                                  font-size: 1.2rem
-            #settings_form
+                                  font-size: .7rem
+              #settings_form
                 display: flex
                 justify-content: center
                 align-items: center
                 flex-direction: column
-                width: 30%
-                height: 60%
+                width: 450px
+                height: 350px
                 background: #e1e1ef
                 border-radius: 10px
                 margin: 40px
-                position: relative
-                left: -100px
-                top:80px
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
                 @media screen and (max-width: 500px)
-                  position: relative
-                  left:20%
-                  top: -42%
-                  width: 55%
+                  height: 300px
+                  margin-left: -20px
                   
                 .form-group
                     margin-bottom: 15px
+                    @media screen and (max-width: 500px)
+                      margin-bottom: 5px
+                      width: 130px
+                      
+                      
                 
                 label
                     display: block
                     margin-bottom: 5px
                     font-weight: bold
                     @media screen and (max-width: 500px)
-                      font-size: 0.7rem
+                      font-size: 0.5rem
                       color: #0704A5
                       margin-top: 20px
 
@@ -486,7 +508,8 @@
                     border: 1px solid #ccc
                     border-radius: 5px
                     @media screen and (max-width: 500px)
-                      width: 70%
+                      width: 50%
+                      padding: 5px
                       font-size: 0.5rem
                       
                 
@@ -496,7 +519,8 @@
                     border: 1px solid #ccc
                     border-radius: 5px
                     @media screen and (max-width: 500px)
-                      width: 70%
+                      width: 50%
+                      padding: 5px
                       font-size: 0.5rem
                 input[type="password"]
                     width: 100%
@@ -504,12 +528,11 @@
                     border: 1px solid #ccc
                     border-radius: 5px
                     @media screen and (max-width: 500px)
-                      width: 70%
+                      width: 50%
+                      padding: 5px
                       font-size: 0.5rem
                 button#save-button
-
                     display: inline-block
-                    position: relative
                     left: 11%
                     top: 20px
                     width: 40%
@@ -522,8 +545,10 @@
                     cursor: pointer
                     transition: all 0.3s ease-in-out
                     @media screen and (max-width: 500px)
-                      font-size: 0.8rem
+                      font-size: 0.5rem
                       margin-bottom: 20%
+                      width: 80%
+                      padding: 5px
                     &:hover
                         background-color: #6a42ff
 
@@ -561,4 +586,3 @@
   left: 330px
 
 </style>
-  

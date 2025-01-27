@@ -17,12 +17,19 @@
               Información
             </button>
           </router-link>
-          <!-- <router-link to="/UserConfig" class="button">
+
+          <router-link to="/UserPay" class="button">
+            <button>
+              <font-awesome-icon icon="bitcoin-sign" class="icon_dashboard" />
+              Comprobante
+            </button>
+          </router-link>
+          <router-link to="/UserConfig" class="button">
             <button>
               <font-awesome-icon icon="gears" class="icon_dashboard" />
               Configuración
             </button>
-          </router-link> -->
+          </router-link>
           <button class="logoutButton" @click="cerrarSesion">
             <font-awesome-icon icon="arrow-right-from-bracket" class="icon_dashboard" />
             Cerrar Sesión
@@ -38,12 +45,12 @@
             <li>
               <h1 class="dropdown-title">Bienvenido, {{ userName }}.</h1>
             </li>
-            <li>
+            <!-- <li>
               <router-link to="/Welcome">
                 <font-awesome-icon icon="layer-group" class="icon_dashboard" />
                 Dashboard
               </router-link>
-            </li>
+            </li> -->
 
             <li>
               <router-link to="/UserInfor">
@@ -51,6 +58,13 @@
                 Información
               </router-link>
             </li>
+
+            <li>
+                <router-link to="/UserPay">
+                  <font-awesome-icon icon="bitcoin-sign" class="icon_dashboard" />
+                  Comprobante
+                </router-link>
+              </li>
 
             <li>
               <router-link to="/UserConfig">
@@ -373,6 +387,7 @@ export default {
           align-items: center
           width: 85%
           height: 95%
+          
 
         .dropdown
           display: none
@@ -448,6 +463,7 @@ export default {
               width: 100% 
               height: 25%
               overflow: hidden 
+              border-radius: 10px 10px 10px 10px
             #logo
                 width: 30%
                 padding-top: 20px
@@ -517,7 +533,7 @@ export default {
               overflow: auto
             #cont-list
                 width: 60%
-                height: 100%
+                height: 90%
                 background: #e1e1ef
                 border-radius: 10px
                 margin: 40px 0
@@ -526,6 +542,7 @@ export default {
                 @media screen and (max-width: 500px)
                   width: 80%
                   height: 80%
+                  margin-bottom: 100px
                   overflow: auto
                 table
                   width: 100%
@@ -590,6 +607,7 @@ export default {
                   width: 80%
                   height: 30%
                   margin-top: 37% !important
+                  margin-bottom: 50px
 
                 #cont-up
                     display: flex
@@ -605,11 +623,12 @@ export default {
                     font-size: 1.2rem
                     color: #333
                     @media screen and (max-width: 500px)
-                      font-size: .8rem
+                      font-size: .6rem
                     h3
                       font-size: 1.3rem
                       color: #0704a5
                       margin-bottom: 10px
+                      font-size: 1.2rem 
                       @media screen and (max-width: 500px)
                         font-size: 1rem
                     #cont-enlaceTomado
@@ -617,6 +636,7 @@ export default {
                       flex-direction: column
                       align-items: flex-start
                       justify-content: center
+                      
                       p
                         display: flex
                         flex-direction: column

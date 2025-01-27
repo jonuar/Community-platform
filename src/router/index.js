@@ -6,6 +6,7 @@ import WelcomeAdmin from '../components/WelcomeAdmin.vue';
 import InfoAdmin from '../components/InfoAdmin.vue';
 import UserInfor from '@/components/UserInfor.vue';
 import UserConfig from '@/components/UserConfig.vue';
+import UserPay from '@/components/UserPay.vue';
 import {auth} from '../main.js'
 
 // Asignación de "RUTAS"
@@ -54,6 +55,13 @@ const routes = [
   { path: '/:pathMatch(.*)*', 
     redirect: '/login' 
   }, // Ruta genérica al final
+
+  { path: '/userpay', 
+    name: 'UserPay', 
+    component: UserPay,
+    meta: { requiresAuth:true}
+  },
+
 ];
 
 const router = createRouter({

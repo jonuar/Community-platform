@@ -22,12 +22,19 @@
                 Información
                 </button> -->
 
-                <!-- <RouterLink to="/UserConfig" class="button">
+          <router-link to="/UserPay" class="button">
+            <button>
+              <font-awesome-icon icon="bitcoin-sign" class="icon_dashboard" />
+              Comprobante
+            </button>
+          </router-link>
+
+                <RouterLink to="/UserConfig" class="button">
                     <button>
                     <font-awesome-icon icon="gears" class="icon_dashboard" />
                     Configuración
                     </button>
-                </RouterLink> -->
+                </RouterLink> 
 
             <button class="logoutButton" @click="cerrarSesion">
                 <font-awesome-icon icon="arrow-right-from-bracket" class="icon_dashboard" />
@@ -57,6 +64,13 @@
                   Información
                 </router-link>
               </li> -->
+
+              <li>
+                <router-link to="/UserPay">
+                  <font-awesome-icon icon="bitcoin-sign" class="icon_dashboard" />
+                  Comprobante
+                </router-link>
+              </li>
 
               <li>
                 <router-link to="/UserConfig">
@@ -296,6 +310,7 @@ export default {
               width: 100% 
               height: 25%
               overflow: hidden 
+              border-radius: 10px 10px 10px 10px
             #logo
                 width: 30%
                 padding-top: 20px
