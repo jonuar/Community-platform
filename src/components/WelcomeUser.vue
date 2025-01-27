@@ -462,7 +462,7 @@ export default {
               width: 100% 
               height: 25%
               overflow: hidden 
-              border-radius: 10px 10px 10px 10px
+              border-radius: 10px 10px 0 0
             #logo
                 width: 30%
                 padding-top: 20px
@@ -598,7 +598,7 @@ export default {
                 align-items: center
                 gap: 10px
                 flex-direction: column
-                width: 60%
+                width: 40%
                 height: auto
                 margin: 40px 0
                 @media screen and (max-width: 500px)
