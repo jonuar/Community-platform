@@ -29,46 +29,45 @@
           </button>
         </div>
 
-                  <!-- Menú desplegable RESPONSIVE -->
-                  <div class="dropdown">
-            <div class="dropdown-btn" @click="toggleDropdown">
-              <font-awesome-icon icon="bars" class="icon_dashboard" />
-            </div>
-            <ul class="dropdown-menu" v-if="isDropdownOpen">
-              <li>
-                <h1 class="dropdown-title">Bienvenido, {{ userName }}.</h1>
-              </li>
-              <li>
-                <router-link to="/Welcome">
-                  <font-awesome-icon icon="layer-group" class="icon_dashboard" />
-                  Dashboard
-                </router-link>
+        <!-- Menú desplegable RESPONSIVE -->
+        <div class="dropdown">
+          <div class="dropdown-btn" @click="toggleDropdown">
+            <font-awesome-icon icon="bars" class="icon_dashboard" />
+          </div>
+          <ul class="dropdown-menu" v-if="isDropdownOpen">
+            <li>
+              <h1 class="dropdown-title">Bienvenido, {{ userName }}.</h1>
+            </li>
+            <li>
+              <router-link to="/Welcome">
+                <font-awesome-icon icon="layer-group" class="icon_dashboard" />
+                Dashboard
+              </router-link>
             </li>
 
-              <li>
-                <router-link to="/UserInfor">
-                  <font-awesome-icon icon="book" class="icon_dashboard" />
-                  Información
-                </router-link>
-              </li>
+            <li>
+              <router-link to="/UserInfor">
+                <font-awesome-icon icon="book" class="icon_dashboard" />
+                Información
+              </router-link>
+            </li>
 
-              <li>
-                <router-link to="/UserConfig">
-                  <font-awesome-icon icon="gears" class="icon_dashboard" />
-                    Configuración
-                </router-link>
-              </li>
-              <li @click="cerrarSesion">
-                <font-awesome-icon icon="arrow-right-from-bracket" class="icon_dashboard" />
-            Cerrar Sesión
-              </li>
-                  <!-- Botón para cerrar el menú -->
-              <button class="close-btn" @click="toggleDropdown">
-                x
-              </button>
-            </ul>
-          </div>
-
+            <li>
+              <router-link to="/UserConfig">
+                <font-awesome-icon icon="gears" class="icon_dashboard" />
+                Configuración
+              </router-link>
+            </li>
+            <li @click="cerrarSesion">
+              <font-awesome-icon icon="arrow-right-from-bracket" class="icon_dashboard" />
+              Cerrar Sesión
+            </li>
+            <!-- Botón para cerrar el menú -->
+            <button class="close-btn" @click="toggleDropdown">
+              x
+            </button>
+          </ul>
+        </div>
 
       </div>
       <div id="right-side">
@@ -120,33 +119,20 @@
             </p>
           </div>
 
-<<<<<<< HEAD
           <div id="cont-upload">
-            <form action="">
-              <input type="file" id="imagen" name="imagen" accept="image/*">
-              <button type="submit">Activar</button>
+            <h3>Subir comprobante</h3>
+            <form @submit.prevent="subirImagen">
+              <input type="file" @change="onFileChange" accept="image/*" required />
+              <button id="btn-update" type="submit">Subir</button>
             </form>
-          </div>
-=======
-            <div id="cont-center">
-
+            <div v-if="userImageUrl" class="image-preview">
+              <h4>Imagen Subida:</h4>
+              <img :src="userImageUrl" alt="Imagen del usuario" />
             </div>
-            <!-- Formulario para activar la cuenta -->
-<!--            
-            <div id="cont-pay">
-              <form>
-                <h3>Activación</h3>
-                <img src="https://imgs.search.brave.com/ha47WwMoeEgrtA6F6ZnSewUMfCLvw3uD-HbmYuyN9xo/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly91cGxv/YWQud2lraW1lZGlh/Lm9yZy93aWtpcGVk/aWEvY29tbW9ucy9l/L2VjL1FSb3JnLnBu/Zw" alt="">
-                
-                <span>(TRC20):34dfeycv3547gehceu3683294r97 </span> 
-                
-                  <input type="file" id="imagen" name="imagen" accept="image/*">
-                  <button type="submit">Activar</button>
-              
-            </form>
+          </div>
+
+          <!-- <div id="cont-center">
           </div> -->
-        
->>>>>>> refs/remotes/origin/main
 
           <div id="cont-pay">
             <h3>Activación</h3>
@@ -321,8 +307,6 @@ export default {
 </script>
 
 
-
-
 <style lang="sass" scoped>
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap')
 
@@ -347,8 +331,6 @@ export default {
           align-items: center
           width: 85%
           height: 95%
-
-        
 
         .dropdown
           display: none
@@ -477,12 +459,13 @@ export default {
         #right-side
             display: flex
             justify-content: center
-            align-items: center
+            align-items: flex-start
             width: 70%
             height: 100%
             background: white
             border-radius: 0 10px 10px 0
             overflow: auto
+            padding: 20px
             @media screen and (max-width: 500px)
               width: 95%
               display: flex
@@ -495,7 +478,7 @@ export default {
                 height: 80%
                 background: #e1e1ef
                 border-radius: 10px
-                margin: 40px
+                margin: 40px 0
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
                 overflow: auto
                 @media screen and (max-width: 500px)
@@ -556,10 +539,11 @@ export default {
                 display: flex
                 justify-content: center
                 align-items: center
-                gap: 20px
+                gap: 10px
                 flex-direction: column
                 width: 40%
-                height: 80%
+                height: auto
+                margin: 40px 0
                 @media screen and (max-width: 500px)
                   width: 80%
                   height: 30%
@@ -570,7 +554,6 @@ export default {
                     flex-direction: column
                     align-items: center
                     justify-content: center
-                    margin-top: 20%
                     width: 80%
                     height: 50%
                     background: #e1e1ef
@@ -592,12 +575,10 @@ export default {
                       flex-direction: column
                       align-items: start
                       justify-content: center
-                      
                       p
                         text-align: center
                         display: flex
                         flex-direction: column
-                      
                       #enlaceTomado
                         font-weight: bold
                         color: purple
@@ -611,11 +592,15 @@ export default {
                     align-items: center
                     justify-content: center
                     width: 80%
-                    height: 30%
+                    height: auto
                     background: #e1e1ef
                     border-radius: 10px
                     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
                     padding: 20px
+                    h3
+                      font-size: 1.2rem
+                      color: #0704a5
+                      text-align: center
                     form
                       display: flex
                       flex-direction: column
@@ -624,7 +609,7 @@ export default {
                     input
                       padding: 7px
                       border: 1px solid #ccc
-                    button
+                    button // Botón upload-Subir
                         padding: 10px
                         background: #4CAF50
                         color: white
@@ -633,9 +618,8 @@ export default {
                         cursor: pointer
                         font-size: 1rem
                         transition: all 0.3s ease
-                        width: 30%
-                        margin-right: 5px !important
-
+                        width: auto
+                        margin: 10px
                         &:hover
                           background: #6a42ff
                           transform: scale(1.05)
@@ -660,7 +644,6 @@ export default {
                       margin-bottom: 10px
                       border-radius: 10px
                     span
-                      margin-top: 50px
                       font-weight: bold
                       font-size: 1rem
                       margin: 5px 0 
@@ -669,7 +652,7 @@ export default {
                 #cont-down
                     width: 80%
                     padding: 20px
-                    height: 30%
+                    height: auto
                     background: #e1e1ef
                     border-radius: 10px
                     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
@@ -679,7 +662,6 @@ export default {
                       display: flex
                       flex-direction: column
                       gap: 8px
-
                       h3
                         
                         font-size: 1.1rem
@@ -687,13 +669,11 @@ export default {
                         text-align: center
                         @media screen and (max-width: 500px)
                           font-size: 1rem
-
                       label
                         font-weight: bold
                         color: #333
                         @media screen and (max-width: 500px)
                           font-size: .6rem
-
                       input
                         padding: 7px
                         border: 1px solid #ccc
@@ -704,10 +684,8 @@ export default {
                           font-size: .8rem
                           width: 95%
                           height: 10% 
-
                         &:focus
                           border-color: #0704a5
-
                       button //Guardar
                         padding: 10px
                         background: #4CAF50
@@ -717,21 +695,14 @@ export default {
                         cursor: pointer
                         font-size: 1rem
                         transition: all 0.3s ease
-                        width: 25%
+                        width: auto
                         @media screen and (max-width: 500px)
                           width: 47%
                           font-size: .6rem
                           padding: 7px
-
                         &:hover
                           background: #6a42ff
                           transform: scale(1.05)
-<<<<<<< HEAD
-=======
-                          
-
-
->>>>>>> refs/remotes/origin/main
 
 .whatsapp-button
   position: fixed
@@ -757,4 +728,3 @@ export default {
     width: 40px
     height: 40px
 </style>
-
