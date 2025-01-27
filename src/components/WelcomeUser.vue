@@ -127,7 +127,7 @@
             </form>
             <div v-if="userImageUrl" class="image-preview">
               <h4>Imagen Subida:</h4>
-              <img :src="userImageUrl" alt="Imagen del usuario" />
+              <img id="imagenSubida" :src="userImageUrl" alt="Imagen del usuario" />
             </div>
           </div>
 
@@ -662,6 +662,17 @@ export default {
                         &:hover
                           background: #6a42ff
                           transform: scale(1.05)
+                    .image-preview
+                      display: flex
+                      flex-direction: column
+                      align-items: center
+                      justify-content: center 
+                      h4
+                        font-size: 1rem
+                        color: #0704a5
+                        text-align: center
+                      #imagenSubida
+                        max-width: 80%
 
                 #cont-down
                     width: 80%
