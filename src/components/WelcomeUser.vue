@@ -6,10 +6,10 @@
         <h1>Bienvenido, {{ userName }}.</h1>
         <div id="cont-buttons">
 
-          <button>
+          <!-- <button>
             <font-awesome-icon icon="layer-group" class="icon_dashboard" />
             Dashboard
-          </button>
+          </button> -->
 
           <router-link to="/UserInfor" class="button">
             <button>
@@ -117,14 +117,6 @@
             <p v-else>
               No has tomado ningún enlace aún.
             </p>
-          </div>
-
-          <div id="cont-pay">
-            <h3>Activación</h3>
-            <img
-              src="https://imgs.search.brave.com/ha47WwMoeEgrtA6F6ZnSewUMfCLvw3uD-HbmYuyN9xo/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly91cGxv/YWQud2lraW1lZGlh/Lm9yZy93aWtpcGVk/aWEvY29tbW9ucy9l/L2VjL1FSb3JnLnBu/Zw"
-              alt="Código QR">
-            <span>(TRC20):34dfeycv3547gehceu3683294r97 </span>
           </div>
 
           <div id="cont-upload">
@@ -632,33 +624,6 @@ export default {
                       color: #999
                       font-style: normal
 
-                #cont-pay
-                  display: flex
-                  flex-direction: column
-                  justify-content: center
-                  align-items: center
-                  width: 80%
-                  height: 34%
-                  background: #e1e1ef
-                  border-radius: 10px
-                  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
-                  padding: 20px
-                  h3
-                    font-size: 1.2rem
-                    color: #0704a5
-                    text-align: center
-                  img
-                    width: 90px
-                    margin-bottom: 10px
-                    border-radius: 10px
-                  span
-                    font-weight: bold
-                    font-size: 1rem
-                    margin: 5px 0 
-                    text-align: center
-                    word-wrap: break-word
-                    white-space: normal
-
                 #cont-upload
                     display: flex
                     flex-direction: column
@@ -682,6 +647,7 @@ export default {
                     input
                       padding: 7px
                       border: 1px solid #ccc
+                      width: 100%
                     button // Botón upload-Subir
                         padding: 10px
                         background: #4CAF50

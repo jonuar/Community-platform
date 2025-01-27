@@ -17,10 +17,10 @@
                     </button>
                 </RouterLink>
 
-                <button>
+                <!-- <button>
                 <font-awesome-icon icon="book" class="icon_dashboard" />
                 Información
-                </button>
+                </button> -->
 
                 <!-- <RouterLink to="/UserConfig" class="button">
                     <button>
@@ -51,12 +51,12 @@
                 </router-link>
             </li>
 
-              <li>
+              <!-- <li>
                 <router-link to="/UserInfor">
                   <font-awesome-icon icon="book" class="icon_dashboard" />
                   Información
                 </router-link>
-              </li>
+              </li> -->
 
               <li>
                 <router-link to="/UserConfig">
@@ -299,8 +299,6 @@ export default {
             #logo
                 width: 30%
                 padding-top: 20px
-                width: 20%
-                padding-top: 10px
                 @media screen and (max-width: 500px)
                   width: 20%
                   padding-top: 10px
