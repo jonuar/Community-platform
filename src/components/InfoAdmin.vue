@@ -160,8 +160,8 @@ export default {
     font-family: 'Roboto', sans-serif
     #dashboard
         display: flex
-        width: 80%
-        height: 80%
+        width: 90%
+        height: 90%
         background: white
         border-radius: 10px
         box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2)

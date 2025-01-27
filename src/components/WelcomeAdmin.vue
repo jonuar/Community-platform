@@ -61,8 +61,8 @@
                   </button>
                 </td>
                 <td>
-                  <!-- Mostrar imagen o mensaje si no hay imagen -->
-                  <img v-if="user.imageUrl" :src="user.imageUrl" alt="Comprobante" class="image-preview" />
+                  <img v-if="user.imageUrl" :src="user.imageUrl" alt="Comprobante" class="image-preview"
+                    @click="openImageInNewTab(user.imageUrl)" />
                   <span v-else>No hay comprobante</span>
                 </td>
               </tr>
@@ -85,7 +85,7 @@ import {
   updateDoc,
   onSnapshot
 } from "firebase/firestore";
-import { getDownloadURL, ref } from "firebase/storage"; 
+import { getDownloadURL, ref } from "firebase/storage";
 import { getAuth, signOut } from "firebase/auth";
 import { db, storage } from "@/main"; // Asegúrate de tener configurado el almacenamiento de Firebase
 
@@ -99,6 +99,14 @@ export default {
     };
   },
   methods: {
+    openImageInNewTab(imageUrl) {
+    if (imageUrl) {
+      window.open(imageUrl, "_blank"); // Abre la imagen en una nueva pestaña
+    } else {
+      console.error("No se encontró la URL de la imagen.");
+    }
+  },
+
     async fetchUsers() {
       try {
         const usersList = [];
@@ -305,6 +313,7 @@ export default {
                                 opacity: 0.6
                         .image-preview
                           width: 90px
+                          cursor: pointer
 
                     /* Estilos para el botón Activar */
                     .btn-deactivate
