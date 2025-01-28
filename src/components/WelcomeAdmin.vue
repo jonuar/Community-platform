@@ -30,6 +30,7 @@
                 <th>Enlace derecho</th>
                 <th>Activar/Desactivar</th>
                 <th>Comprobante</th>
+                <th>Pago</th>
               </tr>
             </thead>
             <tbody>
@@ -64,6 +65,11 @@
                   <img v-if="user.imageUrl" :src="user.imageUrl" alt="Comprobante" class="image-preview"
                     @click="openImageInNewTab(user.imageUrl)" />
                   <span v-else>No hay comprobante</span>
+                </td>
+                <td>
+                  <img v-if="user.paymentUrl" :src="user.paymentUrl" alt="Pago" class="image-preview"
+                    @click="openImageInNewTab(user.paymentUrl)" />
+                  <span v-else>No hay pago</span>
                 </td>
               </tr>
             </tbody>
