@@ -123,7 +123,6 @@ export default {
   text-align: center
   margin-bottom: 15%
 
-
 .container
   display: flex
   flex-direction: column

@@ -259,6 +259,7 @@ export default {
       newMobile: "",
       isDropdownOpen: false,
       isMenuOpen: false,
+      userName: localStorage.getItem("userName")
     };
   },
   methods: {

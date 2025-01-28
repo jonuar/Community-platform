@@ -139,7 +139,7 @@ export default {
     // Método para obtener la imagen de un usuario desde Firebase Storage
     async getUserImage(userId) {
       try {
-        const storageRef = ref(storage, `images/${userId}/profile.jpg`); // Ruta a la imagen (ajusta según sea necesario)
+        const storageRef = ref(storage, `images/${userId}/`); // Ruta a la imagen (ajusta según sea necesario)
         const url = await getDownloadURL(storageRef);
         return url;
       } catch (error) {

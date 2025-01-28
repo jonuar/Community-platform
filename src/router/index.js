@@ -76,16 +76,23 @@ const router = createRouter({
 });
 
 // Guardian de navegación 
+// Middleware para verificar la autenticación
+router.beforeEach((to, from, next) => {
+  const currentUser = auth.currentUser // Obtiene el usuario actual autenticado
+  const requiresAuth = to.matched.some((record) => record.meta.requiresAuth) && !currentUser
 
-router.beforeEach((to,from, next)=>{
-  const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
-  const currentUser = auth.currentUser; //Verifica si el usuario esta Autenticado 
-
-  if (requiresAuth && !currentUser){
-    next('/login'); // Si el usuario no esta autenticado, lo vuelve a la pantalla de login
-  }else{
-    next();// Deja pasar al usuario a la siguiente ruta
+  if (requiresAuth) {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        next() // Si hay un usuario autenticado, permite el acceso
+      } else {
+        next({name: "UserLogin"}) // Si no hay un usuario autenticado, redirige al login
+      }
+      unsubscribe() // Desubscribe del evento de autenticación
+    })
+  } else {
+    next() // Si no se requiere autenticación, permite el acceso
   }
-});
+})
 
 export default router;
