@@ -96,71 +96,11 @@ export default {
     },
   },
 };
-
-// import admin_user from "@/utils/admindb.js"; // Usa una ruta consistente
-// import { useToast } from "vue-toastification";
-// import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
-
-// export default {
-//   name: "UserLogin",
-//   data() {
-//     return {
-//       emailUser: "",
-//       passwordUser: "",
-//       loginFailed: false,
-//     };
-//   },
-//   methods: {
-//     submitLogin() {
-//       const toast = useToast();
-//       const storedUsers = JSON.parse(localStorage.getItem("users")) || [];
-
-//       const auth = getAuth()
-//       signInWithEmailAndPassword(auth, this.emailUser, this.passwordUser).then(() => {
-//         alert("Usuario existe")
-//       }).catch((error) => {
-//         alert("Error: " + error.message)
-//       })
-
-//       const isAdmin = admin_user.find(
-//         (admin) =>
-//           admin.username === this.emailUser &&
-//           admin.password === this.passwordUser
-//       );
-//       const user = storedUsers.find(
-//         (u) => u.email === this.emailUser && u.password === this.passwordUser
-//       );
-
-//       if (isAdmin) {
-//         toast.success("Inicio de Sesión Administrador Exitoso");
-//         this.$router.push({
-//           name: "WelcomeAdmin",
-//           params: { user: isAdmin.username },
-//         });
-//         this.loginFailed = false;
-//       } else if (user) {
-//         toast.success("Inicio de Sesión Usuario Exitoso");
-//         this.$router.push({
-//           name: "Welcome",
-//           params: { user: user.name },
-//         });
-//         this.loginFailed = false;
-//       } else {
-//         toast.error(
-//           "Usuario o contraseña incorrectos. Por favor verifica tus datos"
-//         );
-//         this.loginFailed = true;
-//       }
-//     },
-//   },
-// };
 </script>
 
 <style lang="sass" scoped>
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap')
-
-
 
 #login
   
@@ -171,8 +111,7 @@ export default {
   flex-direction: column
   font-family: 'Roboto', sans-serif
   gap: 5px
-  margin-bottom: 50px
-
+  margin-bottom: 150px
 
 .logo
   width: 17%
