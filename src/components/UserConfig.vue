@@ -1,18 +1,14 @@
 <template>
   <!-- Contenedor principal de la sección -->
   <section id="container">
-    <!-- Dashboard que incluye el menú lateral y el contenido derecho -->
     <div id="dashboard">
       <!-- Panel izquierdo con el logo, saludo y botones de navegación -->
       <div id="left-side">
-        <!-- Logo de la comunidad -->
         <img id="logo" src="../assets/logo-community-nospace.png" alt="Logo Comunidad Global One More" />
-        <!-- Mensaje de bienvenida con el nombre del usuario -->
         <h1>Bienvenido, {{ userName }}.</h1>
 
-        <!-- Contenedor de los botones del menú -->
+        <!-- Contenedor de botones del menú -->
         <div id="cont-buttons">
-          <!-- Botón para ir al Dashboard -->
           <RouterLink to="/welcome" class="button">
             <button>
               <font-awesome-icon icon="layer-group" class="icon_dashboard" />
@@ -20,7 +16,6 @@
             </button>
           </RouterLink>
 
-          <!-- Botón para ir a la información del usuario -->
           <RouterLink to="/userinfor" class="button">
             <button>
               <font-awesome-icon icon="book" class="icon_dashboard" />
@@ -28,26 +23,20 @@
             </button>
           </RouterLink>
 
-          <router-link to="/UserPay" class="button">
+          <RouterLink to="/UserPay" class="button">
             <button>
               <font-awesome-icon icon="bitcoin-sign" class="icon_dashboard" />
               Comprobante
             </button>
-          </router-link>
+          </RouterLink>
 
-          <!-- Botón de configuración (sin funcionalidad añadida aún) -->
-          <!-- <button>
-              <font-awesome-icon icon="gears" class="icon_dashboard" />Configuración
-            </button> -->
-
-          <!-- Botón para cerrar sesión -->
           <button class="logoutButton" @click="cerrarSesion">
             <font-awesome-icon icon="arrow-right-from-bracket" class="icon_dashboard" />
             Cerrar Sesión
           </button>
         </div>
 
-        <!-- Menú desplegable RESPONSIVE -->
+        <!-- Menú desplegable para responsive -->
         <div class="dropdown">
           <div class="dropdown-btn" @click="toggleDropdown">
             <font-awesome-icon icon="bars" class="icon_dashboard" />
@@ -57,52 +46,36 @@
               <h1 class="dropdown-title">Bienvenido, {{ userName }}.</h1>
             </li>
             <li>
-              <router-link to="/Welcome">
+              <RouterLink to="/Welcome">
                 <font-awesome-icon icon="layer-group" class="icon_dashboard" />
                 Dashboard
-              </router-link>
+              </RouterLink>
             </li>
-
             <li>
-              <router-link to="/UserInfor">
+              <RouterLink to="/UserInfor">
                 <font-awesome-icon icon="book" class="icon_dashboard" />
                 Información
-              </router-link>
+              </RouterLink>
             </li>
-
             <li>
-              <router-link to="/UserPay">
+              <RouterLink to="/UserPay">
                 <font-awesome-icon icon="bitcoin-sign" class="icon_dashboard" />
                 Comprobante
-              </router-link>
+              </RouterLink>
             </li>
-
-            <!-- <li>
-                <router-link to="/UserConfig">
-                  <font-awesome-icon icon="gears" class="icon_dashboard" />
-                    Configuración
-                </router-link>
-              </li> -->
             <li @click="cerrarSesion">
               <font-awesome-icon icon="arrow-right-from-bracket" class="icon_dashboard" />
               Cerrar Sesión
             </li>
-            <!-- Botón para cerrar el menú -->
-            <button class="close-btn" @click="toggleDropdown">
-              x
-            </button>
+            <button class="close-btn" @click="toggleDropdown">x</button>
           </ul>
         </div>
-
-
       </div>
 
-      <!-- Panel derecho que muestra las opciones de configuración -->
+      <!-- Panel derecho para las configuraciones -->
       <div id="right-side">
-        <h1 class="title_info">Configuración</h1>
-
         <div class="container-config">
-          <!-- Menú para seleccionar la configuración deseada -->
+          <!-- Menú para seleccionar configuraciones -->
           <div id="cont-list">
             <ul>
               <li><a href="#" @click.prevent="currentSection = 'email'">Correo</a></li>
@@ -114,75 +87,52 @@
           <!-- Formulario dinámico según la opción seleccionada -->
           <div id="settings_form">
             <!-- Formulario para cambiar el correo -->
-            <form v-if="currentSection === 'email'" id="change-email-form">
+            <form v-if="currentSection === 'email'" @submit.prevent="changeEmail">
               <div class="form-group">
                 <label for="current-email">Escribe tu correo:</label>
-                <input type="email" id="current-email" name="current-email" placeholder="Correo actual" required />
-              </div>
-              <div class="form-group">
-                <label for="new-email">Escribe el nuevo correo:</label>
-                <input type="email" id="new-email" name="new-email" placeholder="Nuevo correo" required />
-              </div>
-              <div class="form-group">
-                <label for="confirm-new-email">Confirma tu nuevo correo:</label>
-                <input type="email" id="confirm-new-email" name="confirm-new-email"
-                  placeholder="Confirma el nuevo correo" required />
+                <input type="email" v-model="newEmail" placeholder="Nuevo correo" required />
               </div>
               <button type="submit" id="save-button">Guardar</button>
             </form>
 
             <!-- Formulario para cambiar la contraseña -->
-            <form v-if="currentSection === 'password'" id="change-password-form">
+            <form v-if="currentSection === 'password'" @submit.prevent="changePassword">
               <div class="form-group">
-                <label for="current-password">Escribe tu contraseña:</label>
-                <input type="password" id="current-password" name="current-password" placeholder="Contraseña actual"
-                  required />
+                <label for="current-password">Escribe tu contraseña actual:</label>
+                <input type="password" v-model="currentPassword" placeholder="Contraseña actual" required />
               </div>
               <div class="form-group">
                 <label for="new-password">Escribe la nueva contraseña:</label>
-                <input type="password" id="new-password" name="new-password" placeholder="Nueva contraseña" required />
+                <input type="password" v-model="newPassword" placeholder="Nueva contraseña" required />
               </div>
               <div class="form-group">
                 <label for="confirm-new-password">Confirma la nueva contraseña:</label>
-                <input type="password" id="confirm-new-password" name="confirm-new-password"
-                  placeholder="Confirma la nueva contraseña" required />
+                <input type="password" v-model="confirmNewPassword" placeholder="Confirma la nueva contraseña" required />
               </div>
               <button type="submit" id="save-button">Guardar</button>
             </form>
 
             <!-- Formulario para cambiar el número de móvil -->
-            <form v-if="currentSection === 'movil'" id="change-movil-form">
-              <div class="form-group">
-                <label for="current-movil">Escribe tu número de móvil:</label>
-                <input type="tel" id="current-movil" name="current-movil" placeholder="Número de móvil actual"
-                  required />
-              </div>
+            <form v-if="currentSection === 'movil'" @submit.prevent="changeMobile">
               <div class="form-group">
                 <label for="new-movil">Escribe el nuevo número de móvil:</label>
-                <input type="tel" id="new-movil" name="new-movil" placeholder="Nuevo número de móvil" required />
+                <input type="tel" v-model="newMobile" placeholder="Nuevo número de móvil" required />
               </div>
               <button type="submit" id="save-button">Guardar</button>
             </form>
           </div>
         </div>
-
       </div>
-
-      <!-- Botón flotante de WhatsApp para contacto -->
-      <a href="https://wa.me/1234567890" class="whatsapp-button" target="_blank"
-        aria-label="Chatea con nosotros en WhatsApp">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/512px-WhatsApp.svg.png"
-          alt="WhatsApp Logo" />
-      </a>
     </div>
   </section>
 </template>
 
+
 <script>
-import {
-  updatePassword,
-  reauthenticateWithCredential,
-  EmailAuthProvider,
+import { 
+  updatePassword, 
+  reauthenticateWithCredential, 
+  EmailAuthProvider, 
   updateEmail,
   getAuth
 } from "firebase/auth";
@@ -193,7 +143,6 @@ import { useToast } from "vue-toastification";
 
 export default {
   name: "UserConfig",
-  props: ["user"],
   data() {
     return {
       currentSection: "password",
@@ -202,25 +151,29 @@ export default {
       currentPassword: "",
       newEmail: "",
       newMobile: "",
+      userName: localStorage.getItem("userName"),
       isDropdownOpen: false,
       isMenuOpen: false,
-      userName: localStorage.getItem("userName")
     };
   },
   methods: {
+    // Manejo de sesión
     async cerrarSesion() {
       const auth = getAuth();
       try {
-        await signOut(auth); // Cerrar sesión en Firebase
+        await signOut(auth);
         localStorage.removeItem("userId");
         localStorage.removeItem("userName");
-        localStorage.removeItem("linkTaken"); // Eliminar el enlace tomado del localStorage
-        this.$router.replace("/login");
+        localStorage.removeItem("linkTaken");
+        console.log("Token antes de eliminar:", localStorage.getItem("token"));
+        localStorage.removeItem("token");
+        this.$router.replace("/UserLogin");
       } catch (error) {
         console.error("Error al cerrar sesión:", error);
       }
     },
 
+    // Manejo del menú y dropdown
     toggleMenu() {
       this.isMenuOpen = !this.isMenuOpen;
     },
@@ -228,15 +181,14 @@ export default {
       this.isDropdownOpen = !this.isDropdownOpen;
     },
 
+    // Actualizar contraseña
     async changePassword() {
       const toast = useToast();
-      const auth = getAuth();
       try {
         if (this.newPassword !== this.confirmNewPassword) {
           toast.error("Las contraseñas no coinciden.");
           return;
         }
-
         if (!this.currentPassword) {
           toast.error("Por favor, ingresa tu contraseña actual.");
           return;
@@ -252,12 +204,12 @@ export default {
       }
     },
 
+    // Actualizar correo electrónico
     async changeEmail() {
       const toast = useToast();
-      const auth = getAuth();
       try {
-        if (!this.currentPassword) {
-          toast.error("Por favor, ingresa tu contraseña actual.");
+        if (!this.newEmail) {
+          toast.error("Por favor, ingresa un nuevo correo.");
           return;
         }
 
@@ -274,6 +226,7 @@ export default {
       }
     },
 
+    // Actualizar número de móvil
     async changeMobile() {
       const toast = useToast();
       try {
@@ -292,6 +245,7 @@ export default {
     },
   },
 };
+
 </script>
 
 
@@ -392,6 +346,7 @@ export default {
               width: 100% 
               height: 25%
               overflow: hidden
+              border-radius: 10px 10px 10px 10px
             #logo
                 width: 30%
                 padding-top: 20px
@@ -444,15 +399,13 @@ export default {
                     background: #fb573b
                     color: white
         #right-side
-            display: flex
-            justify-content: center
-            align-items: center
+            place-items: center
             width: 70%
             height: 100%
             background: white
             border-radius: 0 10px 10px 0
             @media screen and (max-width: 500px)
-              width: 95%
+              width: 90%
               display: flex
               flex-direction: column
               justify-content: center
@@ -463,25 +416,32 @@ export default {
               justify-content: space-evenly
               align-items: center
               width: 90%
-              margin-right: 30%
+              display: flex
+              justify-content: center
+              align-items: center
+              background: #e1e1ef
+              border-radius: 10px
+              box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
+              margin-top: 20%
               @media screen and (max-width: 500px)
-                margin-left:-80%
+                width: 100%
+                margin-top:0
+              
               #cont-list
-                width: 450px
-                background: #e1e1ef
+                margin:40px 0
+                width: 45%
                 border-radius: 10px
-                margin: 40px
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
                 @media screen and (max-width: 500px)
-                  width: 375px
-                  margin-left: 180px
-                
+                  width: 100% 
+                  margin: 0px 60px 0 0 
+                  
+                  
                 ul
                     list-style: none
                     margin-top: 20%
                     @media screen and (max-width: 500px)
-                      margin-left: -42%
-                    
+                      margin-left: auto
+  
                     li
                         font-size: 2rem
                         margin-bottom: 30px
@@ -489,40 +449,28 @@ export default {
                         font-weight: bold
                         @media screen and (max-width: 650px)
                           font-size: .7rem
-                          padding-left: 40px
-
+                          
                         a
                             color: #0704A5
                             text-decoration: none
                             transition: all 0.3s ease-in-out
                             &:hover
                                 color: white
-                                font-size: 2.3rem
                                 @media screen and (max-width: 650px)
                                   font-size: .7rem
               #settings_form
-                display: flex
-                justify-content: center
-                align-items: center
-                flex-direction: column
-                width: 450px
-                height: 350px
+                // display: flex
+                // justify-content: center
+                width: 45%
+                // align-items: center
+                // flex-direction: column
                 background: #e1e1ef
-                border-radius: 10px
-                margin: 40px
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
                 @media screen and (max-width: 500px)
                   height: 300px
-                  margin-left: -20px
-                  
                 .form-group
-                    margin-bottom: 15px
+                    margin-bottom: 20px
                     @media screen and (max-width: 500px)
-                      margin-bottom: 5px
                       width: 130px
-                      
-                      
-                
                 label
                     display: block
                     margin-bottom: 5px
@@ -606,13 +554,5 @@ export default {
     width: 40px 
     height: 40px
 
-.title_info
-  text-align: center
-  font-size: 2.5rem
-  margin-top: 20px
-  color: #0704A5
-  position: relative
-  top: -250px
-  left: 330px
 
 </style>
