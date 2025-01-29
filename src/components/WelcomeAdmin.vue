@@ -61,13 +61,13 @@
                     <strong>{{ user.isActive ? "Desactivar" : "Activar" }}</strong>
                   </button>
                 </td>
-                <td>
-                  <img v-if="user.imageUrl" :src="user.imageUrl" alt="Comprobante" class="image-preview"
+                <td id="comprobante-preview">
+                  <img v-if="user.imageUrl" :src="user.imageUrl" alt="Comprobante One More" class="image-preview"
                     @click="openImageInNewTab(user.imageUrl)" />
                   <span v-else>No hay comprobante</span>
                 </td>
-                <td>
-                  <img v-if="user.paymentUrl" :src="user.paymentUrl" alt="Pago" class="image-preview"
+                <td id="pago-preview">
+                  <img v-if="user.paymentUrl" :src="user.paymentUrl" alt="COmprobante pago" class="image-preview"
                     @click="openImageInNewTab(user.paymentUrl)" />
                   <span v-else>No hay pago</span>
                 </td>
@@ -91,9 +91,8 @@ import {
   updateDoc,
   onSnapshot
 } from "firebase/firestore";
-import { getDownloadURL, ref } from "firebase/storage";
 import { getAuth, signOut } from "firebase/auth";
-import { db, storage } from "@/main"; // Asegúrate de tener configurado el almacenamiento de Firebase
+import { db } from "@/main"; // Asegúrate de tener configurado el almacenamiento de Firebase
 
 export default {
   data() {
@@ -125,11 +124,6 @@ export default {
           usersList.push(userData);
         });
 
-        // Asociar imágenes de Storage con los usuarios
-        for (let user of usersList) {
-          user.imageURL = await this.getUserImage(user.id); // Recuperar imagen asociada
-        }
-
         this.users = usersList;
       } catch (error) {
         console.error("Error al obtener la lista de usuarios:", error);
@@ -137,16 +131,16 @@ export default {
     },
 
     // Método para obtener la imagen de un usuario desde Firebase Storage
-    async getUserImage(userId) {
-      try {
-        const storageRef = ref(storage, `images/${userId}/`); // Ruta a la imagen (ajusta según sea necesario)
-        const url = await getDownloadURL(storageRef);
-        return url;
-      } catch (error) {
-        console.error("Error al obtener la imagen del usuario:", error);
-        return null; // En caso de error, retornar null o una imagen predeterminada
-      }
-    },
+    // async getUserImage(userId) {
+    //   try {
+    //     const storageRef = ref(storage, `images/${userId}/profile.jpg`); // Ruta a la imagen (ajusta según sea necesario)
+    //     const url = await getDownloadURL(storageRef);
+    //     return url;
+    //   } catch (error) {
+    //     console.error("Error al obtener la imagen del usuario:", error);
+    //     return null; // En caso de error, retornar null o una imagen predeterminada
+    //   }
+    // },
 
     async toggleActive(user) {
       try {
@@ -300,7 +294,10 @@ export default {
                         background-color: #f4f4f4
                     th, td
                         padding: 10px
-                        border: 1px solid #ddd
+                    #comprobante-preview
+                        display: flex
+                        justify-content: center
+                        align-items: center
                     tbody
                         tr:nth-child(even)
                             background-color: #f9f9f9
@@ -318,6 +315,7 @@ export default {
                             &:hover
                                 opacity: 0.6
                         .image-preview
+                          height: 90px
                           width: 90px
                           cursor: pointer
 

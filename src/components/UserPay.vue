@@ -152,10 +152,10 @@ export default {
 
   data() {
     return {
+      userId: localStorage.getItem("userId"), // Recupera el ID del usuario desde localStorage
       userName: localStorage.getItem("userName"),
       isDropdownOpen: false,
       selectedFile: null,
-      userId: localStorage.getItem("userId"), // Recupera el ID del usuario desde localStorage
     };
   },
   methods: {
@@ -192,7 +192,7 @@ export default {
         const storage = getStorage();
         const storageRef = ref(
           storage,
-          `user-images/${this.userId}/${this.selectedFile.name}`
+          `user-images/${this.userId}/comprobante_pago.jpg`
         );
 
         // Subir la imagen
@@ -201,10 +201,10 @@ export default {
 
         // Guardar la URL en Firestore
         const userDocRef = doc(db, "users", this.userId);
-        await updateDoc(userDocRef, { imageUrl: downloadURL });
+        await updateDoc(userDocRef, { paymentUrl: downloadURL });
 
         // Actualizar la interfaz
-        this.userImageUrl = downloadURL;
+        // this.userImageUrl = downloadURL;
         alert("Imagen subida correctamente.");
       } catch (error) {
         console.error("Error al subir la imagen:", error);

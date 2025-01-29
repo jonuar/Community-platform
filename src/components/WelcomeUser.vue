@@ -6,11 +6,6 @@
         <h1>Bienvenido, {{ userName }}.</h1>
         <div id="cont-buttons">
 
-          <!-- <button>
-            <font-awesome-icon icon="layer-group" class="icon_dashboard" />
-            Dashboard
-          </button> -->
-
           <router-link to="/UserInfor" class="button">
             <button>
               <font-awesome-icon icon="book" class="icon_dashboard" />
@@ -45,12 +40,6 @@
             <li>
               <h1 class="dropdown-title">Bienvenido, {{ userName }}.</h1>
             </li>
-            <!-- <li>
-              <router-link to="/Welcome">
-                <font-awesome-icon icon="layer-group" class="icon_dashboard" />
-                Dashboard
-              </router-link>
-            </li> -->
 
             <li>
               <router-link to="/UserInfor">
@@ -186,7 +175,7 @@ export default {
       linkTaken: [], // Información del enlace tomado desde la base de datos
       hasTakenLink: false, // Indica si el usuario tomó un enlace
       selectedFile: null, // Archivo seleccionado
-      userImageUrl: null, // URL de la imagen subida
+      userImageUrl: null, // URL de la imagen del comprobante subida
       isDropdownOpen: false,
     };
   },
@@ -243,9 +232,9 @@ export default {
         if (docSnapshot.exists()) {
           const userData = docSnapshot.data();
           this.linkTaken = userData.linkTaken || null;
-          console.log("Link tomado:", this.linkTaken)
+          // console.log("Link tomado:", this.linkTaken)
           this.hasTakenLink = this.linkTaken !== null && this.linkTaken[0].length > 0; // Si linkTaken tiene un valor diferente de null y su longitud en el item 0 es mayor a 0, se ha tomado un enlace
-          console.log("Has tomado un enlace:", this.hasTakenLink)
+          // console.log("Has tomado un enlace:", this.hasTakenLink)
         }
       } catch (error) {
         console.error("Error al obtener datos del usuario:", error);
@@ -304,6 +293,7 @@ export default {
     // Manejar el archivo seleccionado
     onFileChange(event) {
       this.selectedFile = event.target.files[0];
+      console.log(this.selectedFile);
     },
     // Subir la imagen a Firebase Storage
     async subirImagen() {
@@ -315,7 +305,8 @@ export default {
       try {
         // Referencia a Firebase Storage
         const storage = getStorage();
-        const storageRef = ref(storage, `user-images/${this.userId}/${this.selectedFile.name}`);
+        const storageRef = ref(storage, `user-images/${this.userId}/comprobante_onemore.jpg`);
+        // const storageRef = ref(storage, `user-images/${this.userId}/${this.selectedFile.name}`);
 
         // Subir la imagen
         const snapshot = await uploadBytes(storageRef, this.selectedFile);

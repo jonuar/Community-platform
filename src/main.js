@@ -58,6 +58,3 @@ app.component("font-awesome-icon", FontAwesomeIcon);
 
 // Monta la aplicación en el elemento con id `#app`.
 app.mount("#app");
-
-
-// PENDIENTE CONECTAR CON SERVICIO STORAGE
