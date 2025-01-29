@@ -1,114 +1,107 @@
 <template>
-    <!-- Contenedor principal de la sección -->
-    <section id="container">
-      <!-- Dashboard que incluye el menú lateral y el contenido derecho -->
-      <div id="dashboard">
-        <!-- Panel izquierdo con el logo, saludo y botones de navegación -->
-        <div id="left-side">
-          <!-- Logo de la comunidad -->
-          <img
-            id="logo"
-            src="../assets/logo-community-nospace.png"
-            alt="Logo Comunidad Global One More"
-          />
-          <!-- Mensaje de bienvenida con el nombre del usuario -->
-          <h1>Bienvenido, {{ userName }}.</h1>
-  
-          <!-- Contenedor de los botones del menú -->
-          <div id="cont-buttons">
-            <!-- Botón para ir al Dashboard -->
-            <RouterLink to="/welcome" class="button">
-              <button>
-                <font-awesome-icon icon="layer-group" class="icon_dashboard" />
-                Dashboard
-              </button>
-            </RouterLink>
-  
-            <!-- Botón para ir a la información del usuario -->
-            <RouterLink to="/userinfor" class="button">
-              <button>
-                <font-awesome-icon icon="book" class="icon_dashboard" />
-                Información
-              </button>
-            </RouterLink> 
+  <!-- Contenedor principal de la sección -->
+  <section id="container">
+    <!-- Dashboard que incluye el menú lateral y el contenido derecho -->
+    <div id="dashboard">
+      <!-- Panel izquierdo con el logo, saludo y botones de navegación -->
+      <div id="left-side">
+        <!-- Logo de la comunidad -->
+        <img id="logo" src="../assets/logo-community-nospace.png" alt="Logo Comunidad Global One More" />
+        <!-- Mensaje de bienvenida con el nombre del usuario -->
+        <h1>Bienvenido, {{ userName }}.</h1>
 
-            <router-link to="/UserPay" class="button">
+        <!-- Contenedor de los botones del menú -->
+        <div id="cont-buttons">
+          <!-- Botón para ir al Dashboard -->
+          <RouterLink to="/welcome" class="button">
+            <button>
+              <font-awesome-icon icon="layer-group" class="icon_dashboard" />
+              Dashboard
+            </button>
+          </RouterLink>
+
+          <!-- Botón para ir a la información del usuario -->
+          <RouterLink to="/userinfor" class="button">
+            <button>
+              <font-awesome-icon icon="book" class="icon_dashboard" />
+              Información
+            </button>
+          </RouterLink>
+
+          <router-link to="/UserPay" class="button">
             <button>
               <font-awesome-icon icon="bitcoin-sign" class="icon_dashboard" />
               Comprobante
             </button>
           </router-link>
-  
-            <!-- Botón de configuración (sin funcionalidad añadida aún) -->
-            <!-- <button>
+
+          <!-- Botón de configuración (sin funcionalidad añadida aún) -->
+          <!-- <button>
               <font-awesome-icon icon="gears" class="icon_dashboard" />Configuración
             </button> -->
-  
-            <!-- Botón para cerrar sesión -->
-            <button class="logoutButton" @click="cerrarSesion">
-              <font-awesome-icon
-                icon="arrow-right-from-bracket"
-                class="icon_dashboard"
-              />
-              Cerrar Sesión
-            </button>
-          </div>
 
-                            <!-- Menú desplegable RESPONSIVE -->
-            <div class="dropdown">
-            <div class="dropdown-btn" @click="toggleDropdown">
-              <font-awesome-icon icon="bars" class="icon_dashboard" />
-            </div>
-            <ul class="dropdown-menu" v-if="isDropdownOpen">
-              <li>
-                <h1 class="dropdown-title">Bienvenido, {{ userName }}.</h1>
-              </li>
-              <li>
-                <router-link to="/Welcome">
-                  <font-awesome-icon icon="layer-group" class="icon_dashboard" />
-                  Dashboard
-                </router-link>
+          <!-- Botón para cerrar sesión -->
+          <button class="logoutButton" @click="cerrarSesion">
+            <font-awesome-icon icon="arrow-right-from-bracket" class="icon_dashboard" />
+            Cerrar Sesión
+          </button>
+        </div>
+
+        <!-- Menú desplegable RESPONSIVE -->
+        <div class="dropdown">
+          <div class="dropdown-btn" @click="toggleDropdown">
+            <font-awesome-icon icon="bars" class="icon_dashboard" />
+          </div>
+          <ul class="dropdown-menu" v-if="isDropdownOpen">
+            <li>
+              <h1 class="dropdown-title">Bienvenido, {{ userName }}.</h1>
+            </li>
+            <li>
+              <router-link to="/Welcome">
+                <font-awesome-icon icon="layer-group" class="icon_dashboard" />
+                Dashboard
+              </router-link>
             </li>
 
-              <li>
-                <router-link to="/UserInfor">
-                  <font-awesome-icon icon="book" class="icon_dashboard" />
-                  Información
-                </router-link>
-              </li>
-              
-              <li>
-                <router-link to="/UserPay">
-                  <font-awesome-icon icon="bitcoin-sign" class="icon_dashboard" />
-                  Comprobante
-                </router-link>
-              </li>
+            <li>
+              <router-link to="/UserInfor">
+                <font-awesome-icon icon="book" class="icon_dashboard" />
+                Información
+              </router-link>
+            </li>
 
-              <!-- <li>
+            <li>
+              <router-link to="/UserPay">
+                <font-awesome-icon icon="bitcoin-sign" class="icon_dashboard" />
+                Comprobante
+              </router-link>
+            </li>
+
+            <!-- <li>
                 <router-link to="/UserConfig">
                   <font-awesome-icon icon="gears" class="icon_dashboard" />
                     Configuración
                 </router-link>
               </li> -->
-              <li @click="cerrarSesion">
-                <font-awesome-icon icon="arrow-right-from-bracket" class="icon_dashboard" />
-            Cerrar Sesión
-              </li>
-                  <!-- Botón para cerrar el menú -->
-              <button class="close-btn" @click="toggleDropdown">
-                x
-              </button>
-            </ul>
-          </div>
-
-
+            <li @click="cerrarSesion">
+              <font-awesome-icon icon="arrow-right-from-bracket" class="icon_dashboard" />
+              Cerrar Sesión
+            </li>
+            <!-- Botón para cerrar el menú -->
+            <button class="close-btn" @click="toggleDropdown">
+              x
+            </button>
+          </ul>
         </div>
-  
-        <!-- Panel derecho que muestra las opciones de configuración -->
-        <div id="right-side">
-          <h1 class="title_info">Configuración</h1>
-          
-          <div class="container-confg">
+
+
+      </div>
+
+      <!-- Panel derecho que muestra las opciones de configuración -->
+      <div id="right-side">
+        <h1 class="title_info">Configuración</h1>
+
+        <div class="container-config">
           <!-- Menú para seleccionar la configuración deseada -->
           <div id="cont-list">
             <ul>
@@ -117,132 +110,84 @@
               <li><a href="#" @click.prevent="currentSection = 'movil'">Número de móvil</a></li>
             </ul>
           </div>
-  
+
           <!-- Formulario dinámico según la opción seleccionada -->
           <div id="settings_form">
             <!-- Formulario para cambiar el correo -->
             <form v-if="currentSection === 'email'" id="change-email-form">
               <div class="form-group">
                 <label for="current-email">Escribe tu correo:</label>
-                <input
-                  type="email"
-                  id="current-email"
-                  name="current-email"
-                  placeholder="Correo actual"
-                  required
-                />
+                <input type="email" id="current-email" name="current-email" placeholder="Correo actual" required />
               </div>
               <div class="form-group">
                 <label for="new-email">Escribe el nuevo correo:</label>
-                <input
-                  type="email"
-                  id="new-email"
-                  name="new-email"
-                  placeholder="Nuevo correo"
-                  required
-                />
+                <input type="email" id="new-email" name="new-email" placeholder="Nuevo correo" required />
               </div>
               <div class="form-group">
                 <label for="confirm-new-email">Confirma tu nuevo correo:</label>
-                <input
-                  type="email"
-                  id="confirm-new-email"
-                  name="confirm-new-email"
-                  placeholder="Confirma el nuevo correo"
-                  required
-                />
+                <input type="email" id="confirm-new-email" name="confirm-new-email"
+                  placeholder="Confirma el nuevo correo" required />
               </div>
               <button type="submit" id="save-button">Guardar</button>
             </form>
-  
+
             <!-- Formulario para cambiar la contraseña -->
             <form v-if="currentSection === 'password'" id="change-password-form">
               <div class="form-group">
                 <label for="current-password">Escribe tu contraseña:</label>
-                <input
-                  type="password"
-                  id="current-password"                  name="current-password"
-                  placeholder="Contraseña actual"
-                  required
-                />
+                <input type="password" id="current-password" name="current-password" placeholder="Contraseña actual"
+                  required />
               </div>
               <div class="form-group">
                 <label for="new-password">Escribe la nueva contraseña:</label>
-                <input
-                  type="password"
-                  id="new-password"
-                  name="new-password"
-                  placeholder="Nueva contraseña"
-                  required
-                />
+                <input type="password" id="new-password" name="new-password" placeholder="Nueva contraseña" required />
               </div>
               <div class="form-group">
                 <label for="confirm-new-password">Confirma la nueva contraseña:</label>
-                <input
-                  type="password"
-                  id="confirm-new-password"
-                  name="confirm-new-password"
-                  placeholder="Confirma la nueva contraseña"
-                  required
-                />
+                <input type="password" id="confirm-new-password" name="confirm-new-password"
+                  placeholder="Confirma la nueva contraseña" required />
               </div>
               <button type="submit" id="save-button">Guardar</button>
             </form>
-  
+
             <!-- Formulario para cambiar el número de móvil -->
             <form v-if="currentSection === 'movil'" id="change-movil-form">
               <div class="form-group">
                 <label for="current-movil">Escribe tu número de móvil:</label>
-                <input
-                  type="tel"
-                  id="current-movil"
-                  name="current-movil"
-                  placeholder="Número de móvil actual"
-                  required
-                />
+                <input type="tel" id="current-movil" name="current-movil" placeholder="Número de móvil actual"
+                  required />
               </div>
               <div class="form-group">
                 <label for="new-movil">Escribe el nuevo número de móvil:</label>
-                <input
-                  type="tel"
-                  id="new-movil"
-                  name="new-movil"
-                  placeholder="Nuevo número de móvil"
-                  required
-                />
+                <input type="tel" id="new-movil" name="new-movil" placeholder="Nuevo número de móvil" required />
               </div>
               <button type="submit" id="save-button">Guardar</button>
             </form>
           </div>
         </div>
-  
-      </div> 
 
-        <!-- Botón flotante de WhatsApp para contacto -->
-        <a
-          href="https://wa.me/1234567890"
-          class="whatsapp-button"
-          target="_blank"
-          aria-label="Chatea con nosotros en WhatsApp"
-        >
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/512px-WhatsApp.svg.png"
-            alt="WhatsApp Logo"
-          />
-        </a>
       </div>
-    </section>
+
+      <!-- Botón flotante de WhatsApp para contacto -->
+      <a href="https://wa.me/1234567890" class="whatsapp-button" target="_blank"
+        aria-label="Chatea con nosotros en WhatsApp">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/512px-WhatsApp.svg.png"
+          alt="WhatsApp Logo" />
+      </a>
+    </div>
+  </section>
 </template>
-  
+
 <script>
-import { 
-  updatePassword, 
-  reauthenticateWithCredential, 
-  EmailAuthProvider, 
-  updateEmail, 
-  getAuth 
+import {
+  updatePassword,
+  reauthenticateWithCredential,
+  EmailAuthProvider,
+  updateEmail,
+  getAuth
 } from "firebase/auth";
 import { doc, updateDoc } from "firebase/firestore";
+import { signOut } from "firebase/auth";
 import { auth, db } from "@/main";
 import { useToast } from "vue-toastification";
 
@@ -263,11 +208,17 @@ export default {
     };
   },
   methods: {
-    cerrarSesion() {
-      console.log("Token antes de eliminar:", localStorage.getItem("token"));
-      localStorage.removeItem("token");
-      console.log("Redirigiendo a /UserLogin");
-      this.$router.replace("/UserLogin");
+    async cerrarSesion() {
+      const auth = getAuth();
+      try {
+        await signOut(auth); // Cerrar sesión en Firebase
+        localStorage.removeItem("userId");
+        localStorage.removeItem("userName");
+        localStorage.removeItem("linkTaken"); // Eliminar el enlace tomado del localStorage
+        this.$router.replace("/login");
+      } catch (error) {
+        console.error("Error al cerrar sesión:", error);
+      }
     },
 
     toggleMenu() {
@@ -507,7 +458,7 @@ export default {
               justify-content: center
               align-items: center
               overflow: auto
-            .container-confg
+            .container-config
               display: flex 
               justify-content: space-evenly
               align-items: center
