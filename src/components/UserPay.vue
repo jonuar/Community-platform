@@ -89,7 +89,7 @@
           <!-- Caja 1 -->
           <div class="box">
             <h2>Tron (TRX)</h2>
-            <img src="../assets/rederc20.png" alt="Imagen de Activación" />
+            <img src="../assets/redtrc20.png" alt="Imagen de Activación" />
             <span>TRafaZm2tjapdq4FZ6PfOG7PVi JhmRfRan</span>
           </div>
           <!-- Caja 2 -->
@@ -342,7 +342,7 @@ export default {
         #right-side
             display: flex
             justify-content: center
-            align-items: center
+            align-items: flex-start
             width: 70%
             height: 100%
             background: white
@@ -356,6 +356,7 @@ export default {
                 align-items: center
                 overflow: auto
             .container
+                margin: 50px 0
                 display: flex
                 justify-content: center
                 align-items: center
