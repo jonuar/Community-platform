@@ -3,11 +3,7 @@
     <div id="dashboard">
       <div id="left-side">
         <!-- Logo de la comunidad -->
-        <img
-          id="logo"
-          src="../assets/logo-community-nospace.png"
-          alt="Logo Comunidad Global One More"
-        />
+        <img id="logo" src="../assets/logo-community-nospace.png" alt="Logo Comunidad Global One More" />
         <!-- Mensaje de bienvenida con el nombre del usuario -->
         <h1>Bienvenido, {{ userName }}.</h1>
 
@@ -44,10 +40,7 @@
 
           <!-- Botón para cerrar sesión -->
           <button class="logoutButton" @click="cerrarSesion">
-            <font-awesome-icon
-              icon="arrow-right-from-bracket"
-              class="icon_dashboard"
-            />
+            <font-awesome-icon icon="arrow-right-from-bracket" class="icon_dashboard" />
             Cerrar Sesión
           </button>
         </div>
@@ -75,13 +68,6 @@
               </router-link>
             </li>
 
-            <!-- <li>
-                    <router-link to="/UserPay">
-                        <font-awesome-icon icon="bitcoin-sign" class="icon_dashboard" />
-                        Comprobante
-                    </router-link>
-                </li> -->
-
             <li>
               <router-link to="/UserConfig">
                 <font-awesome-icon icon="gears" class="icon_dashboard" />
@@ -89,10 +75,7 @@
               </router-link>
             </li>
             <li @click="cerrarSesion">
-              <font-awesome-icon
-                icon="arrow-right-from-bracket"
-                class="icon_dashboard"
-              />
+              <font-awesome-icon icon="arrow-right-from-bracket" class="icon_dashboard" />
               Cerrar Sesión
             </li>
             <!-- Botón para cerrar el menú -->
@@ -105,44 +88,37 @@
         <div class="container">
           <!-- Caja 1 -->
           <div class="box">
-            <h2>Activación</h2>
+            <h2>Tron (TRX)</h2>
             <img src="../assets/rederc20.png" alt="Imagen de Activación" />
             <span>TRafaZm2tjapdq4FZ6PfOG7PVi JhmRfRan</span>
-            <form @submit.prevent="subirImagen">
-              <input type="file" accept="image/*" @change="onFileChange" />
-              <button type="submit">Enviar</button>
-            </form>
           </div>
           <!-- Caja 2 -->
           <div class="box">
-            <h2>Activación</h2>
+            <h2>Ethereum</h2>
             <img src="../assets/rederc20.png" alt="Imagen de Activación" />
             <span>Ox26f78b800160deab0a522ce78 ba32b7519b47e4f</span>
+          </div>
+          <div class="box-submit">
             <form @submit.prevent="subirImagen">
               <input type="file" accept="image/*" @change="onFileChange" />
               <button type="submit">Enviar</button>
             </form>
+
           </div>
         </div>
       </div>
     </div>
     <!-- Botón de WhatsApp -->
-    <a
-      href="https://wa.me/1234567890"
-      class="whatsapp-button"
-      target="_blank"
-      aria-label="Chatea con nosotros en WhatsApp"
-    >
-      <img
-        src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/512px-WhatsApp.svg.png"
-        alt="WhatsApp Logo"
-      />
+    <a href="https://wa.me/1234567890" class="whatsapp-button" target="_blank"
+      aria-label="Chatea con nosotros en WhatsApp">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/512px-WhatsApp.svg.png"
+        alt="WhatsApp Logo" />
     </a>
   </section>
 </template>
 
 <script>
-import{ doc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { getAuth, signOut } from "firebase/auth";
 import { db } from "@/main";
@@ -382,8 +358,9 @@ export default {
             .container
                 display: flex
                 justify-content: center
+                align-items: center
                 flex-wrap: wrap
-                gap: 2rem
+                gap: 20px
                 @media screen and (max-width: 500px)
                     flex-direction: column
                     align-items: center
@@ -391,7 +368,7 @@ export default {
                     margin-top: 110%
 
                 .box
-                    width: 300px
+                    max-width: 300px
                     padding: 20px
                     border: 1px solid #ddd
                     background: #e1e1ef
@@ -419,11 +396,27 @@ export default {
                         margin-bottom: 10px
                         @media screen and (max-width: 500px)
                             font-size: 1rem
-
-                    input[type="file"]
-                        margin-bottom: 10px
-                        width: 100%
-
+                .box-submit
+                  width: min(660px, 75%)
+                  padding: 20px
+                  border: 1px solid #ddd
+                  background: #e1e1ef
+                  border-radius: 10px
+                  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
+                  @media screen and (max-width: 500px)
+                        width: 80%
+                  form
+                    display: flex
+                    flex-direction: column
+                    align-items: center
+                    justify-content: center
+                    width: 100%
+                    input
+                      width: 50%
+                      padding: 10px
+                      margin-bottom: 10px
+                      border: 1px solid #ccc
+                      border-radius: 5px
                     button
                         padding: 10px 15px
                         background: #4CAF50
