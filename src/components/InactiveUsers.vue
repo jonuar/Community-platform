@@ -2,7 +2,7 @@
   <section id="container">
     <div id="dashboard">
       <div id="left-side">
-        <img id="logo" src="../assets/logo-community-nospace.png" alt="Logo Comunidad Global One More" />
+        <img id="logo" src="../assets/logo-community-nospace.png" alt="Logo" />
         <h1>Hola, {{ userName }}.</h1>
         <div id="cont-buttons">
 
@@ -13,10 +13,10 @@
             </button>
           </RouterLink>
 
-          <router-link to="/inactiveusers" class="button">
+          <router-link to="/UserInfor" class="button">
             <button>
-              <font-awesome-icon icon="user-xmark" class="icon_dashboard" />
-              Inactivos
+              <font-awesome-icon icon="book" class="icon_dashboard" />
+              Información
             </button>
           </router-link>
 
@@ -27,12 +27,12 @@
             </button>
           </router-link>
 
-          <RouterLink to="/UserConfig" class="button">
+          <router-link to="/UserConfig" class="button">
             <button>
               <font-awesome-icon icon="gears" class="icon_dashboard" />
               Configuración
             </button>
-          </RouterLink>
+          </router-link>
 
           <button class="logoutButton" @click="cerrarSesion">
             <font-awesome-icon icon="arrow-right-from-bracket" class="icon_dashboard" />
@@ -49,17 +49,18 @@
             <li>
               <h1 class="dropdown-title">Hola, {{ userName }}.</h1>
             </li>
+
             <li>
-              <router-link to="/Welcome">
+              <RouterLink to="/Welcome">
                 <font-awesome-icon icon="layer-group" class="icon_dashboard" />
                 Dashboard
-              </router-link>
+              </RouterLink>
             </li>
 
             <li>
-              <router-link to="/inactiveusers" class="button">
-                  <font-awesome-icon icon="user-xmark" class="icon_dashboard" />
-                  Inactivos
+              <router-link to="/UserInfor">
+                <font-awesome-icon icon="book" class="icon_dashboard" />
+                Información
               </router-link>
             </li>
 
@@ -76,6 +77,7 @@
                 Configuración
               </router-link>
             </li>
+
             <li @click="cerrarSesion">
               <font-awesome-icon icon="arrow-right-from-bracket" class="icon_dashboard" />
               Cerrar Sesión
@@ -86,89 +88,93 @@
             </button>
           </ul>
         </div>
-
-        <!-- Seccion de la derecha -->
       </div>
       <div id="right-side">
-        <!-- Contenedor de la información vídeos & pdf de la comunidad -->
-        <h1 class="title_info">Material </h1>
-        <section class="cards-container">
-          <!-- Card 1: Video YouTube -->
-
-          <div class="card">
-            <h2>Video 1</h2>
-            <iframe width="100%" height="200" src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-              title="YouTube video player" frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen></iframe>
-          </div>
-
-          <!-- Card 2: Video YouTube -->
-          <div class="card">
-            <h2>Video 2</h2>
-            <iframe width="100%" height="200" src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-              title="YouTube video player" frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen></iframe>
-          </div>
-          <!-- Card 3: Video YouTube -->
-          <div class="card">
-            <h2>Video 3</h2>
-            <iframe width="100%" height="200" src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-              title="YouTube video player" frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen></iframe>
-          </div>
-
-
-          <!-- Card 3: Imagen para descargar PDF -->
-          <div class="card">
-            <h2>Descargar PDF 1</h2>
-            <a href="https://www.example.com/yourfile.pdf" download>
-              <img src="https://via.placeholder.com/300x200.png?text=PDF+1" alt="Descargar PDF" class="card-image" />
-            </a>
-          </div>
-
-          <!-- Card 4: Imagen para descargar PDF -->
-          <div class="card">
-            <h2>Descargar PDF 2</h2>
-            <a href="https://www.example.com/yourfile2.pdf" download>
-              <img src="https://via.placeholder.com/300x200.png?text=PDF+2" alt="Descargar PDF" class="card-image" />
-            </a>
-          </div>
-
-          <!-- Card 5: Imagen para descargar PDF -->
-          <div class="card">
-            <h2>Descargar PDF 3</h2>
-            <a href="https://www.example.com/yourfile2.pdf" download>
-              <img src="https://via.placeholder.com/300x200.png?text=PDF+2" alt="Descargar PDF" class="card-image" />
-            </a>
-          </div>
-        </section>
-
+        <div id="cont-list">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Nombre</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Iterar sobre los usuarios filtrados -->
+              <tr v-for="(user, index) in filteredUsers" :key="user.id">
+                <td>{{ index + 1 }}.</td>
+                <td>{{ user.name }}</td>
+                <td>
+                  <strong :style="{ color: user.isActive ? 'green' : 'red', textDecoration: 'underline' }"> {{
+                    user.isActive ? 'Activo' : 'Inactivo' }}</strong>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
-    <!-- Botón de WhatsApp -->
-    <a href="https://wa.me/1234567890" class="whatsapp-button" target="_blank"
-      aria-label="Chatea con nosotros en WhatsApp">
+    <a href="https://wa.me/1234567890" class="whatsapp-button" target="_blank">
       <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/512px-WhatsApp.svg.png"
-        alt="WhatsApp Logo">
+        alt="WhatsApp Logo" />
     </a>
   </section>
 </template>
 
 <script>
-export default {
-  name: "WelcomeUser",
-  methods: {
-    cerrarSesion() {
-      // Elimina el token del localStorage
-      console.log("Token antes de eliminar:", localStorage.getItem("token"));
-      localStorage.removeItem("token");
+import { collection, query, where, onSnapshot, } from "firebase/firestore";
+import { getAuth, signOut } from "firebase/auth";
+import { db } from "@/main";
 
-      // Redirige al login
-      console.log("Redirigiendo a /UserLogin");
-      this.$router.replace("/UserLogin");  // Reemplaza la ruta actual en lugar de añadirla al historial
+export default {
+  name: "InactiveUsers",
+  data() {
+    return {
+      userId: localStorage.getItem("userId"), // Recupera el ID del usuario desde localStorage
+      userName: localStorage.getItem("userName"), // Recupera el nombre del usuario desde localStorage
+      inactiveUsers: [], // Lista de usuarios inactivos
+      isDropdownOpen: false,
+    };
+  },
+  computed: {
+    // Propiedad computada para filtrar usuarios inactivos
+    filteredUsers() {
+      return this.inactiveUsers
+    },
+  },
+  methods: {
+    async cerrarSesion() {
+      const auth = getAuth();
+      try {
+        await signOut(auth); // Cerrar sesión en Firebase
+        localStorage.removeItem("userId");
+        localStorage.removeItem("userName");
+        localStorage.removeItem("linkTaken"); // Eliminar el enlace tomado del localStorage
+        this.$router.replace("/login");
+      } catch (error) {
+        console.error("Error al cerrar sesión:", error);
+      }
+    },
+    fetchInactiveUsers() {
+      const usersRef = collection(db, "users");
+      const q = query(usersRef, where("isActive", "==", false)); // Filtra usuarios inactivos
+      onSnapshot(q, (querySnapshot) => {
+        const users = [];
+        querySnapshot.forEach((doc) => {
+          const userData = { id: doc.id, ...doc.data() };
+          
+          // Ignorar usuarios con role = "admin"
+          if (userData.role !== "admin") {
+            users.push(userData);
+          }
+        });
+        this.inactiveUsers = users;
+      });
+    },
+    // Lógica de deshabilitar botones para tomar enlaces
+    isButtonDisabled(link) {
+      // El botón se deshabilita si el enlace está en false
+      return !link[1] || this.hasTakenLink;
     },
     toggleMenu() {
       this.isMenuOpen = !this.isMenuOpen;
@@ -177,14 +183,12 @@ export default {
       this.isDropdownOpen = !this.isDropdownOpen;
     },
   },
-  data() {
-    return {
-      userName: localStorage.getItem("userName"),
-      isDropdownOpen: false,
-    }
-  }
-};
+  mounted() {
+    this.fetchInactiveUsers(); // Cargar usuarios inactivos
+  },
+}
 </script>
+
 
 <style lang="sass" scoped>
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap')
@@ -194,7 +198,7 @@ export default {
     justify-content: center
     align-items: center
     height: 100vh
-    background: linear-gradient(to bottom, #0b004b, #b83aff)
+    // background: linear-gradient(to bottom, #0b004b, #b83aff)
     font-family: 'Roboto', sans-serif
     #dashboard
         display: flex
@@ -210,6 +214,7 @@ export default {
           align-items: center
           width: 85%
           height: 95%
+          
         .dropdown
           display: none
         @media screen and ( max-width: 500px)
@@ -268,6 +273,7 @@ export default {
             text-align: center
           .close-btn:hover 
             background-color: #ffcc00
+        
         #left-side
             display: flex
             justify-content: start
@@ -289,7 +295,7 @@ export default {
                 padding-top: 20px
                 @media screen and (max-width: 500px)
                   width: 20%
-                  padding-top: 10px
+                  padding-top: 10px   
             h1
                 font-size: 1.5rem
                 color: white
@@ -340,100 +346,97 @@ export default {
             width: 70%
             height: 100%
             background: white
-            border-radius: 0 10px 10px 0
+            border-radius: 10px
             overflow: auto
-            padding: 0 10px
+            margin: 0 10px
             @media screen and (max-width: 500px)
-              width: 90%
-              display: flex
-              flex-direction: column
-              justify-content: center
-              align-items: center
-              overflow: auto
+              width: 100%
+              display: grid 
+              grid-template-columns:1fr
+              grid-template-rows:1fr
+              place-items: center
+              gap: 10px
+              margin-bottom: 20px
+            #cont-list
+                width: 85%
+                height: 90%
+                background: #e1e1ef
+                border-radius: 10px
+                margin: 40px 0 
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
+                overflow: auto
+                @media screen and (max-width: 500px)
+                  width: 85%
+                table
+                  width: 100%
+                  border-collapse: collapse
+                  text-align: left
+                  background: #fff
+                  border-radius: 8px
+                  overflow: hidden
+                  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
+                  @media screen and (max-width: 500px)
+                    width: 100%
+                  th, td
+                    padding: 10px 15px
+                    border-bottom: 1px solid #eaeaea
+                    @media screen and (max-width: 500px)
+                      padding: 3px 5px
+                  th
+                    background: #0704a5
+                    color: white
+                    font-weight: bold
+                    text-transform: uppercase
+                    font-size: 1.2rem
+                    @media screen and (max-width: 500px)
+                      font-size: 1rem
+                  tr:nth-child(even)
+                    background: #f9f9f9
+                  tr:hover
+                    background: #f1f1f1
+                  td
+                    font-size: 1rem
+                  @media screen and (max-width: 500px)
+                    td
+                      font-size: 1rem
+                  .btn-enlace
+                    background-color: #824caf
+                    color: #fff
+                    font-size: 1rem
+                    padding: 10px 15px
+                    border: none
+                    border-radius: 5px
+                    cursor: pointer
+                    transition: background-color 0.3s ease
+                    @media screen and (max-width: 500px)
+                      font-size: .65rem
+                      padding: 5px  10px
+                    &:hover
+                      background-color: #45a049
+                    &:disabled
+                      background-color: #ccc
+                      color: #666
+                      cursor: not-allowed
 
 .whatsapp-button
   position: fixed
-  bottom: 20px 
-  right: 20px 
-  width: 60px 
-  height: 60px 
-  background-color: #25d366 
-  border-radius: 50% 
+  bottom: 20px
+  right: 20px
+  width: 60px
+  height: 60px
+  background-color: #25d366
+  border-radius: 50%
   display: flex
   align-items: center
   justify-content: center
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2)
   cursor: pointer
   transition: transform 0.2s ease, box-shadow 0.2s ease
-  z-index: 1000 
-
+  z-index: 1000
   &:hover
-    transform: scale(1.1) 
+    transform: scale(1.1)
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3)
-
   img
-    width: 40px 
+    width: 40px
     height: 40px
-
-
-//Estilos para las cards
-.title_info
-  display: none // No se ve, se queda o no?
-  text-align: center
-  position: fixed
-  top: 17%
-  left: 62%
-  transform: translateX(-50%)
-  color: #0704A5
-  font-size: 2.5rem
-
-.cards-container
-  display: flex
-  flex-wrap: wrap
-  justify-content: center
-  align-items: center
-  gap: 20px
-  width: 90%
-  padding: 40px 0
-  @media screen and (max-width: 500px)
-    display: grid
-    grid-template-columns: 1fr 
-    height: 90%
-  
-.card
-  width: 300px
-  border-radius: 10px
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
-  overflow: hidden
-  background-color: #0704A5
-  @media screen and (max-width: 500px)
-    width: 300px
-    height: 340px
-
-.card h2
-  padding: 10px
-  text-align: center
-  color: white
-  background-color: #0704A5
-  margin: 0
-
-.card iframe
-  width: 100%
-  height: 200px
-  @media screen and (max-width: 650px)
-    height: 85%
-
-.card-image
-  width: 100%
-  height: auto
-  border-top: 1px solid #ddd
-
-.card a
-  text-decoration: none
-  color: white
-
-.card a:hover .card-image
-  opacity: 0.8
-  @media screen and (max-width: 500px)
-    
 </style>

@@ -176,61 +176,6 @@ export default {
     },
   },
 };
-
-// export default {
-//   name: "UserRegister",
-//   data() {
-//     return {
-//       nameUser: "",
-//       emailUser: "",
-//       movilUser: "",
-//       passwordUser: "",
-//       confirmpasswordUser: "",
-//     };
-//   },
-//   methods: {
-//     validateEmail(email) {
-//       const regex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
-//       return regex.test(email);
-//     },
-//     validateMobile(mobile) {
-//       const regex = /^[0-9]{9}$/;
-//       return regex.test(mobile);
-//     },
-//     submitRegister() {
-//       // Validaciones
-//       if (!this.validateEmail(this.emailUser)) {
-//         alert("Por favor, ingresa un correo válido.");
-//         return;
-//       }
-
-//       if (!this.validateMobile(this.movilUser)) {
-//         alert("Por favor, ingresa un número de móvil válido (9 dígitos).");
-//         return;
-//       }
-
-//       if (this.passwordUser !== this.confirmpasswordUser) {
-//         alert("Las contraseñas no coinciden.");
-//         return;
-//       }
-
-//       // Registrar al usuario
-//       const newUser = {
-//         name: this.nameUser,
-//         email: this.emailUser,
-//         movil: this.movilUser,
-//         password: this.passwordUser,
-//       };
-
-//       let registeredUsers = JSON.parse(localStorage.getItem("users")) || [];
-//       registeredUsers.push(newUser);
-//       localStorage.setItem("users", JSON.stringify(registeredUsers));
-
-//       alert("Usuario registrado correctamente");
-//       this.$router.push("/login");
-//     },
-//   },
-// };
 </script>
 
 <style lang="sass" scoped>

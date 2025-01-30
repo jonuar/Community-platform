@@ -36,6 +36,7 @@ const firebaseApp = initializeApp(firebaseConfig);
 export const db = getFirestore(firebaseApp);
 export const auth = getAuth(firebaseApp);
 export const storage = getStorage(firebaseApp); // Inicializa Storage.
+
 // Función para enviar un correo de restablecimiento de contraseña.
 export const sendResetPasswordEmail = async (email) =>{
   const auth = getAuth();

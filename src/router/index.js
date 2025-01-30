@@ -5,6 +5,7 @@ import WelcomeUser from '../components/WelcomeUser.vue';
 import WelcomeAdmin from '../components/WelcomeAdmin.vue';
 import InfoAdmin from '../components/InfoAdmin.vue';
 import UserInfor from '@/components/UserInfor.vue';
+import InactiveUsers from '../components/InactiveUsers.vue';
 import UserConfig from '@/components/UserConfig.vue';
 import UserPay from '@/components/UserPay.vue';
 import ForgetPass from '@/components/ForgetPass.vue';
@@ -39,7 +40,13 @@ const routes = [
     name: 'InfoAdmin', 
     component: InfoAdmin,
     meta: { requiresAuth:true}
-  }, 
+  },
+  
+  { path: '/inactiveusers', 
+    name: 'InactiveUsers', 
+    component: InactiveUsers, 
+    meta: { requiresAuth:true}
+  },
   
   { path: '/userinfor', 
     name: 'UserInfor', 

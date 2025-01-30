@@ -5,7 +5,7 @@
         <!-- Logo de la comunidad -->
         <img id="logo" src="../assets/logo-community-nospace.png" alt="Logo Comunidad Global One More" />
         <!-- Mensaje de bienvenida con el nombre del usuario -->
-        <h1>Bienvenido, {{ userName }}.</h1>
+        <h1>Hola, {{ userName }}.</h1>
 
         <!-- Contenedor de los botones del menú -->
         <div id="cont-buttons">
@@ -17,6 +17,13 @@
             </button>
           </RouterLink>
 
+          <router-link to="/inactiveusers" class="button">
+            <button>
+              <font-awesome-icon icon="user-xmark" class="icon_dashboard" />
+              Inactivos
+            </button>
+          </router-link>
+
           <!-- Botón para ir a la información del usuario -->
           <RouterLink to="/userinfor" class="button">
             <button>
@@ -24,12 +31,6 @@
               Información
             </button>
           </RouterLink>
-
-          <!-- <button>
-                  <font-awesome-icon icon="bitcoin-sign" class="icon_dashboard" />
-                  Comprobante
-                </button> -->
-          <!-- Botón de configuración (sin funcionalidad añadida aún) -->
 
           <RouterLink to="/UserConfig" class="button">
             <button>
@@ -52,12 +53,19 @@
           </div>
           <ul class="dropdown-menu" v-if="isDropdownOpen">
             <li>
-              <h1 class="dropdown-title">Bienvenido, {{ userName }}.</h1>
+              <h1 class="dropdown-title">Hola, {{ userName }}.</h1>
             </li>
             <li>
               <router-link to="/Welcome">
                 <font-awesome-icon icon="layer-group" class="icon_dashboard" />
                 Dashboard
+              </router-link>
+            </li>
+
+            <li>
+              <router-link to="/inactiveusers" class="button">
+                  <font-awesome-icon icon="user-xmark" class="icon_dashboard" />
+                  Inactivos
               </router-link>
             </li>
 
@@ -282,13 +290,14 @@ export default {
             width: 30%
             height: 100%
             background: #0704A5
-            border-radius: 10px 10px 10px 10px
+            border-radius: 10px 0 0 10px
             overflow: auto
             overflow-x: hidden
             @media screen and (max-width: 500px)
                 width: 100%
                 height: 25%
                 overflow: hidden
+                border-radius: 10px 10px 0 0
             #logo
                 width: 30%
                 padding-top: 20px
@@ -348,6 +357,7 @@ export default {
             background: white
             border-radius: 0 10px 10px 0
             overflow: auto
+            padding: 0 10px
             @media screen and (max-width: 500px)
                 width: 95%
                 display: flex

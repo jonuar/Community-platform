@@ -5,7 +5,7 @@
       <!-- Panel izquierdo con el logo, saludo y botones de navegación -->
       <div id="left-side">
         <img id="logo" src="../assets/logo-community-nospace.png" alt="Logo Comunidad Global One More" />
-        <h1>Bienvenido, {{ userName }}.</h1>
+        <h1>Hola, {{ userName }}.</h1>
 
         <!-- Contenedor de botones del menú -->
         <div id="cont-buttons">
@@ -15,6 +15,13 @@
               Dashboard
             </button>
           </RouterLink>
+
+          <router-link to="/inactiveusers" class="button">
+            <button>
+              <font-awesome-icon icon="user-xmark" class="icon_dashboard" />
+              Inactivos
+            </button>
+          </router-link>
 
           <RouterLink to="/userinfor" class="button">
             <button>
@@ -43,7 +50,7 @@
           </div>
           <ul class="dropdown-menu" v-if="isDropdownOpen">
             <li>
-              <h1 class="dropdown-title">Bienvenido, {{ userName }}.</h1>
+              <h1 class="dropdown-title">Hola, {{ userName }}.</h1>
             </li>
             <li>
               <RouterLink to="/Welcome">
@@ -51,6 +58,14 @@
                 Dashboard
               </RouterLink>
             </li>
+
+            <li>
+              <router-link to="/inactiveusers" class="button">
+                  <font-awesome-icon icon="user-xmark" class="icon_dashboard" />
+                  Inactivos
+              </router-link>
+            </li>
+
             <li>
               <RouterLink to="/UserInfor">
                 <font-awesome-icon icon="book" class="icon_dashboard" />
@@ -346,7 +361,7 @@ export default {
               width: 100% 
               height: 25%
               overflow: hidden
-              border-radius: 10px 10px 10px 10px
+              border-radius: 10px 10px 0 0
             #logo
                 width: 30%
                 padding-top: 20px
@@ -365,12 +380,10 @@ export default {
                 width: 100%
                 gap: 25px
                 margin-bottom: 50px
-                
                 .button
                     width: 100%
                     position: relative
                     left: 5%
-                
                 button
                     width: 90%
                     height: 50px
@@ -404,6 +417,7 @@ export default {
             height: 100%
             background: white
             border-radius: 0 10px 10px 0
+            padding: 0 10px
             @media screen and (max-width: 500px)
               width: 90%
               display: flex

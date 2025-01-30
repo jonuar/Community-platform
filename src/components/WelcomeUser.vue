@@ -3,8 +3,15 @@
     <div id="dashboard">
       <div id="left-side">
         <img id="logo" src="../assets/logo-community-nospace.png" alt="Logo" />
-        <h1>Bienvenido, {{ userName }}.</h1>
+        <h1>Hola, {{ userName }}.</h1>
         <div id="cont-buttons">
+
+          <router-link to="/inactiveusers" class="button">
+            <button>
+              <font-awesome-icon icon="user-xmark" class="icon_dashboard" />
+              Inactivos
+            </button>
+          </router-link>
 
           <router-link to="/UserInfor" class="button">
             <button>
@@ -38,7 +45,14 @@
           </div>
           <ul class="dropdown-menu" v-if="isDropdownOpen">
             <li>
-              <h1 class="dropdown-title">Bienvenido, {{ userName }}.</h1>
+              <h1 class="dropdown-title">Hola, {{ userName }}.</h1>
+            </li>
+
+            <li>
+              <router-link to="/inactiveusers" class="button">
+                  <font-awesome-icon icon="user-xmark" class="icon_dashboard" />
+                  Inactivos
+              </router-link>
             </li>
 
             <li>
@@ -49,11 +63,11 @@
             </li>
 
             <li>
-                <router-link to="/UserPay">
-                  <font-awesome-icon icon="bitcoin-sign" class="icon_dashboard" />
-                  Comprobante
-                </router-link>
-              </li>
+              <router-link to="/UserPay">
+                <font-awesome-icon icon="bitcoin-sign" class="icon_dashboard" />
+                Comprobante
+              </router-link>
+            </li>
 
             <li>
               <router-link to="/UserConfig">
@@ -61,6 +75,7 @@
                 Configuración
               </router-link>
             </li>
+
             <li @click="cerrarSesion">
               <font-awesome-icon icon="arrow-right-from-bracket" class="icon_dashboard" />
               Cerrar Sesión
@@ -79,7 +94,7 @@
             <thead>
               <tr>
                 <th>#</th>
-                <th>Nombre Miembro</th>
+                <th>Nombre</th>
                 <th>Enlace Izquierda</th>
                 <th>Enlace Derecha</th>
               </tr>
@@ -362,7 +377,7 @@ export default {
     justify-content: center
     align-items: center
     height: 100vh
-    // background: linear-gradient(to bottom, #0b004b, #b83aff)
+    background: linear-gradient(to bottom, #0b004b, #b83aff)
     font-family: 'Roboto', sans-serif
     #dashboard
         display: flex
@@ -378,7 +393,6 @@ export default {
           align-items: center
           width: 85%
           height: 95%
-          
         .dropdown
           display: none
         @media screen and ( max-width: 500px)
@@ -437,7 +451,6 @@ export default {
             text-align: center
           .close-btn:hover 
             background-color: #ffcc00
-        
         #left-side
             display: flex
             justify-content: start
@@ -460,7 +473,6 @@ export default {
                 @media screen and (max-width: 500px)
                   width: 20%
                   padding-top: 10px
-                
             h1
                 font-size: 1.5rem
                 color: white
@@ -513,9 +525,9 @@ export default {
             background: white
             border-radius: 10px
             overflow: auto
-            margin: 0 10px
+            padding: 0 10px
             @media screen and (max-width: 500px)
-              width: 100%
+              width: 90%
               display: grid 
               grid-template-columns:1fr
               grid-template-rows:1fr
@@ -524,7 +536,7 @@ export default {
               margin-bottom: 20px
             #cont-list
                 width: 60%
-                height: 80%
+                height: 90%
                 background: #e1e1ef
                 border-radius: 10px
                 margin: 40px 0 
@@ -590,7 +602,7 @@ export default {
                 gap: 10px
                 flex-direction: column
                 width: 40%
-                height: auto
+                height: 90%
                 margin: 40px 0
                 @media screen and (max-width: 500px)
                   width: 90%
