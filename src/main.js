@@ -18,15 +18,17 @@ import { getAuth } from "firebase/auth";
 import { getStorage } from "firebase/storage";
 //Importa el forget password de Firebase 
 import { sendPasswordResetEmail } from "firebase/auth";
+import { getAnalytics } from "firebase/analytics";
 
 // Configuración del proyecto Firebase.
 const firebaseConfig = {
-  apiKey: "AIzaSyC8PU-QvenpMB1Mt47ZuUS3Lh_A7OSFsCY",
-  authDomain: "comunidad-one-more.firebaseapp.com",
-  projectId: "comunidad-one-more",
-  storageBucket: "comunidad-one-more.firebasestorage.app",
-  messagingSenderId: "1013547337296",
-  appId: "1:1013547337296:web:1fe648af2545edc0fd3355",
+  apiKey: "AIzaSyCWTMglz7a3dnLjGuwx0r6Xcu3teGJVEPg",
+  authDomain: "onemorecommunitydatabase.firebaseapp.com",
+  projectId: "onemorecommunitydatabase",
+  storageBucket: "onemorecommunitydatabase.firebasestorage.app",
+  messagingSenderId: "693846945549",
+  appId: "1:693846945549:web:fc35ecb273ca6e7205ca44",
+  measurementId: "G-N34R4LFJEJ"
 };
 
 // Inicializa Firebase.
@@ -36,6 +38,7 @@ const firebaseApp = initializeApp(firebaseConfig);
 export const db = getFirestore(firebaseApp);
 export const auth = getAuth(firebaseApp);
 export const storage = getStorage(firebaseApp); // Inicializa Storage.
+export const analytics = getAnalytics(firebaseApp);
 
 // Función para enviar un correo de restablecimiento de contraseña.
 export const sendResetPasswordEmail = async (email) =>{
