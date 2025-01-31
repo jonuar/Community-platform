@@ -122,7 +122,7 @@
 </template>
 
 <script>
-import { collection, query, where, onSnapshot, } from "firebase/firestore";
+import { collection, query, where, onSnapshot } from "firebase/firestore";
 import { getAuth, signOut } from "firebase/auth";
 import { db } from "@/main";
 
@@ -130,26 +130,22 @@ export default {
   name: "InactiveUsers",
   data() {
     return {
-      userId: localStorage.getItem("userId"), // Recupera el ID del usuario desde localStorage
-      userName: localStorage.getItem("userName"), // Recupera el nombre del usuario desde localStorage
-      inactiveUsers: [], // Lista de usuarios inactivos
+      userId: localStorage.getItem("userId"),
+      userName: localStorage.getItem("userName"),
+      inactiveUsers: [], 
       isDropdownOpen: false,
     };
   },
   computed: {
-    // Propiedad computada para filtrar usuarios inactivos
     filteredUsers() {
-      return this.inactiveUsers
+      return this.inactiveUsers;
     },
   },
   methods: {
     async cerrarSesion() {
-      const auth = getAuth();
       try {
-        await signOut(auth); // Cerrar sesión en Firebase
-        localStorage.removeItem("userId");
-        localStorage.removeItem("userName");
-        localStorage.removeItem("linkTaken"); // Eliminar el enlace tomado del localStorage
+        await signOut(getAuth());
+        localStorage.clear();
         this.$router.replace("/login");
       } catch (error) {
         console.error("Error al cerrar sesión:", error);
@@ -157,36 +153,22 @@ export default {
     },
     fetchInactiveUsers() {
       const usersRef = collection(db, "users");
-      const q = query(usersRef, where("isActive", "==", false)); // Filtra usuarios inactivos
+      const q = query(usersRef, where("isActive", "==", false));
+
       onSnapshot(q, (querySnapshot) => {
-        const users = [];
-        querySnapshot.forEach((doc) => {
-          const userData = { id: doc.id, ...doc.data() };
-          
-          // Ignorar usuarios con role = "admin"
-          if (userData.role !== "admin") {
-            users.push(userData);
-          }
-        });
-        this.inactiveUsers = users;
+        this.inactiveUsers = querySnapshot.docs
+          .map(doc => ({ id: doc.id, ...doc.data() })) // Convierte los documentos en objetos
+          .filter(user => user.role !== "admin"); // Ignora al rol "admin"
       });
-    },
-    // Lógica de deshabilitar botones para tomar enlaces
-    isButtonDisabled(link) {
-      // El botón se deshabilita si el enlace está en false
-      return !link[1] || this.hasTakenLink;
-    },
-    toggleMenu() {
-      this.isMenuOpen = !this.isMenuOpen;
     },
     toggleDropdown() {
       this.isDropdownOpen = !this.isDropdownOpen;
     },
   },
   mounted() {
-    this.fetchInactiveUsers(); // Cargar usuarios inactivos
+    this.fetchInactiveUsers(); 
   },
-}
+};
 </script>
 
 
