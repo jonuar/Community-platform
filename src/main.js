@@ -22,13 +22,12 @@ import { getAnalytics } from "firebase/analytics";
 
 // Configuración del proyecto Firebase.
 const firebaseConfig = {
-  apiKey: "AIzaSyCWTMglz7a3dnLjGuwx0r6Xcu3teGJVEPg",
-  authDomain: "onemorecommunitydatabase.firebaseapp.com",
-  projectId: "onemorecommunitydatabase",
-  storageBucket: "onemorecommunitydatabase.firebasestorage.app",
-  messagingSenderId: "693846945549",
-  appId: "1:693846945549:web:fc35ecb273ca6e7205ca44",
-  measurementId: "G-N34R4LFJEJ"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
 
 // Inicializa Firebase.

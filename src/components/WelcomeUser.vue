@@ -197,7 +197,7 @@ export default {
   computed: {
     // Propiedad computada para filtrar usuarios activos con enlaces disponibles
     filteredUsers() {
-      return this.activeUsers.filter(user => (user.link1[0] || user.link2[0]));
+      return this.activeUsers.filter(user => (user.link1[0] && user.link2[0]));
     },
 
     // Propiedad computada para determinar si el enlace tomado es izquierdo o derecho
@@ -308,7 +308,7 @@ export default {
     // Manejar el archivo seleccionado
     onFileChange(event) {
       this.selectedFile = event.target.files[0];
-      console.log(this.selectedFile);
+      // console.log(this.selectedFile);
     },
     // Subir la imagen a Firebase Storage
     async subirImagen() {
