@@ -78,7 +78,7 @@ src/
 - [Firebase](https://firebase.google.com/)
 - [FontAwesome](https://fontawesome.com/)
 
-
+---
 
 SPA
 # Community Platform Proyect
