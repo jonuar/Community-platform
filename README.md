@@ -33,7 +33,6 @@ src/
  ```
 
  ## Installation
-
 1. Clone the repository:
    ```sh
    git clone <repository-url>
@@ -82,7 +81,6 @@ src/
 
 SPA
 # Community Platform Proyect
-
 Este proyecto es una aplicación web construida con Vue.js, diseñada para gestionar y visualizar información de una comunidad. Incluye funcionalidades de autenticación, administración de usuarios, y visualización de datos relevantes para administradores y usuarios.
 
 ## Características principales
