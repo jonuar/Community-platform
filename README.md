@@ -1,7 +1,7 @@
 ENG
 # Community Platform Project
 
-This project is a web application built with Vue.js, designed to manage and display information about a community. It includes authentication features, user management, and relevant data visualization for both administrators and users.
+This is a web application built with Vue.js, designed to manage and display information about a community. It includes authentication features, user management, and relevant data visualization for both administrators and users.
 
 ## Key Features
 - **User login and registration**
@@ -81,7 +81,7 @@ src/
 
 SPA
 # Community Platform Proyect
-Este proyecto es una aplicación web construida con Vue.js, diseñada para gestionar y visualizar información de una comunidad. Incluye funcionalidades de autenticación, administración de usuarios, y visualización de datos relevantes para administradores y usuarios.
+Esta es una aplicación web construida con Vue.js, diseñada para gestionar y visualizar información de una comunidad. Incluye funcionalidades de autenticación, administración de usuarios, y visualización de datos relevantes para administradores y usuarios.
 
 ## Características principales
 - **Inicio de sesión y registro de usuarios**
