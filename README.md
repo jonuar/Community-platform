@@ -1,6 +1,5 @@
 ENG
 # Community Platform Project
-
 This is a web application built with Vue.js, designed to manage and display information about a community. It includes authentication features, user management, and relevant data visualization for both administrators and users.
 
 ## Key Features
